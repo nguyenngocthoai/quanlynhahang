@@ -19,14 +19,13 @@ public class Mon implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "maLoaiMon")
 	private LoaiMon loaiMon;
-	private int soLuongMon;
+	private int soLuong;
 	private BigDecimal giaTien;
 //	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 //	@JoinColumn(name = "maBanTiec")
 //	private BanTiec banTiec;
-	
-	
-	//=============
+
+	// =============
 //	@OneToMany(cascade = CascadeType.ALL)
 //	@JoinColumn(name = "maMon")
 //	private Set<BanTiec> banTiecs;
@@ -61,12 +60,12 @@ public class Mon implements Serializable {
 		this.loaiMon = loaiMon;
 	}
 
-	public int getSoLuongMon() {
-		return soLuongMon;
+	public int getSoLuong() {
+		return soLuong;
 	}
 
-	public void setSoLuongMon(int soLuongMon) {
-		this.soLuongMon = soLuongMon;
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
 	}
 
 	public BigDecimal getGiaTien() {
@@ -76,6 +75,5 @@ public class Mon implements Serializable {
 	public void setGiaTien(BigDecimal giaTien) {
 		this.giaTien = giaTien;
 	}
-
 
 }
