@@ -18,8 +18,8 @@ public class ChiTietHoaDon implements Serializable {
 	private HoaDon hoaDon;
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "maThucDon")
-	private BanTiec thucDon;
+	@JoinColumn(name = "maBanTiec")
+	private BanTiec banTiec;
 	private int soLuong;
 
 	public ChiTietHoaDon() {
@@ -34,12 +34,12 @@ public class ChiTietHoaDon implements Serializable {
 		this.hoaDon = hoaDon;
 	}
 
-	public BanTiec getThucDon() {
-		return thucDon;
+	public BanTiec getBanTiec() {
+		return banTiec;
 	}
 
-	public void setThucDon(BanTiec thucDon) {
-		this.thucDon = thucDon;
+	public void setBanTiec(BanTiec banTiec) {
+		this.banTiec = banTiec;
 	}
 
 	public int getSoLuong() {
