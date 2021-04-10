@@ -84,158 +84,98 @@ public class NhanVien extends JFrame {
 	private JButton btnCapNhat_1;
 	public NhanVien() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1100, 650);
+		setBounds(100, 100, 1100, 575);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
 		lblKhchHng = new JLabel("Nhân Viên");
-		lblKhchHng.setBounds(513, 5, 98, 24);
 		lblKhchHng.setForeground(Color.RED);
 		lblKhchHng.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		contentPane.add(lblKhchHng);
 		
 		lblDanhSchKhch = new JLabel("Danh Sách Nhân Viên :");
 		lblDanhSchKhch.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblDanhSchKhch.setBounds(10, 61, 206, 24);
-		contentPane.add(lblDanhSchKhch);
 		
 		String[] header = "Mã Nhân Viên; Tên Nhân Viên;Địa Chỉ;Giới Tính;Ngày Sinh;Số Điện Thoại;Tình Trạng".split(";");
 		tableModel = new DefaultTableModel(header, 0);
 		scrollPane = new JScrollPane(table = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		contentPane.add(scrollPane);
-		scrollPane.setBounds(10, 95, 637, 391);
 		
 		panel = new JPanel();
-		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "T\u00ECm Ki\u1EBFm Nh\u00E2n Vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(10, 496, 637, 117);
-		contentPane.add(panel);
 		
 		btnTimKiem = new JButton("Tìm Kiếm");
 		btnTimKiem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnTimKiem.setBounds(523, 43, 104, 29);
-		panel.add(btnTimKiem);
 		
 		lblNhpSin = new JLabel("Nhập Số Điện Thoại :");
 		lblNhpSin.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblNhpSin.setBounds(10, 45, 138, 24);
-		panel.add(lblNhpSin);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(160, 47, 238, 24);
-		panel.add(textField);
 		
 		panel_1 = new JPanel();
-		panel_1.setLayout(null);
 		panel_1.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		panel_1.setBounds(657, 61, 419, 425);
-		contentPane.add(panel_1);
 		
 		lblThngTinKhch = new JLabel("Thông Tin Nhân Viên");
 		lblThngTinKhch.setForeground(Color.BLACK);
 		lblThngTinKhch.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblThngTinKhch.setBounds(120, 10, 221, 24);
-		panel_1.add(lblThngTinKhch);
 		
 		lblMNhnVin = new JLabel("Mã Nhân Viên : 1");
 		lblMNhnVin.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMNhnVin.setBounds(10, 67, 138, 24);
-		panel_1.add(lblMNhnVin);
 		
 		lblTnNhnVin = new JLabel("Tên Nhân Viên :");
 		lblTnNhnVin.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblTnNhnVin.setBounds(10, 117, 120, 24);
-		panel_1.add(lblTnNhnVin);
 		
 		lblMKhchHng_1 = new JLabel("Địa Chỉ :");
 		lblMKhchHng_1.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMKhchHng_1.setBounds(10, 167, 120, 24);
-		panel_1.add(lblMKhchHng_1);
 		
 		lblMKhchHng_2 = new JLabel("Giới Tính :");
 		lblMKhchHng_2.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMKhchHng_2.setBounds(10, 217, 138, 24);
-		panel_1.add(lblMKhchHng_2);
 		
 		lblMKhchHng_3 = new JLabel("Ngày Sinh :");
 		lblMKhchHng_3.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMKhchHng_3.setBounds(10, 267, 138, 24);
-		panel_1.add(lblMKhchHng_3);
 		
 		lblMKhchHng_4 = new JLabel("Tình Trạng :");
 		lblMKhchHng_4.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMKhchHng_4.setBounds(271, 67, 138, 24);
-		panel_1.add(lblMKhchHng_4);
 		
 		lblMKhchHng_5 = new JLabel("Số Điện Thoại :");
 		lblMKhchHng_5.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMKhchHng_5.setBounds(10, 317, 138, 24);
-		panel_1.add(lblMKhchHng_5);
 		
 		lblMKhchHng_6 = new JLabel("Email :");
 		lblMKhchHng_6.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblMKhchHng_6.setBounds(10, 367, 138, 24);
-		panel_1.add(lblMKhchHng_6);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(140, 119, 238, 24);
-		panel_1.add(textField_1);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(140, 169, 238, 24);
-		panel_1.add(textField_2);
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
-		textField_3.setBounds(140, 269, 238, 24);
-		panel_1.add(textField_3);
 		
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
-		textField_4.setBounds(140, 319, 238, 24);
-		panel_1.add(textField_4);
 		
 		textField_5 = new JTextField();
 		textField_5.setColumns(10);
-		textField_5.setBounds(140, 369, 238, 24);
-		panel_1.add(textField_5);
 		
 		rdbNam = new JRadioButton("Nam");
 		rdbNam.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		rdbNam.setBounds(140, 220, 65, 21);
-		panel_1.add(rdbNam);
 		
 		rdbNu = new JRadioButton("Nữ");
 		rdbNu.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		rdbNu.setBounds(220, 220, 65, 21);
-		panel_1.add(rdbNu);
 		
 		rdbKhac = new JRadioButton("Khác");
 		rdbKhac.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		rdbKhac.setBounds(297, 220, 65, 21);
-		panel_1.add(rdbKhac);
 		
 		panel_2 = new JPanel();
-		panel_2.setLayout(null);
 		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "Thao T\u00E1c", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(657, 496, 419, 117);
-		contentPane.add(panel_2);
 		
 		btnXoaRong = new JButton("Xóa Rỗng");
 		btnXoaRong.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnXoaRong.setBounds(10, 31, 104, 29);
-		panel_2.add(btnXoaRong);
 		
 		btnThem = new JButton("Thêm");
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnThem.setBounds(157, 31, 104, 29);
-		panel_2.add(btnThem);
 		
 		btnXoa = new JButton("Xóa Nhân Viên");
 		btnXoa.addActionListener(new ActionListener() {
@@ -243,12 +183,215 @@ public class NhanVien extends JFrame {
 			}
 		});
 		btnXoa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnXoa.setBounds(149, 78, 129, 29);
-		panel_2.add(btnXoa);
 		
 		btnCapNhat_1 = new JButton("Cập Nhật");
 		btnCapNhat_1.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnCapNhat_1.setBounds(296, 31, 104, 29);
-		panel_2.add(btnCapNhat_1);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(508)
+					.addComponent(lblKhchHng, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+					.addGap(470))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDanhSchKhch, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE))
+					.addGap(10)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+					.addGap(5))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(5)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+					.addGap(5))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblKhchHng)
+							.addGap(32)
+							.addComponent(lblDanhSchKhch, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)))
+					.addGap(10)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(panel_2, 0, 0, Short.MAX_VALUE)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(5)
+					.addComponent(btnXoaRong, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addGap(43)
+					.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addGap(35)
+					.addComponent(btnCapNhat_1, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+					.addGap(14))
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(144)
+					.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(136))
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(16)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnXoaRong)
+						.addComponent(btnThem)
+						.addComponent(btnCapNhat_1))
+					.addGap(18)
+					.addComponent(btnXoa))
+		);
+		panel_2.setLayout(gl_panel_2);
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(119)
+					.addComponent(lblThngTinKhch, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+					.addGap(77))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addComponent(lblMNhnVin, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+					.addGap(123)
+					.addComponent(lblMKhchHng_4, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addComponent(lblTnNhnVin, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+					.addGap(40))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addComponent(lblMKhchHng_1, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+					.addGap(40))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMKhchHng_2, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(130)
+							.addComponent(rdbNam, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)))
+					.addGap(15)
+					.addComponent(rdbNu, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addGap(12)
+					.addComponent(rdbKhac, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(130)
+							.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
+						.addComponent(lblMKhchHng_3, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
+					.addGap(40))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMKhchHng_5, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(130)
+							.addComponent(textField_4, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
+					.addGap(40))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(130)
+							.addComponent(textField_5, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
+						.addComponent(lblMKhchHng_6, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
+					.addGap(40))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(9)
+					.addComponent(lblThngTinKhch)
+					.addGap(33)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMNhnVin, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblMKhchHng_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addGap(26)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblTnNhnVin, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(2)
+							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(24)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMKhchHng_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(2)
+							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(24)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMKhchHng_2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(3)
+							.addComponent(rdbNam, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(3)
+							.addComponent(rdbNu, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(3)
+							.addComponent(rdbKhac, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)))
+					.addGap(26)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(2)
+							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblMKhchHng_3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addGap(24)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblMKhchHng_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(2)
+							.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addGap(24)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(2)
+							.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblMKhchHng_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+		);
+		panel_1.setLayout(gl_panel_1);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(7)
+					.addComponent(lblNhpSin)
+					.addGap(10)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
+					.addGap(125)
+					.addComponent(btnTimKiem, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(20)
+					.addComponent(lblNhpSin, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(22)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(18)
+					.addComponent(btnTimKiem))
+		);
+		panel.setLayout(gl_panel);
+		contentPane.setLayout(gl_contentPane);
 	}
 }

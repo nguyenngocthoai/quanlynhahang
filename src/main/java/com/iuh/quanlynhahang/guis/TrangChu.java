@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -23,8 +25,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 
-public class TrangChu extends JFrame implements ActionListener{
+public class TrangChu extends JFrame implements ActionListener,MenuListener{
 
 	private static TrangChu frame;
 
@@ -49,28 +52,23 @@ public class TrangChu extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	private JMenuBar menuBar;
-	private JMenu mnTaiKhoan, mnQuanLy, mnThongKe, mnTimKiem, mnBaoCao, mnThongKeDoUong,
+	private JMenu mnTaiKhoan, mnQuanLy, mnThongKe, mnHoaDon, mnBaoCao, mnThongKeDoUong,
 			mnThongKeKhachHang;
 	private JMenuItem mniThongTinTaiKhoan, mniDangXuat, mniQuanLyKhachHang, mniQuanLyNhanVien, mniQuanLyTaiKhoan,
 			mniQuanLyBan, mniQuanLySanh, mniQuanLyMonAn;
-	private JMenuItem mniTimKiemKhachHang, mniTimKiemNhanVien, mniTimKiemMonAn, mniTimKiemTaiKhoan, mniTimKiemBan,
-			mniTimKiemHoaDon;
 	private JMenuItem mniDoUongBanChay, mniDenNhieuNhat, mniSoBillCaoNhat, mniThongKeDoanhThu, mnBaoCaoDoUong,
 			mniDoUongBanChay_1, mniDoUongBanIt_1, mniBaoCaoDoanhThu, mniBaoCaoKhachHang, mniDenNhieuNhat_1,
-			mniSoBillCaoNhat_1;
+			mniSoBillCaoNhat_1,mniDoUongBanIt;
 	private JMenu mnDatBanTiec;
-	private JMenuItem mniDatBan;
+	private JTabbedPane tabbedPane;
 
 	public TrangChu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		setBounds(100, 100, 1100, 650);
 		setSize(1100, 650);
 		setLocationRelativeTo(null);
-		getContentPane().setLayout(null);
 
 		menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1162, 63);
-		getContentPane().add(menuBar);
 
 		mnTaiKhoan = new JMenu("Tài Khoản");
 		menuBar.add(mnTaiKhoan);
@@ -84,7 +82,7 @@ public class TrangChu extends JFrame implements ActionListener{
 		mnQuanLy = new JMenu("Danh Mục");
 		menuBar.add(mnQuanLy);
 
-		mniQuanLyKhachHang = new JMenuItem("Quản Lý Tài Khoản");
+		mniQuanLyKhachHang = new JMenuItem("Quản Lý Khách Hàng");
 		mnQuanLy.add(mniQuanLyKhachHang);
 
 		mniQuanLyNhanVien = new JMenuItem("Quản Lý Nhân Viên");
@@ -102,116 +100,161 @@ public class TrangChu extends JFrame implements ActionListener{
 
 		mniQuanLyTaiKhoan = new JMenuItem("Quản Lý Tài Khoản");
 		mnQuanLy.add(mniQuanLyTaiKhoan);
-		mniQuanLyTaiKhoan.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TaiKhoan tk= new TaiKhoan();
-				tk.setVisible(true);
-			}
-		});
+		
 
-		mnTimKiem = new JMenu("Tìm Kiếm");
-		menuBar.add(mnTimKiem);
-
-		mniTimKiemKhachHang = new JMenuItem("Tìm Kiếm Khách Hàng");
-		mnTimKiem.add(mniTimKiemKhachHang);
-
-		mniTimKiemNhanVien = new JMenuItem("Tìm Kiếm Nhân Viên");
-		mnTimKiem.add(mniTimKiemNhanVien);
-
-		mniTimKiemMonAn = new JMenuItem("Tìm Kiếm Món Ăn");
-		mnTimKiem.add(mniTimKiemMonAn);
-
-		mniTimKiemBan = new JMenuItem("Tìm Kiếm Bàn");
-		mnTimKiem.add(mniTimKiemBan);
-
-		mniTimKiemHoaDon = new JMenuItem("Tìm Kiếm Hóa Đơn");
-		mnTimKiem.add(mniTimKiemHoaDon);
-
-		mniTimKiemTaiKhoan = new JMenuItem("Tìm Kiếm Tài Khoản");
-		mnTimKiem.add(mniTimKiemTaiKhoan);
-		mniTimKiemTaiKhoan.addActionListener(this);
-
-		mnThongKe = new JMenu("Thống Kê");
-		menuBar.add(mnThongKe);
-
-		mnThongKeDoUong = new JMenu("Thống Kê Đồ Uống");
-		mnThongKe.add(mnThongKeDoUong);
-
-		mniDoUongBanChay = new JMenuItem("Bán Chạy Nhất");
-		mnThongKeDoUong.add(mniDoUongBanChay);
-
-		JMenuItem mniDoUongBanIt = new JMenuItem("Bán Ít Nhất");
-		mnThongKeDoUong.add(mniDoUongBanIt);
-
-		JMenu mnThongKeKhachHang = new JMenu("Thống Kê Khách Hàng");
-		mnThongKe.add(mnThongKeKhachHang);
-
-		mniDenNhieuNhat = new JMenuItem("Đến Nhiều Nhất");
-		mnThongKeKhachHang.add(mniDenNhieuNhat);
-
-		mniSoBillCaoNhat = new JMenuItem("Có Số Bill Cao Nhất");
-		mnThongKeKhachHang.add(mniSoBillCaoNhat);
-
-		mniThongKeDoanhThu = new JMenuItem("Thống Kê Doanh Thu");
-		mnThongKe.add(mniThongKeDoanhThu);
-
-		mnBaoCao = new JMenu("Báo Cáo");
-		menuBar.add(mnBaoCao);
-
-		mnBaoCaoDoUong = new JMenu("Báo Cáo Đồ Uống");
-		mnBaoCao.add(mnBaoCaoDoUong);
-
-		mniDoUongBanChay_1 = new JMenuItem("Bán Chạy Nhất");
-		mnBaoCaoDoUong.add(mniDoUongBanChay_1);
-
-		mniDoUongBanIt_1 = new JMenuItem("Bán Ít Nhất");
-		mnBaoCaoDoUong.add(mniDoUongBanIt_1);
-
-		mniBaoCaoDoanhThu = new JMenuItem("Báo Cáo Doanh Thu");
-		mnBaoCao.add(mniBaoCaoDoanhThu);
-
-		mniBaoCaoKhachHang = new JMenu("Báo Cáo Khách Hàng");
-		mnBaoCao.add(mniBaoCaoKhachHang);
-
-		mniDenNhieuNhat_1 = new JMenuItem("Đến Nhiều Nhất");
-		mniBaoCaoKhachHang.add(mniDenNhieuNhat_1);
-
-		mniSoBillCaoNhat_1 = new JMenuItem("Có Số Bill Cao Nhất");
-		mniBaoCaoKhachHang.add(mniSoBillCaoNhat_1);
+		mnHoaDon = new JMenu("Hóa Đơn");
+		menuBar.add(mnHoaDon);
 		
 		mnDatBanTiec = new JMenu("Đặt Bàn Tiệc");
+		mnDatBanTiec.addActionListener(this);
+		mnDatBanTiec.addMenuListener(this);
 		menuBar.add(mnDatBanTiec);
-		
-		mniDatBan = new JMenuItem("Đặt Bàn");
-		mnDatBanTiec.add(mniDatBan);
-		mniDatBan.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DatBanTiec frmdatBanTiec=new DatBanTiec();
-				frmdatBanTiec.setVisible(true);
 				
-			}
-		});
+		mnThongKe = new JMenu("Thống Kê");
+		menuBar.add(mnThongKe);
+						
+		mnThongKeDoUong = new JMenu("Thống Kê Đồ Uống");
+		mnThongKe.add(mnThongKeDoUong);
+								
+		mniDoUongBanChay = new JMenuItem("Bán Chạy Nhất");
+		mnThongKeDoUong.add(mniDoUongBanChay);
+										
+		 mniDoUongBanIt = new JMenuItem("Bán Ít Nhất");
+		mnThongKeDoUong.add(mniDoUongBanIt);
+												
+		JMenu mnThongKeKhachHang_1 = new JMenu("Thống Kê Khách Hàng");
+		mnThongKe.add(mnThongKeKhachHang_1);
+														
+		mniDenNhieuNhat = new JMenuItem("Đến Nhiều Nhất");
+		mnThongKeKhachHang_1.add(mniDenNhieuNhat);
+																
+		mniSoBillCaoNhat = new JMenuItem("Có Số Bill Cao Nhất");
+		mnThongKeKhachHang_1.add(mniSoBillCaoNhat);
+																		
+		mniThongKeDoanhThu = new JMenuItem("Thống Kê Doanh Thu");
+		mnThongKe.add(mniThongKeDoanhThu);
+		
+		mnBaoCao = new JMenu("Báo Cáo");
+		menuBar.add(mnBaoCao);
+				
+		mnBaoCaoDoUong = new JMenu("Báo Cáo Đồ Uống");
+		mnBaoCao.add(mnBaoCaoDoUong);
+						
+		mniDoUongBanChay_1 = new JMenuItem("Bán Chạy Nhất");
+		mnBaoCaoDoUong.add(mniDoUongBanChay_1);
+								
+		mniDoUongBanIt_1 = new JMenuItem("Bán Ít Nhất");
+		mnBaoCaoDoUong.add(mniDoUongBanIt_1);
+										
+		mniBaoCaoDoanhThu = new JMenuItem("Báo Cáo Doanh Thu");
+		mnBaoCao.add(mniBaoCaoDoanhThu);
+												
+		mniBaoCaoKhachHang = new JMenu("Báo Cáo Khách Hàng");
+		mnBaoCao.add(mniBaoCaoKhachHang);
+														
+		mniDenNhieuNhat_1 = new JMenuItem("Đến Nhiều Nhất");
+		mniBaoCaoKhachHang.add(mniDenNhieuNhat_1);
+																
+		mniSoBillCaoNhat_1 = new JMenuItem("Có Số Bill Cao Nhất");
+		mniBaoCaoKhachHang.add(mniSoBillCaoNhat_1);
+																		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addComponent(menuBar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(tabbedPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 1086, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(60)
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE))
+				.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+		);
+		getContentPane().setLayout(groupLayout);
+		
+		mniQuanLyNhanVien.addActionListener(this);
+		mniQuanLyKhachHang.addActionListener(this);
+		mniThongTinTaiKhoan.addActionListener(this);
+		mniQuanLyTaiKhoan.addActionListener(this);
+		mniDoUongBanChay.addActionListener(this);
+		mniDoUongBanIt.addActionListener(this);
 
 	}
 
+	private NhanVien nvUI=new NhanVien();
+	private ThongTinCaNhan ttUI=new ThongTinCaNhan();
+	private TaiKhoan tkUI=new TaiKhoan();
+	private KhachHang khUI=new KhachHang();
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(mnDatBanTiec)) {
-			System.out.println("ADAD");
-			DatBanTiec frmdatBanTiec=new DatBanTiec();
-			frmdatBanTiec.setVisible(true);
-		}else if(o.equals(mniTimKiemTaiKhoan)) {
-			System.out.println("ADADA");
+			System.out.println("Click menu DAT BAN");
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Đặt Bàn Tiệc", null, tabbedPane.add(datBanTiec.contentPane), "HIHi");
+			
 		}else if(o.equals(mniQuanLyNhanVien)) {
-			NhanVien frmNV=new NhanVien();
-			frmNV.setVisible(true);
-			System.out.println("ADADA");
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Nhân Viên", null, tabbedPane.add(nvUI.contentPane), "HIHi");
+			
+		}else if(o.equals(mniThongTinTaiKhoan)) {
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Thông Tin Cá Nhân", null, tabbedPane.add(ttUI.contentPane), "HIHi");
+			
+		}else if(o.equals(mniQuanLyTaiKhoan)) {
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Tài Khoản", null, tabbedPane.add(tkUI.contentPane), "HIHi");
+			
+		}else if(o.equals(mniQuanLyKhachHang)) {
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Khách Hàng", null, tabbedPane.add(khUI.contentPane), "HIHi");
+			
+		}else if(o.equals(mniDoUongBanChay)) {
+			String title ="Bán Chạy Nhất";
+			ThongKeDoUong tkDoUong=new ThongKeDoUong(title);
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Thống Kê Đồ Uống", null, tabbedPane.add(tkDoUong.contentPane), "HIHi");
+		}else if(o.equals(mniDoUongBanIt)) {
+			String title ="Bán Ít Nhất";
+			ThongKeDoUong tkDoUong=new ThongKeDoUong(title);
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Thống Kê Đồ Uống", null, tabbedPane.add(tkDoUong.contentPane), "HIHi");
 		}
+	}
+	
+	private DatBanTiec datBanTiec=new DatBanTiec();
+
+	@Override
+	public void menuSelected(MenuEvent e) {
+		
+		Object o=e.getSource();
+		
+		if(o.equals(mnDatBanTiec)) {
+			System.out.println("Click menu DAT BAN");
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Đặt Bàn Tiệc", null, tabbedPane.add(datBanTiec.contentPane), "HIHi");
+		}else if(o.equals(mnThongKe)){
+			
+		}else if(o.equals(mnHoaDon)) {
+			
+		}
+		
+		
+	}
+
+	@Override
+	public void menuDeselected(MenuEvent e) {
+		
+		
+	}
+
+	@Override
+	public void menuCanceled(MenuEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }
