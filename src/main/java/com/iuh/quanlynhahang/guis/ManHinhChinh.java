@@ -176,7 +176,7 @@ public class ManHinhChinh extends JFrame implements ActionListener {
 			tabbedPane.add(datBanTiec.contentPane);
 		} else if (obj.equals(btnTrangChu)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
-			tabbedPane.add(trangChu.contentPane);
+			tabbedPane.add(trangChu.getContentPane());
 		} else if (obj.equals(btnNhanVien)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.add(nhanVien.contentPane);
