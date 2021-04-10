@@ -15,9 +15,9 @@ public class Ban implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String maBan;
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinColumn(name = "maLoaiBan")
-	private LoaiBan loaiBan;
+//	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+//	@JoinColumn(name = "maLoaiBan")
+//	private LoaiBan loaiBan;
 	private int soLuongBan;
 	
 	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -44,13 +44,13 @@ public class Ban implements Serializable {
 		this.maBan = maBan;
 	}
 
-	public LoaiBan getLoaiBan() {
-		return loaiBan;
-	}
-
-	public void setLoaiBan(LoaiBan loaiBan) {
-		this.loaiBan = loaiBan;
-	}
+//	public LoaiBan getLoaiBan() {
+//		return loaiBan;
+//	}
+//
+//	public void setLoaiBan(LoaiBan loaiBan) {
+//		this.loaiBan = loaiBan;
+//	}
 
 	public int getSoLuongBan() {
 		return soLuongBan;

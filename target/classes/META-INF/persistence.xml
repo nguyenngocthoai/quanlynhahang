@@ -11,11 +11,10 @@
 		<class>com.iuh.quanlynhahang.entities.KhachHang</class>
 		<class>com.iuh.quanlynhahang.entities.HoaDon</class>
 		<class>com.iuh.quanlynhahang.entities.ChiTietHoaDon</class>
-		<class>com.iuh.quanlynhahang.entities.BanTiec</class>
+		<class>com.iuh.quanlynhahang.entities.PhieuDatBan</class>
 		<class>com.iuh.quanlynhahang.entities.Mon</class>
 		<class>com.iuh.quanlynhahang.entities.Ban</class>
 		<class>com.iuh.quanlynhahang.entities.LoaiMon</class>
-		<class>com.iuh.quanlynhahang.entities.LoaiBan</class>
 		<class>com.iuh.quanlynhahang.entities.ChiTietHoaDon_PK</class>
 		<class>com.iuh.quanlynhahang.entities.Sanh</class>
 		

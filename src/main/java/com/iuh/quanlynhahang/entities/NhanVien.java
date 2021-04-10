@@ -24,7 +24,8 @@ public class NhanVien implements Serializable {
 	private int tinhTrang;
 //	@JoinColumn(name = "maTaiKhoan")
 //	@OneToOne(optional=false, mappedBy="nhanVien")
-//	private TaiKhoan taiKhoan;
+	@OneToOne(mappedBy="nhanVien",cascade=CascadeType.ALL,fetch=FetchType.EAGER,optional = false)
+	private TaiKhoan taiKhoan;
 
 	public NhanVien() {
 		super();

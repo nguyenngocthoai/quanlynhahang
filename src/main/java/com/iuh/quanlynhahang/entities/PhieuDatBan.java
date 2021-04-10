@@ -20,8 +20,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "DatBanTiec")
-public class BanTiec implements Serializable {
+public class PhieuDatBan implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String maBanTiec;
@@ -29,21 +28,22 @@ public class BanTiec implements Serializable {
 	@JoinColumn(name = "maKhachhang")
 	private KhachHang khachHang;
 
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "DatBanTiec_Ban", joinColumns = @JoinColumn(name = "maBanTiec", referencedColumnName = "maBanTiec"), inverseJoinColumns = @JoinColumn(name = "maMon", referencedColumnName = "maMon"))
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@JoinColumn(name = "maBanTiec")
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "PhieuDatBan_Ban", joinColumns = @JoinColumn(name = "maBanTiec", referencedColumnName = "maBanTiec"), inverseJoinColumns = @JoinColumn(name = "maBan", referencedColumnName = "maBan"))
+//	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//	@JoinColumn(name = "maBanTiec")
 	private Set<Ban> bans;
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "DatBanTiec_Mon", joinColumns = @JoinColumn(name = "maBanTiec", referencedColumnName = "maBanTiec"), inverseJoinColumns = @JoinColumn(name = "maMon", referencedColumnName = "maMon"))
+	@JoinTable(name = "PhieuDatBan_Mon", joinColumns = @JoinColumn(name = "maBanTiec", referencedColumnName = "maBanTiec"), inverseJoinColumns = @JoinColumn(name = "maMon", referencedColumnName = "maMon"))
 	private Set<Mon> monAns;
 	private LocalDate ngayDatMon;
 	private LocalDate ngaySuDung;
 	private String gioSuDung;
-	private String loaiBanTiec;
+	private String trangThai;
 	private int soLuongNguoi;
+	private int soLuong;
 
-	public BanTiec() {
+	public PhieuDatBan() {
 		super();
 	}
 
@@ -103,12 +103,20 @@ public class BanTiec implements Serializable {
 		this.gioSuDung = gioSuDung;
 	}
 
-	public String getLoaiBanTiec() {
-		return loaiBanTiec;
+	public String getTrangThai() {
+		return trangThai;
 	}
 
-	public void setLoaiBanTiec(String loaiBanTiec) {
-		this.loaiBanTiec = loaiBanTiec;
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
+	}
+
+	public int getSoLuong() {
+		return soLuong;
+	}
+
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
 	}
 
 	public int getSoLuongNguoi() {

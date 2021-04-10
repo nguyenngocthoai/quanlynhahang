@@ -19,7 +19,7 @@ public class ChiTietHoaDon implements Serializable {
 	@Id
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "maBanTiec")
-	private BanTiec banTiec;
+	private PhieuDatBan banTiec;
 	private int soLuong;
 
 	public ChiTietHoaDon() {
@@ -34,11 +34,11 @@ public class ChiTietHoaDon implements Serializable {
 		this.hoaDon = hoaDon;
 	}
 
-	public BanTiec getBanTiec() {
+	public PhieuDatBan getBanTiec() {
 		return banTiec;
 	}
 
-	public void setBanTiec(BanTiec banTiec) {
+	public void setBanTiec(PhieuDatBan banTiec) {
 		this.banTiec = banTiec;
 	}
 
