@@ -69,7 +69,7 @@ public class TrangChu extends JFrame implements ActionListener{
 		getContentPane().setLayout(null);
 
 		menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1162, 34);
+		menuBar.setBounds(0, 0, 1162, 63);
 		getContentPane().add(menuBar);
 
 		mnTaiKhoan = new JMenu("Tài Khoản");
@@ -81,7 +81,7 @@ public class TrangChu extends JFrame implements ActionListener{
 		mniDangXuat = new JMenuItem("Đăng Xuất");
 		mnTaiKhoan.add(mniDangXuat);
 
-		mnQuanLy = new JMenu("Quản Lý");
+		mnQuanLy = new JMenu("Danh Mục");
 		menuBar.add(mnQuanLy);
 
 		mniQuanLyKhachHang = new JMenuItem("Quản Lý Tài Khoản");
