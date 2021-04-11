@@ -181,13 +181,17 @@ public class TrangChu extends JFrame implements ActionListener,MenuListener{
 		mniQuanLyTaiKhoan.addActionListener(this);
 		mniDoUongBanChay.addActionListener(this);
 		mniDoUongBanIt.addActionListener(this);
-
+		mniQuanLyBan.addActionListener(this);
+		mniQuanLySanh.addActionListener(this);
+		mnHoaDon.addMenuListener(this);
 	}
 
 	private NhanVien nvUI=new NhanVien();
 	private ThongTinCaNhan ttUI=new ThongTinCaNhan();
 	private TaiKhoan tkUI=new TaiKhoan();
 	private KhachHang khUI=new KhachHang();
+	private GDQuanLyBan ban=new GDQuanLyBan();
+	private Sanh sanh=new Sanh();
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -223,11 +227,17 @@ public class TrangChu extends JFrame implements ActionListener,MenuListener{
 			ThongKeDoUong tkDoUong=new ThongKeDoUong(title);
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Thống Kê Đồ Uống", null, tabbedPane.add(tkDoUong.contentPane), "HIHi");
+		}else if(o.equals(mniQuanLyBan)) {
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Bàn", null, tabbedPane.add(ban.contentPane), "HIHi");
+		}else if(o.equals(mniQuanLySanh)) {
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Bàn", null, tabbedPane.add(sanh.contentPane), "HIHi");
 		}
 	}
 	
 	private DatBanTiec datBanTiec=new DatBanTiec();
-
+	private HoaDon hoaDon=new HoaDon();
 	@Override
 	public void menuSelected(MenuEvent e) {
 		
@@ -240,7 +250,8 @@ public class TrangChu extends JFrame implements ActionListener,MenuListener{
 		}else if(o.equals(mnThongKe)){
 			
 		}else if(o.equals(mnHoaDon)) {
-			
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Hóa Đơn", null, tabbedPane.add(hoaDon.contentPane), "HIHi");
 		}
 		
 		
