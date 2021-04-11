@@ -184,6 +184,7 @@ public class TrangChu extends JFrame implements ActionListener,MenuListener{
 		mniQuanLyBan.addActionListener(this);
 		mniQuanLySanh.addActionListener(this);
 		mnHoaDon.addMenuListener(this);
+		mniThongKeDoanhThu.addActionListener(this);
 	}
 
 	private NhanVien nvUI=new NhanVien();
@@ -192,7 +193,7 @@ public class TrangChu extends JFrame implements ActionListener,MenuListener{
 	private KhachHang khUI=new KhachHang();
 	private GDQuanLyBan ban=new GDQuanLyBan();
 	private Sanh sanh=new Sanh();
-	
+	private ThongKeDoanhThu tkDoanhThu=new ThongKeDoanhThu();
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -233,6 +234,9 @@ public class TrangChu extends JFrame implements ActionListener,MenuListener{
 		}else if(o.equals(mniQuanLySanh)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Bàn", null, tabbedPane.add(sanh.contentPane), "HIHi");
+		}else if(o.equals(mniThongKeDoanhThu)) {
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Thống Kê Doanh Thu", null, tabbedPane.add(tkDoanhThu.contentPane), "HIHi");
 		}
 	}
 	

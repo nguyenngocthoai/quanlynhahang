@@ -24,7 +24,7 @@ import javax.swing.JTable;
 
 public class ThongKeDoanhThu extends JFrame {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
 
