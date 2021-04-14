@@ -10,6 +10,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -17,11 +20,12 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
-public class DangNhap extends JFrame {
+public class DangNhap extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTextField txtMatKhau;
 	private JTextField txtTenDangNhap;
+	private JButton btnDangNhap;
 
 	/**
 	 * Launch the application.
@@ -51,7 +55,7 @@ public class DangNhap extends JFrame {
 		
 		JPanel panel = new JPanel();
 		
-		JButton btnDangNhap = new JButton("Đăng nhập");
+		 btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtMatKhau = new JTextField();
@@ -131,5 +135,20 @@ public class DangNhap extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 		setLocationRelativeTo(null);
+		
+		btnDangNhap.addActionListener(this);
+		
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj=e.getSource();
+		if(obj.equals(btnDangNhap)) {
+			TrangChu trangChuUI=new TrangChu();
+			trangChuUI.setVisible(true);
+			setVisible(false);
+		}
+		
+	}
+	
 }

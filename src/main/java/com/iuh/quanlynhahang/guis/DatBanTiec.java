@@ -44,7 +44,7 @@ import java.awt.ScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpringLayout;
 
-public class DatBanTiec extends JFrame {
+public class DatBanTiec extends JFrame implements ActionListener{
 
 	public JPanel contentPane;
 
@@ -116,10 +116,12 @@ public class DatBanTiec extends JFrame {
 	private JButton btnDSMonAn;
 	private JScrollPane scrollPane;
 	private SpringLayout springLayout;
+	private JButton btnDatBanTiec;
 
 	public DatBanTiec() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1100, 575);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -180,7 +182,7 @@ public class DatBanTiec extends JFrame {
 			lblImg.setFont(new Font("Arial", Font.PLAIN, 13));
 		}
 
-		JButton btnDatBanTiec = new JButton("Đặt Bàn Tiệc");
+		 btnDatBanTiec = new JButton("Đặt Bàn Tiệc");
 		btnDatBanTiec.setFont(new Font("Arial", Font.PLAIN, 13));
 		btnDatBanTiec.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -423,9 +425,12 @@ public class DatBanTiec extends JFrame {
 		panel_2.setLayout(gl_panel_2);
 		contentPane.setLayout(gl_contentPane);
 
+		btnDatBanTiec.addActionListener(this);
+		
 		SanhA();
 		SanhB();
 		SanhC();
+		
 	}
 
 	public void SanhA() {
@@ -683,5 +688,16 @@ public class DatBanTiec extends JFrame {
 						.addComponent(btnBan1_20, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)))
 		);
 		panel_SanhB.setLayout(gl_panel_SanhB);
+	}
+
+	private DanhSachKhachHangUI khUI=new DanhSachKhachHangUI();
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object obj=e.getSource();
+		if(obj.equals(btnDatBanTiec)) {
+			
+			khUI.setVisible(true);
+		}
+		
 	}
 }
