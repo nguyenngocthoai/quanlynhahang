@@ -142,7 +142,7 @@ public class TimKiemKhachHangUI extends JFrame implements ActionListener {
 		btnTroVe.addActionListener(this);
 	}
 
-	private KhachHang khUI=new KhachHang();
+	private KhachHangUI khUI=new KhachHangUI();
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj=e.getSource();

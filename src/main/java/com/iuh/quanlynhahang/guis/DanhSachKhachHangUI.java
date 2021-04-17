@@ -34,7 +34,7 @@ public class DanhSachKhachHangUI extends JFrame implements ActionListener {
 	public JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel tableModel;
-	private List<KhachHang> dskh;
+	private List<KhachHangUI> dskh;
 	private JTextField txtsdt;
 	private JButton btntimKiem, btnthem, btnDatBanTiec;
 	private JLabel lblsdt;

@@ -187,15 +187,18 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 1084, GroupLayout.PREFERRED_SIZE)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
-				.addComponent(menuBar, GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(60).addComponent(tabbedPane,
-						GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(549, Short.MAX_VALUE)));
+					.addGap(60)
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE))
+		);
 		getContentPane().setLayout(groupLayout);
 
 		mniNhanVien.addActionListener(this);
@@ -221,7 +224,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 	private NhanVien nvUI = new NhanVien();
 	private ThongTinCaNhan ttUI = new ThongTinCaNhan();
 	private TaiKhoan tkUI = new TaiKhoan();
-	private KhachHang khUI = new KhachHang();
+	private KhachHangUI khUI = new KhachHangUI();
 	private Ban ban = new Ban();
 	private Sanh sanh = new Sanh();
 	private ThongKeDoanhThu tkDoanhThu = new ThongKeDoanhThu();

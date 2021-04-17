@@ -56,7 +56,14 @@ public class KhachHangDAOImpl implements IKhachHangDAO {
 
 	@Override
 	public KhachHang getKHBySDT(String sDT) {
-		return em.find(KhachHang.class, sDT);
+		return em.createQuery("select kh from KhachHang kh where soDienThoai=" +"'"+ sDT+"'", KhachHang.class)
+				.getSingleResult();
+	}
+
+	@Override
+	public List<KhachHang> getKHByTen(String ten) {
+		return em.createQuery("select kh from KhachHang kh where tenKhachHang like" + ten + "%", KhachHang.class)
+				.getResultList();
 	}
 
 }

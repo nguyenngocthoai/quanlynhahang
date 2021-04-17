@@ -14,4 +14,6 @@ public interface IKhachHangDAO {
 	public KhachHang getKHByID(String maKH);
 
 	public KhachHang getKHBySDT(String sDT);
+
+	public List<KhachHang> getKHByTen(String ten);
 }

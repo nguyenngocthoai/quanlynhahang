@@ -14,10 +14,12 @@ import javax.persistence.*;
 public class KhachHang implements Serializable {
 	@Id
 	private String maKhachhang;
-	private String tenKhachhang;
-	private LocalDate ngaySinh;
-	private int gioiTinh;
+	@Column(columnDefinition = "nvarchar(50)")
+	private String tenKhachHang;
+	@Column(columnDefinition = "nvarchar(10)")
+	private String gioiTinh;
 	private String soDienThoai;
+	@Column(columnDefinition = "nvarchar(200)")
 	private String diaChi;
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +27,17 @@ public class KhachHang implements Serializable {
 	public KhachHang() {
 		super();
 	}
+	
+
+	public KhachHang(String maKhachhang, String tenKhachHang, String gioiTinh, String soDienThoai, String diaChi) {
+		super();
+		this.maKhachhang = maKhachhang;
+		this.tenKhachHang = tenKhachHang;
+		this.gioiTinh = gioiTinh;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+	}
+
 
 	public String getMaKhachhang() {
 		return maKhachhang;
@@ -35,26 +48,18 @@ public class KhachHang implements Serializable {
 	}
 
 	public String getTenKhachhang() {
-		return tenKhachhang;
+		return tenKhachHang;
 	}
 
-	public void setTenKhachhang(String tenKhachhang) {
-		this.tenKhachhang = tenKhachhang;
+	public void setTenKhachhang(String tenKhachHang) {
+		this.tenKhachHang = tenKhachHang;
 	}
 
-	public LocalDate getNgaySinh() {
-		return ngaySinh;
-	}
-
-	public void setNgaySinh(LocalDate ngaySinh) {
-		this.ngaySinh = ngaySinh;
-	}
-
-	public int getGioiTinh() {
+	public String getGioiTinh() {
 		return gioiTinh;
 	}
 
-	public void setGioiTinh(int gioiTinh) {
+	public void setGioiTinh(String gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
 
