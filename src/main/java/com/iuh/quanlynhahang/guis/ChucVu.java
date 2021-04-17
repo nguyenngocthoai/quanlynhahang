@@ -27,23 +27,27 @@ import java.awt.Font;
 import javax.swing.border.TitledBorder;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.border.LineBorder;
+import java.awt.SystemColor;
 
 public class ChucVu extends JFrame implements ActionListener,MouseListener{
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private JPanel panel;
 	private JLabel lblthongTinCV;
 	private JLabel lblmaCV;
 	private JLabel lbltenCV;
-	private JPanel panel_1;
 	private JButton btnthem;
 	private JButton btncapNhat;
 	private JButton btnxoaRong;
 	private JButton btntroVe;
 	private JTextField txtmaCV;
 	private JTextField txttenCV;
+	private JLabel lblChcV;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -60,98 +64,154 @@ public class ChucVu extends JFrame implements ActionListener,MouseListener{
 
 	public ChucVu() {
 		setTitle("Giao Diện Quản Lý Chức Vụ");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 748, 353);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1084, 551);
 		setLocationRelativeTo(null);
-		setResizable(false);
 		//setVisible(true);
 		taoGiaoDien();
 	}
 	public void taoGiaoDien() {
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 
 		String[] header = "Mã Chức Vụ; Tên Chức Vụ".split(";");
 		tableModel = new DefaultTableModel(header, 0);
 		JScrollPane scrollPane = new JScrollPane(table = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		table.addMouseListener(this);
-		scrollPane.setBounds(10, 10, 383, 300);
-		contentPane.add(scrollPane);
 
 		panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(403, 10, 321, 299);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBackground(SystemColor.control);
 
 		lblthongTinCV = new JLabel("Thông Tin Chức Vụ");
-		lblthongTinCV.setForeground(Color.BLUE);
-		lblthongTinCV.setFont(new Font("Tahoma", Font.BOLD, 19));
-		lblthongTinCV.setBounds(61, 11, 232, 31);
-		panel.add(lblthongTinCV);
+		lblthongTinCV.setForeground(Color.BLACK);
+		lblthongTinCV.setFont(new Font("Times New Roman", Font.BOLD, 20));
 
-		lblmaCV = new JLabel("Mã Chức Vụ:");
-		lblmaCV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblmaCV.setBounds(10, 51, 121, 31);
-		panel.add(lblmaCV);
+		lblmaCV = new JLabel("Mã Chức Vụ");
+		lblmaCV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		lbltenCV = new JLabel("Tên Chức Vụ:");
-		lbltenCV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbltenCV.setBounds(10, 111, 121, 31);
-		panel.add(lbltenCV);
-
-		panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBorder(new TitledBorder(null, "Thanh C\u00F4ng C\u1EE5", TitledBorder.LEADING, TitledBorder.TOP,
-
-				null, Color.BLUE));
-		panel_1.setBackground(Color.WHITE);
-		panel_1.setBounds(7, 157, 303, 132);
-		panel.add(panel_1);
-
-		btnthem = new JButton("Thêm");
-		btnthem.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnthem.setBackground(Color.WHITE);
-		btnthem.setBounds(24, 25, 99, 31);
-		panel_1.add(btnthem);
-
-		btncapNhat = new JButton("Cập Nhật");
-		btncapNhat.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btncapNhat.setBackground(Color.WHITE);
-		btncapNhat.setBounds(24, 89, 99, 31);
-		panel_1.add(btncapNhat);
-
-		btnxoaRong = new JButton("Xóa Rỗng");
-		btnxoaRong.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnxoaRong.setBackground(Color.WHITE);
-		btnxoaRong.setBounds(179, 25, 99, 31);
-		panel_1.add(btnxoaRong);
-
-		btntroVe = new JButton("Trở Về");
-		btntroVe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btntroVe.setBackground(Color.WHITE);
-		btntroVe.setBounds(179, 89, 99, 31);
-		panel_1.add(btntroVe);
+		lbltenCV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		txtmaCV = new JTextField();
-		txtmaCV.setEditable(false);
+		txtmaCV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtmaCV.setColumns(10);
-		txtmaCV.setBounds(130, 51, 151, 27);
-		panel.add(txtmaCV);
 
 		txttenCV = new JTextField();
+		txttenCV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txttenCV.setColumns(10);
-		txttenCV.setBounds(130, 111, 151, 27);
-		panel.add(txttenCV);
-		btnthem.addActionListener(this);
-		btncapNhat.addActionListener(this);
-		btnxoaRong.addActionListener(this);
-		btntroVe.addActionListener(this);
-		txtmaCV.setEditable(false);
+		
+		lblChcV = new JLabel("CHỨC VỤ");
+		lblChcV.setForeground(Color.RED);
+		lblChcV.setFont(new Font("Times New Roman", Font.BOLD, 25));
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+							.addGap(38)
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(lblChcV)
+							.addGap(432))))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblChcV)
+					.addGap(31)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(scrollPane))
+					.addGap(13))
+		);
+		
+				btnthem = new JButton("Thêm");
+				btnthem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+				btnthem.setBackground(Color.WHITE);
+				
+						btnxoaRong = new JButton("Xóa Rỗng");
+						btnxoaRong.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+						btnxoaRong.setBackground(Color.WHITE);
+						
+								btncapNhat = new JButton("Cập Nhật");
+								btncapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+								btncapNhat.setBackground(Color.WHITE);
+								
+										btntroVe = new JButton("Trở Về");
+										btntroVe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+										btntroVe.setBackground(Color.WHITE);
+										GroupLayout gl_panel = new GroupLayout(panel);
+										gl_panel.setHorizontalGroup(
+											gl_panel.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_panel.createSequentialGroup()
+													.addGap(148)
+													.addComponent(lblthongTinCV, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_panel.createSequentialGroup()
+													.addGap(31)
+													.addComponent(lblmaCV, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+													.addGap(28)
+													.addComponent(txtmaCV, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+													.addGap(90))
+												.addGroup(gl_panel.createSequentialGroup()
+													.addGap(31)
+													.addComponent(lbltenCV, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+													.addGap(28)
+													.addComponent(txttenCV, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+													.addGap(90))
+												.addGroup(gl_panel.createSequentialGroup()
+													.addGap(180)
+													.addComponent(btnthem, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+													.addGap(42)
+													.addComponent(btncapNhat, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+													.addGap(90))
+												.addGroup(gl_panel.createSequentialGroup()
+													.addGap(180)
+													.addComponent(btntroVe, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+													.addGap(42)
+													.addComponent(btnxoaRong, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+													.addGap(90))
+										);
+										gl_panel.setVerticalGroup(
+											gl_panel.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_panel.createSequentialGroup()
+													.addGap(10)
+													.addComponent(lblthongTinCV, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+													.addGap(24)
+													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblmaCV, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_panel.createSequentialGroup()
+															.addGap(2)
+															.addComponent(txtmaCV, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
+													.addGap(29)
+													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+														.addComponent(lbltenCV, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+														.addGroup(gl_panel.createSequentialGroup()
+															.addGap(2)
+															.addComponent(txttenCV, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
+													.addGap(79)
+													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+														.addComponent(btnthem, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+														.addComponent(btncapNhat, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+													.addGap(54)
+													.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+														.addComponent(btntroVe, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+														.addComponent(btnxoaRong, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)))
+										);
+										panel.setLayout(gl_panel);
+										btntroVe.addActionListener(this);
+								btncapNhat.addActionListener(this);
+						btnxoaRong.addActionListener(this);
+				btnthem.addActionListener(this);
+		contentPane.setLayout(gl_contentPane);
 	}
 
 	@Override
