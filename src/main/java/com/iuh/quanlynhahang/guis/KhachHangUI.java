@@ -5,16 +5,15 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -35,10 +36,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
 import com.iuh.quanlynhahang.entities.KhachHang;
 
-import net.bytebuddy.utility.RandomString;
-import javax.swing.ScrollPaneConstants;
-
-public class KhachHangUI extends JFrame implements ActionListener {
+public class KhachHangUI extends JFrame implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -109,6 +107,7 @@ public class KhachHangUI extends JFrame implements ActionListener {
 		tableModel = new DefaultTableModel(header, 0);
 		scrollPane = new JScrollPane(tableKhachHang = new JTable(tableModel),
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		tableKhachHang.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		scrollPane.setViewportView(tableKhachHang);
 		tableKhachHang.setBackground(Color.WHITE);
 
@@ -315,6 +314,10 @@ public class KhachHangUI extends JFrame implements ActionListener {
 				.addGap(11)));
 		contentPane.setLayout(gl_contentPane);
 		updateTable();
+		tableKhachHang.addMouseListener(this);
+		tableKhachHang.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		tableKhachHang.setRowSelectionAllowed(false);
+//		tableKhachHang.setEnabled(false);
 	}
 
 	@Override
@@ -374,6 +377,62 @@ public class KhachHangUI extends JFrame implements ActionListener {
 			}
 
 		} else if (obj.equals(btnCapNhat)) {
+			int row = tableKhachHang.getSelectedRow();
+			if (row != -1) {
+				String maKH = txtMaKH.getText();
+				String tenKH = txtTenKH.getText().trim();
+				String sDT = txtSDT.getText().trim();
+				String diaChi = txtDiaChi.getText().trim();
+				String gioiTinh = null;
+				if (rdbNam.isSelected()) {
+					gioiTinh = "Nam";
+				} else if (rdbNu.isSelected()) {
+					gioiTinh = "Nữ";
+				}
+
+				boolean check = true;
+				StringBuilder mesgError = new StringBuilder();
+				if (tenKH.isEmpty()) {
+					mesgError.append("Vui lòng nhập tên khách hàng!\n");
+					check = false;
+				}
+				if (diaChi.isEmpty()) {
+					mesgError.append("Vui lòng nhập địa chỉ!\n");
+					check = false;
+				}
+				if (sDT.isEmpty()) {
+					mesgError.append("Vui lòng nhập số điện thoại!\n");
+					check = false;
+				} else if (sDT.matches(regexSDT) == false) {
+					mesgError.append("Số điện thoại không hợp lệ!\n");
+					check = false;
+				}
+
+				if (check == false) {
+					JOptionPane.showMessageDialog(this, mesgError, "Thông báo", JOptionPane.ERROR_MESSAGE,
+							new ImageIcon("images\\warning.png"));
+
+					txtSDT.selectAll();
+					txtSDT.requestFocus();
+				} else {
+					try {
+						KhachHang kh = new KhachHang(maKH, tenKH, gioiTinh, sDT, diaChi);
+						khachHangDAO.updateKH(kh);
+						updateTable();
+						refresh();
+						JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo",
+								JOptionPane.CLOSED_OPTION);
+//						tableKhachHang.get
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(this, "Thêm khách hàng lỗi!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+					}
+
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng để cập nhật!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			}
 
 		} else if (obj.equals(btnLamMoi)) {
 			refresh();
@@ -394,7 +453,7 @@ public class KhachHangUI extends JFrame implements ActionListener {
 				try {
 					KhachHang kh = khachHangDAO.getKHBySDT(sDT);
 					tableModel.getDataVector().removeAllElements();
-					tableModel.addRow(new Object[] { 1, kh.getMaKhachhang(), kh.getTenKhachhang(), kh.getSoDienThoai(),
+					tableModel.addRow(new Object[] { 1, kh.getMaKhachHang(), kh.getTenKhachHang(), kh.getSoDienThoai(),
 							kh.getGioiTinh(), kh.getDiaChi() });
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(this, "Số điện thoại không hợp lệ!", "Thông báo",
@@ -416,7 +475,7 @@ public class KhachHangUI extends JFrame implements ActionListener {
 		List<String> idKHs = new ArrayList<String>();
 		List<KhachHang> khachHangs = khachHangDAO.getAllKH();
 		for (KhachHang kh : khachHangs) {
-			idKHs.add(kh.getMaKhachhang());
+			idKHs.add(kh.getMaKhachHang());
 		}
 
 		do {
@@ -431,7 +490,6 @@ public class KhachHangUI extends JFrame implements ActionListener {
 		txtDiaChi.setText("");
 		txtSDT.setText("");
 		txtTenKH.setText("");
-//		txtTimSDT.setText("");
 		txtMaKH.setText(randomMaKHNotExisted());
 	}
 
@@ -442,10 +500,10 @@ public class KhachHangUI extends JFrame implements ActionListener {
 			int i = 0;
 			for (KhachHang kh : khachHangs) {
 				i++;
-				tableModel.addRow(new Object[] { i, kh.getMaKhachhang(), kh.getTenKhachhang(), kh.getSoDienThoai(),
+				tableModel.addRow(new Object[] { i, kh.getMaKhachHang(), kh.getTenKhachHang(), kh.getSoDienThoai(),
 						kh.getGioiTinh(), kh.getDiaChi() });
 			}
-
+			tableKhachHang.setModel(tableModel);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -453,5 +511,46 @@ public class KhachHangUI extends JFrame implements ActionListener {
 
 	public void validateSDT() {
 
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = tableKhachHang.getSelectedRow();
+		String maKH = tableModel.getValueAt(row, 1).toString();
+		try {
+			KhachHang kh = khachHangDAO.getKHByID(maKH);
+			txtMaKH.setText(maKH);
+			txtTenKH.setText(kh.getTenKhachHang());
+			txtSDT.setText(kh.getSoDienThoai());
+			txtDiaChi.setText(kh.getDiaChi());
+			String gioiTinh = kh.getGioiTinh().toString().trim();
+			if (gioiTinh.equalsIgnoreCase("Nam")) {
+				rdbNam.setSelected(true);
+				rdbNu.setSelected(false);
+			} else {
+				rdbNu.setSelected(true);
+				rdbNam.setSelected(false);
+			}
+		} catch (Exception e2) {
+			System.out.println("error mouse clicked");
+			e2.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 	}
 }

@@ -189,7 +189,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 1084, GroupLayout.PREFERRED_SIZE)
+				.addComponent(menuBar, GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
 		);
 		groupLayout.setVerticalGroup(

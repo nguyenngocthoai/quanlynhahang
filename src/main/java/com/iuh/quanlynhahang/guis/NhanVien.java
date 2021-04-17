@@ -26,8 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
-public class NhanVien extends JFrame {
+public class NhanVien extends JFrame implements ActionListener{
 
 	public JPanel contentPane;
 
@@ -81,7 +82,8 @@ public class NhanVien extends JFrame {
 	private JButton btnCapNhat;
 	private JTextField txtMaNV;
 	private JLabel lblNewLabel;
-	private JTextField txtTrangThai;
+
+	private JComboBox cbxTrangThai;
 	public NhanVien() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1084, 551);
@@ -249,60 +251,64 @@ public class NhanVien extends JFrame {
 		panel_2.setLayout(gl_panel_2);
 		
 		txtMaNV = new JTextField();
+		txtMaNV.setEditable(false);
 		txtMaNV.setColumns(10);
 		
 		lblNewLabel = new JLabel("Trạng Thái\r\n");
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
-		txtTrangThai = new JTextField();
-		txtTrangThai.setColumns(10);
+		cbxTrangThai = new JComboBox();
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(119)
-					.addComponent(lblThngTinKhch, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+					.addComponent(lblThngTinKhch, GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
 					.addGap(77))
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblMNhnVin, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(txtMaNV, GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
-					.addGap(25))
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
 					.addComponent(lblMKhchHng_2)
-					.addContainerGap(335, Short.MAX_VALUE))
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(lblTnNhnVin, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtTenNV, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblMKhchHng_5, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-								.addComponent(lblMKhchHng_3, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-								.addComponent(lblMKhchHng_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-								.addComponent(lblMKhchHng_6, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtSDT, 251, 251, 251)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addComponent(rdbNam, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(rdbNu, GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-									.addGap(102))
-								.addComponent(txtDiaChi, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-								.addComponent(txtNgaySinh, 251, 251, 251)
-								.addComponent(txtEmail, 251, 251, 251)
-								.addComponent(txtTrangThai, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE))))
-					.addGap(30))
+					.addContainerGap(329, Short.MAX_VALUE))
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel)
-					.addContainerGap(332, Short.MAX_VALUE))
+					.addContainerGap(326, Short.MAX_VALUE))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(lblTnNhnVin, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtTenNV, GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblMKhchHng_5, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+								.addComponent(lblMKhchHng_3, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+								.addComponent(lblMKhchHng_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+								.addComponent(lblMKhchHng_6, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(txtSDT, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+									.addGap(2))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(rdbNam, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(rdbNu, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+									.addGap(102))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(txtNgaySinh, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+									.addGap(2))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+									.addGap(2))
+								.addComponent(txtDiaChi, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+								.addComponent(cbxTrangThai, 0, 253, Short.MAX_VALUE)))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(lblMNhnVin, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(txtMaNV, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)))
+					.addGap(28))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -342,8 +348,8 @@ public class NhanVien extends JFrame {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel)
-						.addComponent(txtTrangThai, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(12, Short.MAX_VALUE))
+						.addComponent(cbxTrangThai, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -370,5 +376,12 @@ public class NhanVien extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+		
+		btnCapNhat.addActionListener(this);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

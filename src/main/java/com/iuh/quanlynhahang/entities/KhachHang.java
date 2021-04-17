@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 public class KhachHang implements Serializable {
 	@Id
-	private String maKhachhang;
+	private String maKhachHang;
 	@Column(columnDefinition = "nvarchar(50)")
 	private String tenKhachHang;
 	@Column(columnDefinition = "nvarchar(10)")
@@ -29,9 +29,9 @@ public class KhachHang implements Serializable {
 	}
 	
 
-	public KhachHang(String maKhachhang, String tenKhachHang, String gioiTinh, String soDienThoai, String diaChi) {
+	public KhachHang(String maKhachHang, String tenKhachHang, String gioiTinh, String soDienThoai, String diaChi) {
 		super();
-		this.maKhachhang = maKhachhang;
+		this.maKhachHang = maKhachHang;
 		this.tenKhachHang = tenKhachHang;
 		this.gioiTinh = gioiTinh;
 		this.soDienThoai = soDienThoai;
@@ -39,19 +39,19 @@ public class KhachHang implements Serializable {
 	}
 
 
-	public String getMaKhachhang() {
-		return maKhachhang;
+	public String getMaKhachHang() {
+		return maKhachHang;
 	}
 
-	public void setMaKhachhang(String maKhachhang) {
-		this.maKhachhang = maKhachhang;
+	public void setMaKhachHang(String maKhachHang) {
+		this.maKhachHang = maKhachHang;
 	}
 
-	public String getTenKhachhang() {
+	public String getTenKhachHang() {
 		return tenKhachHang;
 	}
 
-	public void setTenKhachhang(String tenKhachHang) {
+	public void setTenKhachHang(String tenKhachHang) {
 		this.tenKhachHang = tenKhachHang;
 	}
 
