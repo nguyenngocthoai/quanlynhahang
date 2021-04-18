@@ -26,6 +26,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.ImageIcon;
 
 public class TrangChu extends JFrame implements ActionListener, MenuListener {
 
@@ -75,6 +76,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		menuBar = new JMenuBar();
 
 		mnHeThong = new JMenu("Hệ Thống");
+		mnHeThong.setIcon(new ImageIcon("images\\system.png"));
 		mnHeThong.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		menuBar.add(mnHeThong);
 
@@ -95,6 +97,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnHeThong.add(mniThoat);
 
 		mnDanhMuc = new JMenu("Danh Mục");
+		mnDanhMuc.setIcon(new ImageIcon("images\\modules.gif"));
 		mnDanhMuc.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		menuBar.add(mnDanhMuc);
 
@@ -128,6 +131,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnDanhMuc.add(mniChucVu);
 
 		mnXuLy = new JMenu("Xử Lý");
+		mnXuLy.setIcon(new ImageIcon("images\\order.gif"));
 		mnXuLy.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		mnXuLy.addActionListener(this);
 		mnXuLy.addMenuListener(this);
@@ -138,6 +142,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnXuLy.add(mniDatBanTiec);
 
 		mnTimKiem = new JMenu("Tìm Kiếm");
+		mnTimKiem.setIcon(new ImageIcon("images\\search_menu.png"));
 		mnTimKiem.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		menuBar.add(mnTimKiem);
 
@@ -154,6 +159,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnTimKiem.add(mniTimKiemKhachHang);
 
 		mnThongKebaoCao = new JMenu("Thống Kê / Báo Cáo");
+		mnThongKebaoCao.setIcon(new ImageIcon("images\\st_rp.png"));
 		mnThongKebaoCao.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		menuBar.add(mnThongKebaoCao);
 

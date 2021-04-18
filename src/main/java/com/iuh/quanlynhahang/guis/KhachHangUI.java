@@ -101,7 +101,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 
 		JLabel lblKhchHng = new JLabel("KHÁCH HÀNG");
 		lblKhchHng.setForeground(Color.RED);
-		lblKhchHng.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+		lblKhchHng.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
 		String[] header = "STT;Mã Khách Hàng;Tên Khách Hàng;Số Điện Thoại;Giới Tính;Địa Chỉ;".split(";");
 		tableModel = new DefaultTableModel(header, 0);
@@ -116,12 +116,14 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 				"T\u00ECm Ki\u1EBFm Kh\u00E1ch H\u00E0ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		btnTim = new JButton("Tìm");
+		btnTim.setIcon(new ImageIcon("images\\search.png"));
 		btnTim.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		JLabel lblNhpSin = new JLabel("Nhập Số Điện Thoại");
 		lblNhpSin.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		txtTimSDT = new JTextField();
+		txtTimSDT.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTimSDT.setColumns(10);
 
 		panel_1 = new JPanel();
@@ -174,6 +176,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.setIcon(new ImageIcon("images\\refresh.png"));
 		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -181,6 +184,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon("images\\add.png"));
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -188,40 +192,62 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		btnCapNhat = new JButton("Cập Nhật");
+		btnCapNhat.setIcon(new ImageIcon("images\\edit.png"));
 		btnCapNhat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup().addGap(19)
-						.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE).addGap(27)
-						.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE).addGap(41)
-						.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE).addContainerGap()));
-		gl_panel_2.setVerticalGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
-						.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE).addComponent(btnCapNhat)
-								.addComponent(btnThem).addComponent(btnLamMoi))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+					.addGap(19)
+					.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+					.addGap(27)
+					.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnCapNhat)
+						.addComponent(btnThem)
+						.addComponent(btnLamMoi))
+					.addContainerGap(13, Short.MAX_VALUE))
+		);
 		panel_2.setLayout(gl_panel_2);
 
 		btnLamMoiTable = new JButton("Làm Mới Table");
+		btnLamMoiTable.setIcon(new ImageIcon("images\\refresh.png"));
 		btnLamMoiTable.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGap(18).addComponent(lblNhpSin).addGap(27)
-						.addComponent(txtTimSDT, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE).addGap(18)
-						.addComponent(btnTim, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE).addGap(18)
-						.addComponent(btnLamMoiTable, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE).addGap(35)));
-		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup().addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNhpSin, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtTimSDT, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnTim))
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(18)
+					.addComponent(lblNhpSin)
+					.addGap(27)
+					.addComponent(txtTimSDT, GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnTim, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnLamMoiTable, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNhpSin, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtTimSDT, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnTim)
 						.addComponent(btnLamMoiTable, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(13, Short.MAX_VALUE)));
+					.addContainerGap(13, Short.MAX_VALUE))
+		);
 		panel.setLayout(gl_panel);
 
 		txtMaKH = new JTextField();

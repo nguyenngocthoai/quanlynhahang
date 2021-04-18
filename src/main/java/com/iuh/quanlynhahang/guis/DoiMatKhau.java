@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ImageIcon;
 
 public class DoiMatKhau extends JFrame implements ActionListener{
 
@@ -79,6 +80,7 @@ public class DoiMatKhau extends JFrame implements ActionListener{
 		txtXNMK.setColumns(10);
 		
 		 btnXacNhan = new JButton("Xác Nhận");
+		 btnXacNhan.setIcon(new ImageIcon("images\\accept.png"));
 		btnXacNhan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -86,43 +88,44 @@ public class DoiMatKhau extends JFrame implements ActionListener{
 		btnXacNhan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		 btnLamMoi = new JButton("Làm Mới");
+		 btnLamMoi.setIcon(new ImageIcon("images\\refresh.png"));
 		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(203)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(lblMKMoi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(lblMKHienTai, Alignment.LEADING))
+						.addComponent(lblNhapLaiMK, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE))
+					.addGap(42)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(285)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(122)
-									.addComponent(btnXacNhan, GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-									.addGap(19)
-									.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-									.addGap(129))
+									.addComponent(btnXacNhan, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(lblMKMoi, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(lblMKHienTai, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-										.addComponent(lblNhapLaiMK, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE))
-									.addGap(42)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtMKMoi, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-										.addComponent(txtMKHienTai, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-										.addComponent(txtXNMK, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)))))
+									.addGap(55)
+									.addComponent(lblDoiMatKhau, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)))
+							.addGap(384))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(444)
-							.addComponent(lblDoiMatKhau, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)))
-					.addGap(255))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtMKMoi, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+								.addComponent(txtMKHienTai, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+								.addComponent(txtXNMK, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE))
+							.addGap(337))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(6)
 					.addComponent(lblDoiMatKhau, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-					.addGap(38)
+					.addGap(37)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblMKHienTai, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
@@ -136,11 +139,11 @@ public class DoiMatKhau extends JFrame implements ActionListener{
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(txtXNMK, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNhapLaiMK, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))))
-					.addGap(37)
+					.addGap(38)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnXacNhan, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
-					.addGap(189))
+					.addGap(171))
 		);
 		contentPane.setLayout(gl_contentPane);
 		

@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ImageIcon;
 
 public class Sanh extends JFrame {
 	
@@ -51,7 +52,6 @@ public class Sanh extends JFrame {
 	private JLabel lblMTiKhon;
 	private JLabel lblMKhchHng;
 	private JTextField txtTenSanh;
-	private JPanel panel_2;
 	private JButton btnLamMoi;
 	private JButton btnThem;
 	private JButton btnXoa;
@@ -79,6 +79,7 @@ public class Sanh extends JFrame {
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "T\u00ECm Ki\u1EBFm S\u1EA3nh", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		btnTimSanh = new JButton("Tìm Kiếm");
+		btnTimSanh.setIcon(new ImageIcon("images\\search.png"));
 		btnTimSanh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		lblNhpTnNgi = new JLabel("Nhập Tên Sảnh");
@@ -98,67 +99,24 @@ public class Sanh extends JFrame {
 		lblMKhchHng.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		txtTenSanh = new JTextField();
+		txtTenSanh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTenSanh.setColumns(10);
-		
-		panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "Thao T\u00E1c", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-		btnLamMoi = new JButton("Làm Mới");
-		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		
-		btnThem = new JButton("Thêm");
-		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		
-		btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		
-		btnCapNhat = new JButton("Cập Nhật");
-		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
-		gl_panel_2.setHorizontalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-					.addGap(10)
-					.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-					.addGap(14))
-		);
-		gl_panel_2.setVerticalGroup(
-			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
-					.addContainerGap(17, Short.MAX_VALUE)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnThem)
-						.addComponent(btnCapNhat)
-						.addComponent(btnXoa)
-						.addComponent(btnLamMoi))
-					.addGap(46))
-		);
-		panel_2.setLayout(gl_panel_2);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_2, GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED))
+							.addGap(539)
+							.addComponent(lblTiKhon, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(10)
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+									.addGap(10)
+									.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)))
-					.addGap(0))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(539)
-					.addComponent(lblTiKhon, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 531, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -167,16 +125,18 @@ public class Sanh extends JFrame {
 					.addComponent(lblTiKhon)
 					.addGap(37)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_1, 0, 0, Short.MAX_VALUE)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(panel_2, 0, 82, Short.MAX_VALUE)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(8))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(8))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+							.addContainerGap())))
 		);
 		
 		txtTimSanh = new JTextField();
+		txtTimSanh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTimSanh.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -203,41 +163,73 @@ public class Sanh extends JFrame {
 		panel.setLayout(gl_panel);
 		
 		txtMaSanh = new JTextField();
+		txtMaSanh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtMaSanh.setColumns(10);
 		
 		JLabel lblTrngThi = new JLabel("Trạng Thái");
 		lblTrngThi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		txtTrangThai = new JTextField();
+		txtTrangThai.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTrangThai.setColumns(10);
+		
+		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon("images\\add.png"));
+		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		
+		btnCapNhat = new JButton("Cập Nhật");
+		btnCapNhat.setIcon(new ImageIcon("images\\edit.png"));
+		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		
+		btnXoa = new JButton("Xóa");
+		btnXoa.setIcon(new ImageIcon("images\\delete.png"));
+		btnXoa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		
+		btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.setIcon(new ImageIcon("images\\refresh.png"));
+		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(152)
 							.addComponent(lblThngTinTi, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createSequentialGroup()
 									.addContainerGap()
 									.addComponent(lblTrngThi, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+								.addGroup(gl_panel_1.createSequentialGroup()
 									.addGap(9)
 									.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 										.addComponent(lblMKhchHng, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 74, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblMTiKhon, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))))
 							.addGap(29)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-								.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtTenSanh, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+								.addGroup(gl_panel_1.createSequentialGroup()
 									.addGap(1)
-									.addComponent(txtTrangThai))
-								.addGroup(Alignment.LEADING, gl_panel_1.createParallelGroup(Alignment.TRAILING)
-									.addComponent(txtTenSanh)
-									.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
-										.addGap(1)
-										.addComponent(txtMaSanh, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))))))
+									.addComponent(txtMaSanh, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addGap(1)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_panel_1.createSequentialGroup()
+													.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+													.addGap(66))
+												.addGroup(gl_panel_1.createSequentialGroup()
+													.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+													.addGap(65)))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_panel_1.createSequentialGroup()
+													.addGap(1)
+													.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+												.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+										.addComponent(txtTrangThai, GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE))))))
 					.addGap(80))
 		);
 		gl_panel_1.setVerticalGroup(
@@ -259,7 +251,17 @@ public class Sanh extends JFrame {
 							.addComponent(txtTenSanh, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 							.addGap(27)
 							.addComponent(txtTrangThai, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addGap(282))
+					.addGap(73)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(btnThem)
+							.addGap(18)
+							.addComponent(btnXoa))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(btnCapNhat)
+							.addGap(18)
+							.addComponent(btnLamMoi)))
+					.addGap(79))
 		);
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);

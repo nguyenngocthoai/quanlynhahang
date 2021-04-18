@@ -45,6 +45,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpringLayout;
 import java.awt.Component;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.ImageIcon;
 
 public class DatBanTiec extends JFrame implements ActionListener{
 
@@ -132,6 +133,7 @@ public class DatBanTiec extends JFrame implements ActionListener{
 		}
 
 		JButton btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.setIcon(new ImageIcon("images\\refresh.png"));
 		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -139,6 +141,7 @@ public class DatBanTiec extends JFrame implements ActionListener{
 		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		 btnDatBanTiec = new JButton("Đặt Bàn Tiệc");
+		 btnDatBanTiec.setIcon(new ImageIcon("images\\accept.png"));
 		btnDatBanTiec.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		btnDatBanTiec.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -178,6 +181,7 @@ public class DatBanTiec extends JFrame implements ActionListener{
 			}
 			{
 				btnTimKiemBanTrong = new JButton("Tìm Kiếm Bàn Trống");
+				btnTimKiemBanTrong.setIcon(new ImageIcon("images\\search.png"));
 				btnTimKiemBanTrong.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 			}
 		}
@@ -191,7 +195,7 @@ public class DatBanTiec extends JFrame implements ActionListener{
 				String[] header = "Tên Món Ăn; Số Lượng".split(";");
 				DefaultTableModel tableModel = new DefaultTableModel(header, 0);
 				scrollPaneDatMon = new JScrollPane(tableDatMon = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			}
 		}
 		
@@ -210,10 +214,10 @@ public class DatBanTiec extends JFrame implements ActionListener{
 		txtTrangThai.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(18)
 							.addComponent(lblMBn, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -221,19 +225,20 @@ public class DatBanTiec extends JFrame implements ActionListener{
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblChnNgy_2, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtThuocSanh, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txtThuocSanh, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblChnNgy_3, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblChnNgy_3, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+							.addGap(9))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(209)
-							.addComponent(lblThngTinBn, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)))
+							.addComponent(lblThngTinBn, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtTrangThai, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+					.addComponent(txtTrangThai, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(9)
 					.addComponent(lblThngTinBn, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -254,8 +259,8 @@ public class DatBanTiec extends JFrame implements ActionListener{
 //		scrollPane = new JScrollPane(table = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 //				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		scrollPaneMonAn = new JScrollPane(tableMonAn = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPaneMonAn = new JScrollPane(tableMonAn = new JTable(tableModel), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		
 		JComboBox cbxGio = new JComboBox();
 		cbxGio.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -291,6 +296,7 @@ public class DatBanTiec extends JFrame implements ActionListener{
 		txtTimSDT.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTimSDT.setColumns(10);
 		btnTimKH = new JButton("Tìm");
+		btnTimKH.setIcon(new ImageIcon("images\\search.png"));
 		btnTimKH.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
 		gl_panel_4.setHorizontalGroup(
@@ -383,8 +389,10 @@ public class DatBanTiec extends JFrame implements ActionListener{
 					.addGap(8))
 		);
 		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon("images\\add.png"));
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		btnXoa = new JButton("Xóa");
+		btnXoa.setIcon(new ImageIcon("images\\delete.png"));
 		btnXoa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
@@ -450,48 +458,43 @@ public class DatBanTiec extends JFrame implements ActionListener{
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblChnNgy)
-							.addGap(10)
-							.addComponent(txtNgaySuDung, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED))
-						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
-							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-							.addGap(40)))
+					.addGap(11)
+					.addComponent(lblChnNgy)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(6)
+							.addComponent(txtNgaySuDung, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+							.addGap(25)
 							.addComponent(lblNhpGi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cbxGio, 0, 59, Short.MAX_VALUE)
-							.addGap(18)
+							.addComponent(cbxGio, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
 							.addComponent(lblPht, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-							.addGap(2)
-							.addComponent(cbxPhut, 0, 65, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(cbxPhut, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-							.addGap(134)))
+							.addComponent(btnDatBanTiec)
+							.addGap(18)
+							.addComponent(btnLamMoi)))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(12)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(txtNgaySuDung, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(lblChnNgy, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 							.addComponent(cbxGio, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblNhpGi)
 							.addComponent(cbxPhut, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblPht)
-							.addComponent(lblNhpGi))
-						.addComponent(txtNgaySuDung, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblChnNgy, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(lblPht)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnLamMoi)
-						.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnLamMoi))
 					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);
