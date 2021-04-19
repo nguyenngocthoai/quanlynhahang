@@ -27,6 +27,7 @@ import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 
 public class NhanVien extends JFrame implements ActionListener{
 
@@ -104,12 +105,14 @@ public class NhanVien extends JFrame implements ActionListener{
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "T\u00ECm Ki\u1EBFm Nh\u00E2n Vi\u00EAn", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		btnTimNV = new JButton("Tìm Kiếm");
+		btnTimNV.setIcon(new ImageIcon("images\\search.png"));
 		btnTimNV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		lblNhpSin = new JLabel("Nhập Số Điện Thoại :");
 		lblNhpSin.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		txtTimNhanVIen = new JTextField();
+		txtTimNhanVIen.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTimNhanVIen.setColumns(10);
 		
 		panel_1 = new JPanel();
@@ -141,18 +144,23 @@ public class NhanVien extends JFrame implements ActionListener{
 		lblMKhchHng_6.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		txtTenNV = new JTextField();
+		txtTenNV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTenNV.setColumns(10);
 		
 		txtDiaChi = new JTextField();
+		txtDiaChi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtDiaChi.setColumns(10);
 		
 		txtNgaySinh = new JTextField();
+		txtNgaySinh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtNgaySinh.setColumns(10);
 		
 		txtSDT = new JTextField();
+		txtSDT.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtSDT.setColumns(10);
 		
 		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtEmail.setColumns(10);
 		
 		rdbNam = new JRadioButton("Nam");
@@ -165,9 +173,11 @@ public class NhanVien extends JFrame implements ActionListener{
 		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "Thao T\u00E1c", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		btnLamMoi = new JButton("Làm Mới");
+		btnLamMoi.setIcon(new ImageIcon("images\\refresh.png"));
 		btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon("images\\add.png"));
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnXoa = new JButton("Xóa Nhân Viên");
@@ -178,6 +188,7 @@ public class NhanVien extends JFrame implements ActionListener{
 		btnXoa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnCapNhat = new JButton("Cập Nhật");
+		btnCapNhat.setIcon(new ImageIcon("images\\edit.png"));
 		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -224,33 +235,36 @@ public class NhanVien extends JFrame implements ActionListener{
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(5)
-					.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-					.addGap(43)
-					.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-					.addGap(35)
-					.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_panel_2.createSequentialGroup()
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_panel_2.createSequentialGroup()
+							.addGap(28)
+							.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+							.addGap(30)
+							.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+							.addGap(7))
+						.addGroup(gl_panel_2.createSequentialGroup()
+							.addGap(144)
+							.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)))
+					.addGap(29)
+					.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
 					.addGap(14))
-				.addGroup(gl_panel_2.createSequentialGroup()
-					.addGap(144)
-					.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(136))
 		);
 		gl_panel_2.setVerticalGroup(
 			gl_panel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_2.createSequentialGroup()
 					.addGap(16)
-					.addGroup(gl_panel_2.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnLamMoi)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnCapNhat)
 						.addComponent(btnThem)
-						.addComponent(btnCapNhat))
+						.addComponent(btnLamMoi))
 					.addGap(18)
 					.addComponent(btnXoa))
 		);
 		panel_2.setLayout(gl_panel_2);
 		
 		txtMaNV = new JTextField();
+		txtMaNV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtMaNV.setEditable(false);
 		txtMaNV.setColumns(10);
 		
@@ -258,6 +272,7 @@ public class NhanVien extends JFrame implements ActionListener{
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		cbxTrangThai = new JComboBox();
+		cbxTrangThai.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)

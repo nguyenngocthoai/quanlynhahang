@@ -25,6 +25,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpringLayout;
+import javax.swing.ImageIcon;
 
 public class ThongKeDoUong extends JFrame {
 
@@ -109,9 +110,11 @@ public class ThongKeDoUong extends JFrame {
 		dateTo.getJFormattedTextField().setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnThongKe = new JButton("Thống Kê");
+		btnThongKe.setIcon(new ImageIcon("images\\calculator.png"));
 		btnThongKe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnBaoCao = new JButton("Báo Cáo");
+		btnBaoCao.setIcon(new ImageIcon("images\\report.png"));
 		btnBaoCao.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(

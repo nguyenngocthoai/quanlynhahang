@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+import javax.swing.ImageIcon;
 
 public class DangNhap extends JFrame implements ActionListener{
 
@@ -56,6 +57,7 @@ public class DangNhap extends JFrame implements ActionListener{
 		JPanel panel = new JPanel();
 		
 		 btnDangNhap = new JButton("Đăng nhập");
+		 btnDangNhap.setIcon(new ImageIcon("images\\login.png"));
 		btnDangNhap.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		
 		txtMatKhau = new JTextField();
@@ -80,7 +82,7 @@ public class DangNhap extends JFrame implements ActionListener{
 		label_2.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(122)
 					.addComponent(label_2, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
@@ -97,10 +99,10 @@ public class DangNhap extends JFrame implements ActionListener{
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtMatKhau, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)))
 					.addGap(148))
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addGap(284)
-					.addComponent(btnDangNhap, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-					.addGap(226))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(272)
+					.addComponent(btnDangNhap, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(212))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -115,8 +117,8 @@ public class DangNhap extends JFrame implements ActionListener{
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMatKhau, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtMatKhau, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addGap(34)
-					.addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnDangNhap, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(53, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);

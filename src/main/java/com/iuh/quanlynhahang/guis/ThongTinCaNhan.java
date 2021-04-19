@@ -82,8 +82,8 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 		lblThngTinC.setForeground(Color.RED);
 		lblThngTinC.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
-		lblAvatar = new JLabel("hình");
-		lblAvatar.setIcon(new ImageIcon("C:\\Users\\LOC\\Downloads\\avt1.jpg"));
+		lblAvatar = new JLabel("");
+		lblAvatar.setIcon(new ImageIcon("images\\avata.png"));
 
 		lblTen = new JLabel("Họ và Tên :");
 		lblTen.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -141,9 +141,11 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 		txtNgaySinh.setColumns(10);
 		
 				btnLamMoi = new JButton("Làm Mới");
+				btnLamMoi.setIcon(new ImageIcon("images\\refresh.png"));
 				btnLamMoi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 				btnCapNhat = new JButton("Cập Nhật");
+				btnCapNhat.setIcon(new ImageIcon("images\\edit.png"));
 				btnCapNhat.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					}
@@ -151,6 +153,7 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 				btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		JButton btnThayAvatar = new JButton("Thay Avatar");
+		btnThayAvatar.setIcon(new ImageIcon("images\\edit.png"));
 		btnThayAvatar.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -158,8 +161,8 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(43)
-							.addComponent(btnThayAvatar, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+							.addGap(33)
+							.addComponent(btnThayAvatar)
 							.addGap(46)
 							.addComponent(lblDiaChi, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)

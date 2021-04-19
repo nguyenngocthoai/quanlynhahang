@@ -20,6 +20,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
+import javax.swing.ScrollPaneConstants;
 
 public class Ban extends JFrame {
 
@@ -72,13 +74,15 @@ public class Ban extends JFrame {
 		
 		String[] header = "Mã Bàn; Tên Bàn ;Thuộc Sảnh".split(";");
 		tableModel = new DefaultTableModel(header, 0);
-		scrollPane = new JScrollPane(tableBan = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane = new JScrollPane(tableBan = new JTable(tableModel), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		tableBan.setBorder(new TitledBorder(null, "Danh s\u00E1ch b\u00E0n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "T\u00ECm Ki\u1EBFm T\u00E0i Kho\u1EA3n", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		btnTimKiem = new JButton("Tìm Kiếm");
+		btnTimKiem.setIcon(new ImageIcon("images\\search.png"));
 		btnTimKiem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		lblNhpTnNgi = new JLabel("Nhập Mã Bàn");
@@ -108,15 +112,19 @@ public class Ban extends JFrame {
 		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "Thao T\u00E1c", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		btnXoaRong = new JButton("Xóa Rỗng");
+		btnXoaRong.setIcon(new ImageIcon("images\\refresh.png"));
 		btnXoaRong.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon("images\\add.png"));
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setIcon(new ImageIcon("images\\delete.png"));
 		btnXoa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		
 		btnCapNhat = new JButton("Cập Nhật");
+		btnCapNhat.setIcon(new ImageIcon("images\\edit.png"));
 		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_2 = new GroupLayout(panel_2);
 		gl_panel_2.setHorizontalGroup(
@@ -190,9 +198,9 @@ public class Ban extends JFrame {
 					.addGap(5)
 					.addComponent(lblNhpTnNgi)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(txtTimMaBan, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+					.addComponent(txtTimMaBan, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
 					.addGap(18)
-					.addComponent(btnTimKiem, GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+					.addComponent(btnTimKiem, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE)
 					.addGap(29))
 		);
 		gl_panel.setVerticalGroup(
@@ -235,8 +243,8 @@ public class Ban extends JFrame {
 							.addComponent(txtMaBan, GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
 							.addGap(129))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(cbxThuocSanh, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addComponent(cbxThuocSanh, 0, 170, Short.MAX_VALUE)
+							.addGap(128))))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
