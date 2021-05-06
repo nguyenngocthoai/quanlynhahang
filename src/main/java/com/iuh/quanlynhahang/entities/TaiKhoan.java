@@ -3,14 +3,12 @@ package com.iuh.quanlynhahang.entities;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 /**
  * Entity implementation class for Entity: TaiKhoan
@@ -24,12 +22,12 @@ public class TaiKhoan implements Serializable {
 	@Id
 	private String maTaiKhoan;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,optional = false)
-	@JoinColumn(name = "maTaiKhoan", insertable = false, updatable = false,unique = true)
-	private NhanVien nhanVien;
+//	@OneToOne(mappedBy = "taiKhoan", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+//	private NhanVien nhanVien;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "maLoaiTaiKhoan")
 	private LoaiTaiKhoan loaiTaiKhoan;
+	@Column(columnDefinition = "nvarchar(20)")
 	private String tenTaiKhoan;
 	private String matKhau;
 

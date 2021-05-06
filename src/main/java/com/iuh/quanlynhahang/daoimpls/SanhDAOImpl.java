@@ -1,5 +1,6 @@
 package com.iuh.quanlynhahang.daoimpls;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,7 @@ public class SanhDAOImpl implements ISanhDAO {
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -65,12 +67,32 @@ public class SanhDAOImpl implements ISanhDAO {
 
 	@Override
 	public Sanh getSanhByTen(String tenSanh) {
-		return em.find(Sanh.class, tenSanh);
+		return em.createQuery("select s from Sanh s where tenSanh=:tenSanh", Sanh.class)
+				.setParameter("tenSanh", tenSanh).getSingleResult();
 	}
 
 	@Override
 	public List<Sanh> getAllSanh() {
-		return em.createQuery("select s from Sanh kh", Sanh.class).getResultList();
+		return em.createQuery("select s from Sanh s", Sanh.class).getResultList();
 	}
+
+	@Override
+	public List<String> getAllTenSanh() {
+		List<Sanh> sanhs = getAllSanh();
+		List<String> tenSanhs = new ArrayList<String>();
+		for (Sanh sanh : sanhs) {
+			tenSanhs.add(sanh.getTenSanh());
+		}
+		return tenSanhs;
+	}
+	
+//	public List<Sanh> getAllTenSanhDHD() {
+//		List<Sanh> sanhs = getAllSanh();
+//		List<String> tenSanhs = new ArrayList<String>();
+//		for (Sanh sanh : sanhs) {
+//			tenSanhs.add(sanh.getTenSanh());
+//		}
+//		return tenSanhs;
+//	}
 
 }

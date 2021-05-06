@@ -14,5 +14,9 @@ public interface ISanhDAO {
 	public Sanh getSanhById(String maSanh);
 
 	public Sanh getSanhByTen(String tenSanh);
+
 	public List<Sanh> getAllSanh();
+
+	public List<String> getAllTenSanh();
+//	public List<String> getAllTenSanhDHD();
 }

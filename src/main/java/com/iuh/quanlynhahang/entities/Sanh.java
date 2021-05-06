@@ -13,12 +13,22 @@ public class Sanh implements Serializable {
 
 	@Id
 	private String maSanh;
+	@Column(columnDefinition = "nvarchar(50)")
 	private String tenSanh;
+	@Column(columnDefinition = "nvarchar(50)")
+	private String trangThai;
 
 	private static final long serialVersionUID = 1L;
 
 	public Sanh() {
 		super();
+	}
+
+	public Sanh(String maSanh, String tenSanh, String trangThai) {
+		super();
+		this.maSanh = maSanh;
+		this.tenSanh = tenSanh;
+		this.trangThai = trangThai;
 	}
 
 	public String getMaSanh() {
@@ -35,6 +45,14 @@ public class Sanh implements Serializable {
 
 	public void setTenSanh(String tenSanh) {
 		this.tenSanh = tenSanh;
+	}
+
+	public String getTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
 	}
 
 }

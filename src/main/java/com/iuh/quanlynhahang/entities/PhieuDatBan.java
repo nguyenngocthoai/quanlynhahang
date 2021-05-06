@@ -1,10 +1,12 @@
 package com.iuh.quanlynhahang.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,8 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  * Entity implementation class for Entity: DatMon
@@ -39,12 +39,34 @@ public class PhieuDatBan implements Serializable {
 	private LocalDate ngayDatMon;
 	private LocalDate ngaySuDung;
 	private String gioSuDung;
-	private String trangThai;
+	@Column(columnDefinition = "nvarchar(30)")
+	private String trangThaiThanhToan;
 	private int soLuongNguoi;
-	private int soLuong;
+	private int soLuongMon;
+	private BigDecimal tienCoc;
+	@Column(columnDefinition = "nvarchar(30)")
+	private String donViTinh;
 
 	public PhieuDatBan() {
 		super();
+	}
+
+	public PhieuDatBan(String maBanTiec, KhachHang khachHang, Set<Ban> bans, Set<Mon> monAns, LocalDate ngayDatMon,
+			LocalDate ngaySuDung, String gioSuDung, String trangThaiThanhToan, int soLuongNguoi, int soLuongMon,
+			BigDecimal tienCoc, String donViTinh) {
+		super();
+		this.maBanTiec = maBanTiec;
+		this.khachHang = khachHang;
+		this.bans = bans;
+		this.monAns = monAns;
+		this.ngayDatMon = ngayDatMon;
+		this.ngaySuDung = ngaySuDung;
+		this.gioSuDung = gioSuDung;
+		this.trangThaiThanhToan = trangThaiThanhToan;
+		this.soLuongNguoi = soLuongNguoi;
+		this.soLuongMon = soLuongMon;
+		this.tienCoc = tienCoc;
+		this.donViTinh = donViTinh;
 	}
 
 	public String getMaBanTiec() {
@@ -79,6 +101,38 @@ public class PhieuDatBan implements Serializable {
 //		this.monAns = monAns;
 //	}
 
+	public Set<Ban> getBans() {
+		return bans;
+	}
+
+	public void setBans(Set<Ban> bans) {
+		this.bans = bans;
+	}
+
+	public Set<Mon> getMonAns() {
+		return monAns;
+	}
+
+	public void setMonAns(Set<Mon> monAns) {
+		this.monAns = monAns;
+	}
+
+	public int getSoLuongMon() {
+		return soLuongMon;
+	}
+
+	public void setSoLuongMon(int soLuongMon) {
+		this.soLuongMon = soLuongMon;
+	}
+
+	public BigDecimal getTienCoc() {
+		return tienCoc;
+	}
+
+	public void setTienCoc(BigDecimal tienCoc) {
+		this.tienCoc = tienCoc;
+	}
+
 	public LocalDate getNgayDatMon() {
 		return ngayDatMon;
 	}
@@ -103,21 +157,21 @@ public class PhieuDatBan implements Serializable {
 		this.gioSuDung = gioSuDung;
 	}
 
-	public String getTrangThai() {
-		return trangThai;
+	public String gettrangThaiThanhToan() {
+		return trangThaiThanhToan;
 	}
 
-	public void setTrangThai(String trangThai) {
-		this.trangThai = trangThai;
+	public void settrangThaiThanhToan(String trangThaiThanhToan) {
+		this.trangThaiThanhToan = trangThaiThanhToan;
 	}
 
-	public int getSoLuong() {
-		return soLuong;
-	}
-
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
-	}
+//	public int getSoLuong() {
+//		return soLuong;
+//	}
+//
+//	public void setSoLuong(int soLuong) {
+//		this.soLuong = soLuong;
+//	}
 
 	public int getSoLuongNguoi() {
 		return soLuongNguoi;
@@ -125,6 +179,22 @@ public class PhieuDatBan implements Serializable {
 
 	public void setSoLuongNguoi(int soLuongNguoi) {
 		this.soLuongNguoi = soLuongNguoi;
+	}
+
+	public String getTrangThaiThanhToan() {
+		return trangThaiThanhToan;
+	}
+
+	public void setTrangThaiThanhToan(String trangThaiThanhToan) {
+		this.trangThaiThanhToan = trangThaiThanhToan;
+	}
+
+	public String getDonViTinh() {
+		return donViTinh;
+	}
+
+	public void setDonViTinh(String donViTinh) {
+		this.donViTinh = donViTinh;
 	}
 
 }
