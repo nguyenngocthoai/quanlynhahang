@@ -15,4 +15,6 @@ public interface INhanVienDAO {
 
 	public NhanVien getNVBySDT(String sDT);
 
+	public NhanVien getNVByMaTaiKhoan(String maTk);
+
 }

@@ -2,9 +2,14 @@ package com.iuh.quanlynhahang.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Entity implementation class for Entity: MonAn
@@ -15,14 +20,12 @@ import javax.persistence.*;
 public class Mon implements Serializable {
 	@Id
 	private String maMon;
+	@Column(columnDefinition = "nvarchar(150)")
 	private String tenMon;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "maLoaiMon")
 	private LoaiMon loaiMon;
-	private int soLuong;
-	private int soKg;
-	private BigDecimal giaMon;
-	private BigDecimal giaKg;
+	private BigDecimal giaTien;
 //	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 //	@JoinColumn(name = "maBanTiec")
 //	private BanTiec banTiec;
@@ -38,21 +41,13 @@ public class Mon implements Serializable {
 		super();
 	}
 
-	
-	
-	public Mon(String maMon, String tenMon, LoaiMon loaiMon, int soLuong, int soKg, BigDecimal giaMon,
-			BigDecimal giaKg) {
+	public Mon(String maMon, String tenMon, LoaiMon loaiMon, BigDecimal giaTien) {
 		super();
 		this.maMon = maMon;
 		this.tenMon = tenMon;
 		this.loaiMon = loaiMon;
-		this.soLuong = soLuong;
-		this.soKg = soKg;
-		this.giaMon = giaMon;
-		this.giaKg = giaKg;
+		this.giaTien = giaTien;
 	}
-
-
 
 	public String getMaMon() {
 		return maMon;
@@ -78,38 +73,12 @@ public class Mon implements Serializable {
 		this.loaiMon = loaiMon;
 	}
 
-	public int getSoLuong() {
-		return soLuong;
+	public BigDecimal getGiaTien() {
+		return giaTien;
 	}
 
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
+	public void setGiaTien(BigDecimal giaTien) {
+		this.giaTien = giaTien;
 	}
-
-	public int getSoKg() {
-		return soKg;
-	}
-
-	public void setSoKg(int soKg) {
-		this.soKg = soKg;
-	}
-
-	public BigDecimal getGiaMon() {
-		return giaMon;
-	}
-
-	public void setGiaMon(BigDecimal giaMon) {
-		this.giaMon = giaMon;
-	}
-
-	public BigDecimal getGiaKg() {
-		return giaKg;
-	}
-
-	public void setGiaKg(BigDecimal giaKg) {
-		this.giaKg = giaKg;
-	}
-
-	
 
 }

@@ -9,9 +9,9 @@ public interface IBanDAO {
 
 	public boolean updateBan(Ban ban);
 
-	public boolean deleteBanById(Ban ban);
+	public boolean deleteBan(Ban ban);
 
-	public Ban getBanById(String maBan);
+	public Ban getBanById(int maBan);
 
 	public List<Ban> getBansBySanh(String sanh);
 	

@@ -1,49 +1,63 @@
 package com.iuh.quanlynhahang.guis;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.SwingConstants;
-import javax.swing.JToolBar;
-import java.awt.GridLayout;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
+import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.TaiKhoanDAOImpl;
 
 public class TrangChu extends JFrame implements ActionListener, MenuListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7212075333686998729L;
+	private JLabel lblXinCho;
+	private JLabel lblTenNhanVien;
 	private static TrangChu frame;
+	public static JTabbedPane tabbedPane;
 	private JMenuBar menuBar;
-	private JMenu mnHeThong, mnDanhMuc, mnThongKebaoCao, mnTimKiem, mnThongKeDoUong, mnThongKeKhachHang;
-	private JMenuItem mniThongTinCaNhan, mniDangXuat, mniKhachHang, mniNhanVien, mniBan, mniSanh, mniMonAn;
-	private JMenuItem mniDoUongBanChay, mniDenNhieuNhat, mniSoBillCaoNhat, mniThongKeDoanhThu, mniDoUongBanIt;
-	private JMenu mnXuLy;
-	private JTabbedPane tabbedPane;
-	private JMenuItem mniDoiMatKhau;
-	private JMenuItem mniThoat;
-	private JMenuItem mniChucVu;
-	private JMenuItem mniTimKiemBanTiec;
-	private JMenuItem mniTimKiemHoaDon;
-	private JMenuItem mniTimKiemKhachHang;
-	private JMenuItem mniDatBanTiec;
+	private JMenu mnHeThong, mnDanhMuc, mnThongKebaoCao, mnTimKiem, mnThongKeDoUong, mnXuLy;
+	private JMenuItem mniThongTinCaNhan, mniDangXuat, mniKhachHang, mniNhanVien, mniBan, mniSanh, mniMonAn, mniTaiKhoan,
+			mniDoUongBanChay, mniDenNhieuNhat, mniSoBillCaoNhat, mniThongKeDoanhThu, mniDoUongBanIt, mniDoiMatKhau,
+			mniThoat, mniChucVu, mniTimKiemBanTiec, mniTimKiemHoaDon, mniTimKiemKhachHang, mniDatBanTiec, mniMuaVe,
+			mniPhieuDat, mniLoaiMon;
+
+	private static NhanVienUI nvUI = new NhanVienUI();
+	private static ThongTinCaNhan ttUI = new ThongTinCaNhan();
+	private static TaiKhoanUI tkUI = new TaiKhoanUI();
+	private static KhachHangUI khUI = new KhachHangUI();
+	private static BanUI ban = new BanUI();
+	private static SanhUI sanh = new SanhUI();
+	private static ThongKeDoanhThu tkDoanhThu = new ThongKeDoanhThu();
+	private static DoiMatKhau doiMK = new DoiMatKhau();
+	private static DanhSachKhachHangUI dskhUI = new DanhSachKhachHangUI();
+	private static TimKiemKhachHangUI timKiemKHUI = new TimKiemKhachHangUI();
+	private static ChucVuUI cvUI = new ChucVuUI();
+	private static DatBanTiec_ChonBan datBanTiec = new DatBanTiec_ChonBan();
+	private static HoaDon hoaDon = new HoaDon();
+	private static LoaiMonUI loaiMonUI = new LoaiMonUI();
+	private static MonUI monUI = new MonUI();
+
+	private static TaiKhoanDAOImpl taiKhoanDAO = new TaiKhoanDAOImpl();
+	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 
 	/**
 	 * Launch the application.
@@ -79,7 +93,7 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnHeThong.setIcon(new ImageIcon("images\\system.png"));
 		mnHeThong.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		menuBar.add(mnHeThong);
-		
+
 		mniTaiKhoan = new JMenuItem("Tài Khoản");
 		mniTaiKhoan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnHeThong.add(mniTaiKhoan);
@@ -118,6 +132,10 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mniMonAn.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnDanhMuc.add(mniMonAn);
 
+		mniLoaiMon = new JMenuItem("Loại Món Ăn");
+		mniLoaiMon.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		mnDanhMuc.add(mniLoaiMon);
+
 		mniBan = new JMenuItem("Bàn");
 		mniBan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnDanhMuc.add(mniBan);
@@ -129,10 +147,6 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mniChucVu = new JMenuItem("Chức Vụ");
 		mniChucVu.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnDanhMuc.add(mniChucVu);
-		
-		mniLoaiMonAn = new JMenuItem("Loại Món Ăn");
-		mniLoaiMonAn.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		mnDanhMuc.add(mniLoaiMonAn);
 
 		mnXuLy = new JMenu("Xử Lý");
 		mnXuLy.setIcon(new ImageIcon("images\\order.gif"));
@@ -144,14 +158,14 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mniDatBanTiec = new JMenuItem("Đặt Bàn Tiệc");
 		mniDatBanTiec.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnXuLy.add(mniDatBanTiec);
-		
+
 		mniMuaVe = new JMenuItem("Mua Về");
 		mniMuaVe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnXuLy.add(mniMuaVe);
-		
-		mniPhieuDatBan = new JMenuItem("Phiếu Đặt Bàn");
-		mniPhieuDatBan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		mnXuLy.add(mniPhieuDatBan);
+
+		mniPhieuDat = new JMenuItem("Phiếu Đặt Bàn");
+		mniPhieuDat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		mnXuLy.add(mniPhieuDat);
 
 		mnTimKiem = new JMenu("Tìm Kiếm");
 		mnTimKiem.setIcon(new ImageIcon("images\\search_menu.png"));
@@ -204,19 +218,34 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnThongKebaoCao.add(mniThongKeDoanhThu);
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+
+		lblXinCho = new JLabel("Xin chào");
+		lblXinCho.setForeground(Color.RED);
+		lblXinCho.setFont(new Font("Times New Roman", Font.BOLD, 16));
+
+		lblTenNhanVien = new JLabel("");
+		lblTenNhanVien.setForeground(Color.RED);
+		lblTenNhanVien.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(menuBar, GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(60)
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE))
-		);
+						.addComponent(menuBar, GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE).addGap(18)
+						.addComponent(lblXinCho, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(lblTenNhanVien, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)
+						.addGap(18)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblXinCho, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblTenNhanVien, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE)))
+						.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
+				.addGap(8).addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)));
 		getContentPane().setLayout(groupLayout);
 
 		mniNhanVien.addActionListener(this);
@@ -236,52 +265,31 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mniTimKiemBanTiec.addActionListener(this);
 		mniTimKiemHoaDon.addActionListener(this);
 		mniChucVu.addActionListener(this);
-		mniPhieuDatBan.addActionListener(this);
-		mniMonAn.addActionListener(this);
+		mniTaiKhoan.addActionListener(this);
+		mniPhieuDat.addActionListener(this);
 		mniMuaVe.addActionListener(this);
+		mniLoaiMon.addActionListener(this);
+		mniMonAn.addActionListener(this);
+
+		lblTenNhanVien.setText(nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan()).getHoTenNhanVien());
+
 	}
 
-	private NhanVien nvUI = new NhanVien();
-	private ThongTinCaNhan ttUI = new ThongTinCaNhan();
-	private TaiKhoan tkUI = new TaiKhoan();
-	private KhachHangUI khUI = new KhachHangUI();
-	private Ban ban = new Ban();
-	private Sanh sanh = new Sanh();
-	private ThongKeDoanhThu tkDoanhThu = new ThongKeDoanhThu();
-	private DoiMatKhau doiMK = new DoiMatKhau();
-	private DanhSachKhachHangUI dskhUI = new DanhSachKhachHangUI();
-	private TimKiemKhachHangUI timKiemKHUI = new TimKiemKhachHangUI();
-	private ChucVu cvUI = new ChucVu();
-	
-	private HoaDon hoaDon = new HoaDon();
-	private MonAn monAnUI=new MonAn();
-	private JMenuItem mniPhieuDatBan;
-	private DanhSachPhieuDat dsPhieuDat=new DanhSachPhieuDat();
-	private JMenuItem mniLoaiMonAn;
-	private JMenuItem mniTaiKhoan;
-	private JMenuItem mniMuaVe;
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(mniNhanVien)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Nhân Viên", null, tabbedPane.add(nvUI.contentPane), "Nhân Viên");
-
 		} else if (o.equals(mniThongTinCaNhan)) {
-			// tabbedPane.remove(tabbedPane);
-
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Thông Tin Cá Nhân", null, tabbedPane.add(ttUI.contentPane), "Thông Tin Cá Nhân");
-
 		} else if (o.equals(mniTaiKhoan)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Tài Khoản", null, tabbedPane.add(tkUI.contentPane), "Tài Khoản");
-
 		} else if (o.equals(mniKhachHang)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Khách Hàng", null, tabbedPane.add(khUI.contentPane), "Khách Hàng");
-
 		} else if (o.equals(mniDoUongBanChay)) {
 			String title = "Bán Chạy Nhất";
 			ThongKeDoUong tkDoUong = new ThongKeDoUong(title);
@@ -305,51 +313,50 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Đổi mật khẩu", null, tabbedPane.add(doiMK.contentPane), "Đổi mật khẩu");
 		} else if (o.equals(mniDangXuat)) {
-			setVisible(false);
-			DangNhap dn = new DangNhap();
-			dn.setVisible(true);
+			int agree = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đăng xuất!", "Thông báo",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("images\\warning.png"));
+			if (agree == 0) {
+				DangNhap dangNhapUI = new DangNhap();
+				this.dispose();
+				dangNhapUI.setVisible(true);
+			}
 		} else if (o.equals(mniThoat)) {
-			setVisible(false);
-		} else if (o.equals(mniDatBanTiec)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
-			tabbedPane.addTab("Danh Sách Khách Hàng", null, tabbedPane.add(dskhUI.contentPane), "Danh Sách Khách Hàng");
+		} else if (o.equals(mniDatBanTiec)) {
+//			tabbedPane.remove(tabbedPane.getSelectedComponent());
+//			tabbedPane.addTab("Đặt Bàn Tiệc", null, tabbedPane.add(datBanTiec.contentPane), "Đặt Bàn Tiệc");
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Chọn Khách Hàng", null, tabbedPane.add(khUI.contentPane), "Chọn Khách Hàng");
 		} else if (o.equals(mniTimKiemKhachHang)) {
 			timKiemKHUI.setVisible(true);
 		} else if (o.equals(mniChucVu)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
-			tabbedPane.addTab("Chức vụ", null, tabbedPane.add(cvUI.contentPane), "Chức vụ");
-		}else if(o.equals(mniMonAn)) {
+			tabbedPane.addTab("Chức Vụ", null, tabbedPane.add(cvUI.contentPane), "Chức Vụ");
+		} else if (o.equals(mniLoaiMon)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
-			tabbedPane.addTab("Món Ăn", null, tabbedPane.add(monAnUI.contentPane), "Món Ăn");
-		}else if(o.equals(mniPhieuDatBan)) {
+			tabbedPane.addTab("Loại Món", null, tabbedPane.add(loaiMonUI.contentPane), "Loại Món");
+		} else if (o.equals(mniPhieuDat)) {
+//			tabbedPane.remove(tabbedPane.getSelectedComponent());
+//			tabbedPane.addTab("Loại Món", null, tabbedPane.add(cvUI.contentPane), "Loại Món");
+		} else if (o.equals(mniMuaVe)) {
+//			tabbedPane.remove(tabbedPane.getSelectedComponent());
+//			tabbedPane.addTab("Loại Món", null, tabbedPane.add(cvUI.contentPane), "Loại Món");
+		} else if (o.equals(mniMonAn)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
-			tabbedPane.addTab("Thanh Toán", null, tabbedPane.add(dsPhieuDat.contentPane), "Thanh Toán");
-		}else if(o.equals(mniMuaVe)) {
-			dskhUI.btnDatBanTiec.setVisible(false);
-			dskhUI.btnDatMon.setVisible(true);
-			dskhUI.updateTable();
-			tabbedPane.remove(tabbedPane.getSelectedComponent());
-			
-			tabbedPane.addTab("Danh Sách Khách Hàng", null, tabbedPane.add(dskhUI.contentPane), "Danh Sách Khách Hàng");
+			tabbedPane.addTab("Món", null, tabbedPane.add(monUI.contentPane), "Món");
 		}
 	}
 
 	@Override
 	public void menuSelected(MenuEvent e) {
-
-		Object o = e.getSource();
-
 	}
 
 	@Override
 	public void menuDeselected(MenuEvent e) {
-
 	}
 
 	@Override
 	public void menuCanceled(MenuEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

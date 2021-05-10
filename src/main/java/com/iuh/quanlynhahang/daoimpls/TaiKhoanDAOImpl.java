@@ -7,7 +7,7 @@ import javax.persistence.EntityTransaction;
 
 import com.iuh.quanlynhahang.MyEntityManager;
 import com.iuh.quanlynhahang.daos.ITaiKhoanDAO;
-import com.iuh.quanlynhahang.guis.TaiKhoan;
+import com.iuh.quanlynhahang.entities.TaiKhoan;
 
 public class TaiKhoanDAOImpl implements ITaiKhoanDAO {
 	private EntityManager em;
@@ -26,6 +26,7 @@ public class TaiKhoanDAOImpl implements ITaiKhoanDAO {
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -50,8 +51,28 @@ public class TaiKhoanDAOImpl implements ITaiKhoanDAO {
 	}
 
 	@Override
-	public List<TaiKhoan> getALLTK() {
+	public List<TaiKhoan> getAllTK() {
 		return em.createQuery("select tk from TaiKhoan tk", TaiKhoan.class).getResultList();
+	}
+
+	@Override
+	public boolean updateTK(TaiKhoan tk) {
+		EntityTransaction tr = em.getTransaction();
+		try {
+			tr.begin();
+			em.merge(tk);
+			tr.commit();
+			return true;
+		} catch (Exception e) {
+			tr.rollback();
+			return false;
+		}
+	}
+
+	@Override
+	public TaiKhoan getTKByMaTK(String maTK) {
+		return em.createQuery("select tk from TaiKhoan tk where maTaiKhoan=" + "'" + maTK + "'", TaiKhoan.class)
+				.getSingleResult();
 	}
 
 }

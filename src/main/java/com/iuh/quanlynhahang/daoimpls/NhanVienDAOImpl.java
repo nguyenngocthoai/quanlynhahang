@@ -26,6 +26,7 @@ public class NhanVienDAOImpl implements INhanVienDAO {
 			return true;
 		} catch (Exception e) {
 			tr.rollback();
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -56,7 +57,14 @@ public class NhanVienDAOImpl implements INhanVienDAO {
 
 	@Override
 	public NhanVien getNVBySDT(String sDT) {
-		return em.find(NhanVien.class, sDT);
+		return em.createQuery("select nv from NhanVien nv where soDienThoai=" +"'"+ sDT+"'", NhanVien.class)
+				.getSingleResult();
+	}
+
+	@Override
+	public NhanVien getNVByMaTaiKhoan(String maTk) {
+		return em.createQuery("select nv from NhanVien nv where maTaiKhoan=" +"'"+ maTk+"'", NhanVien.class)
+				.getSingleResult();
 	}
 
 }

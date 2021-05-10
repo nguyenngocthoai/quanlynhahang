@@ -45,7 +45,7 @@ public class BanDAOImpl implements IBanDAO {
 	}
 
 	@Override
-	public boolean deleteBanById(Ban ban) {
+	public boolean deleteBan(Ban ban) {
 		EntityTransaction tr = em.getTransaction();
 		try {
 			tr.begin();
@@ -59,7 +59,7 @@ public class BanDAOImpl implements IBanDAO {
 	}
 
 	@Override
-	public Ban getBanById(String maBan) {
+	public Ban getBanById(int maBan) {
 		return em.find(Ban.class, maBan);
 	}
 

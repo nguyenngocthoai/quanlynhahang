@@ -1,9 +1,10 @@
 package com.iuh.quanlynhahang.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * Entity implementation class for Entity: KhachHang
