@@ -35,6 +35,21 @@ public class HoaDon implements Serializable {
 		super();
 	}
 
+	public HoaDon(String maHoaDon, KhachHang khachHang, NhanVien nhanVien, LocalDate ngayXuatHoaDon) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.khachHang = khachHang;
+		this.nhanVien = nhanVien;
+		this.ngayXuatHoaDon = ngayXuatHoaDon;
+	}
+
+	public HoaDon(String maHoaDon, NhanVien nhanVien, LocalDate ngayXuatHoaDon) {
+		super();
+		this.maHoaDon = maHoaDon;
+		this.nhanVien = nhanVien;
+		this.ngayXuatHoaDon = ngayXuatHoaDon;
+	}
+
 	public String getMaHoaDon() {
 		return maHoaDon;
 	}

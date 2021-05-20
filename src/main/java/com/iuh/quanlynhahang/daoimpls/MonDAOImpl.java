@@ -61,7 +61,7 @@ public class MonDAOImpl implements IMonDAO {
 
 	@Override
 	public Mon getMonByTen(String tenMon) {
-		return em.createQuery("select m from Mon m where tenMon=:tenMon", Mon.class).setParameter("tenMon", tenMon)
+		return em.createQuery("select m from Mon m where m.tenMon=:tenMon", Mon.class).setParameter("tenMon", tenMon)
 				.getSingleResult();
 	}
 

@@ -39,6 +39,9 @@ import com.iuh.quanlynhahang.daoimpls.SanhDAOImpl;
 import com.iuh.quanlynhahang.entities.Ban;
 import com.iuh.quanlynhahang.entities.Sanh;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class DatBanTiec_ChonBan2 extends JFrame implements ActionListener, MouseListener {
 
@@ -209,19 +212,34 @@ public class DatBanTiec_ChonBan2 extends JFrame implements ActionListener, Mouse
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		 
+		 JTree tree = new JTree();
+		 tree.setModel(new DefaultTreeModel(
+		 	new DefaultMutableTreeNode("qwe") {
+		 		{
+		 			add(new DefaultMutableTreeNode("123"));
+		 		}
+		 	}
+		 ));
 		 gl_panel = new GroupLayout(panel);
 		 gl_panel.setHorizontalGroup(
 		 	gl_panel.createParallelGroup(Alignment.LEADING)
-		 		.addGroup(gl_panel.createSequentialGroup()
+		 		.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 		 			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		 			.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE)
 		 			.addContainerGap())
+		 		.addGroup(gl_panel.createSequentialGroup()
+		 			.addGap(100)
+		 			.addComponent(tree, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		 			.addContainerGap(358, Short.MAX_VALUE))
 		 );
 		 gl_panel.setVerticalGroup(
 		 	gl_panel.createParallelGroup(Alignment.LEADING)
 		 		.addGroup(gl_panel.createSequentialGroup()
-		 			.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-		 			.addGap(113))
+		 			.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+		 			.addGap(56)
+		 			.addComponent(tree, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		 			.addContainerGap(244, Short.MAX_VALUE))
 		 );
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);

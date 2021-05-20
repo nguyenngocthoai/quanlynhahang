@@ -1,10 +1,12 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
@@ -35,11 +37,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.iuh.quanlynhahang.daoimpls.LoaiMonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
-import com.iuh.quanlynhahang.entities.KhachHang;
 import com.iuh.quanlynhahang.entities.LoaiMon;
 import com.iuh.quanlynhahang.entities.Mon;
 
-public class MonUI extends JFrame implements ActionListener, MouseListener {
+public class MonUI extends JFrame implements ActionListener {
 
 	/**
 	 * 
@@ -65,6 +66,7 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 
 	private JScrollPane scrollPane;
 	private DefaultTableModel tableModel;
+	private DefaultTableModel modelDVT;
 	private JTable tableMonAn;
 	private JPanel panel;
 	private JButton btnTimKiem;
@@ -90,6 +92,12 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 
 	private static LoaiMonDAOImpl loaiMonDAO = new LoaiMonDAOImpl();
 	private static MonDAOImpl monDAO = new MonDAOImpl();
+	private JTextField txtDonViTinh;
+	private JButton btnThemDVT;
+	private JTable table;
+	private JButton btnXoaDVT;
+	private static List<String> donViTinhs = new ArrayList<String>();// for create, update
+	private static List<String> dvts = new ArrayList<String>();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MonUI() {
@@ -137,19 +145,19 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
 				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING,
-								gl_contentPane.createSequentialGroup().addGap(440).addComponent(lblTiKhon,
-										GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
-						.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(440).addComponent(lblTiKhon,
+								GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE).addGap(12)))
 				.addPreferredGap(ComponentPlacement.RELATED)
-				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE).addContainerGap()));
+				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)));
 		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING).addGroup(gl_contentPane
 				.createSequentialGroup().addContainerGap().addComponent(lblTiKhon).addGap(23)
 				.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+						.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
 								.addPreferredGap(ComponentPlacement.RELATED)
@@ -218,134 +226,124 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 		txtGiaTien.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtGiaTien.setColumns(10);
 
+		JLabel lblnVTnh = new JLabel("Đơn Vị Tính");
+		lblnVTnh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		txtDonViTinh = new JTextField();
+		txtDonViTinh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		txtDonViTinh.setColumns(10);
+
+		btnThemDVT = new JButton("Thêm");
+		btnThemDVT.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		btnXoaDVT = new JButton("Xóa");
+		btnXoaDVT.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1
-				.setHorizontalGroup(
-						gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(
-										gl_panel_1.createSequentialGroup()
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel_1
+						.createSequentialGroup().addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblnVTnh)
+								.addGroup(gl_panel_1.createSequentialGroup()
+										.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnLamMoi,
+												GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)))
+						.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(gl_panel_1.createSequentialGroup()
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel_1.createSequentialGroup()
 												.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-														.addGroup(gl_panel_1.createSequentialGroup().addContainerGap()
-																.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE,
-																		73, GroupLayout.PREFERRED_SIZE)
-																.addPreferredGap(ComponentPlacement.UNRELATED)
-																.addComponent(
-																		txtGiaTien, GroupLayout.DEFAULT_SIZE, 312,
-																		Short.MAX_VALUE)
-																.addPreferredGap(ComponentPlacement.RELATED))
-														.addGroup(gl_panel_1.createSequentialGroup().addGroup(gl_panel_1
-																.createParallelGroup(Alignment.LEADING)
-																.addGroup(gl_panel_1.createSequentialGroup().addGap(9)
-																		.addGroup(gl_panel_1
-																				.createParallelGroup(Alignment.LEADING,
-																						false)
-																				.addGroup(gl_panel_1
-																						.createSequentialGroup()
-																						.addPreferredGap(
-																								ComponentPlacement.RELATED)
-																						.addComponent(lblTnTiKhon,
-																								GroupLayout.PREFERRED_SIZE,
-																								65,
-																								GroupLayout.PREFERRED_SIZE))
-																				.addComponent(lblMTiKhon,
-																						GroupLayout.PREFERRED_SIZE, 65,
-																						GroupLayout.PREFERRED_SIZE)))
-																.addGroup(
-																		gl_panel_1
-																				.createSequentialGroup()
-																				.addContainerGap()
-																				.addComponent(lblMKhchHng)))
-																.addGap(18)
-																.addGroup(gl_panel_1
-																		.createParallelGroup(Alignment.TRAILING)
-																		.addGroup(Alignment.LEADING, gl_panel_1
-																				.createSequentialGroup()
-																				.addPreferredGap(
-																						ComponentPlacement.UNRELATED)
-																				.addGroup(gl_panel_1
-																						.createParallelGroup(
-																								Alignment.TRAILING,
-																								false)
-																						.addGroup(gl_panel_1
-																								.createSequentialGroup()
-																								.addGroup(gl_panel_1
-																										.createParallelGroup(
-																												Alignment.TRAILING,
-																												false)
-																										.addComponent(
-																												btnCapNhat,
-																												GroupLayout.PREFERRED_SIZE,
-																												154,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addComponent(
-																												btnThem,
-																												Alignment.LEADING,
-																												GroupLayout.PREFERRED_SIZE,
-																												154,
-																												GroupLayout.PREFERRED_SIZE))
-																								.addPreferredGap(
-																										ComponentPlacement.RELATED)
-																								.addGroup(gl_panel_1
-																										.createParallelGroup(
-																												Alignment.LEADING,
-																												false)
-																										.addComponent(
-																												btnLamMoi,
-																												GroupLayout.PREFERRED_SIZE,
-																												153,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addComponent(
-																												btnXoa,
-																												GroupLayout.PREFERRED_SIZE,
-																												153,
-																												GroupLayout.PREFERRED_SIZE)))
-																						.addComponent(
-																								lblThngTinTi,
-																								Alignment.LEADING,
-																								GroupLayout.PREFERRED_SIZE,
-																								147,
-																								GroupLayout.PREFERRED_SIZE)))
-																		.addComponent(cbxLoaiMon, Alignment.LEADING, 0,
-																				313, Short.MAX_VALUE)
-																		.addGroup(gl_panel_1.createSequentialGroup()
-																				.addGap(1)
-																				.addGroup(gl_panel_1
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(txtTenMon,
-																								GroupLayout.DEFAULT_SIZE,
-																								312, Short.MAX_VALUE)
-																						.addComponent(txtMaMon,
-																								GroupLayout.DEFAULT_SIZE,
-																								312,
-																								Short.MAX_VALUE))))))
-												.addGap(44)));
+														.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 65,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblMKhchHng))
+												.addGap(18).addGroup(gl_panel_1
+														.createParallelGroup(Alignment.LEADING)
+														.addComponent(
+																txtTenMon, GroupLayout.DEFAULT_SIZE, 320,
+																Short.MAX_VALUE)
+														.addComponent(cbxLoaiMon, 0, 320, Short.MAX_VALUE)))
+										.addGroup(gl_panel_1.createSequentialGroup()
+												.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 73,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+														.addGroup(gl_panel_1.createSequentialGroup()
+																.addComponent(txtDonViTinh, GroupLayout.DEFAULT_SIZE,
+																		144, Short.MAX_VALUE)
+																.addPreferredGap(ComponentPlacement.RELATED)
+																.addComponent(btnThemDVT, GroupLayout.PREFERRED_SIZE,
+																		82, GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(ComponentPlacement.RELATED)
+																.addComponent(btnXoaDVT, GroupLayout.PREFERRED_SIZE, 82,
+																		GroupLayout.PREFERRED_SIZE))
+														.addComponent(txtGiaTien, GroupLayout.DEFAULT_SIZE, 320,
+																Short.MAX_VALUE)
+														.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 320,
+																Short.MAX_VALUE)))
+										.addGroup(gl_panel_1.createSequentialGroup()
+												.addComponent(lblMTiKhon, GroupLayout.PREFERRED_SIZE, 65,
+														GroupLayout.PREFERRED_SIZE)
+												.addGap(19).addComponent(txtMaMon, GroupLayout.DEFAULT_SIZE, 319,
+														Short.MAX_VALUE)))
+								.addGap(36)))
+				.addGap(0))
+				.addGroup(gl_panel_1.createSequentialGroup().addGap(143)
+						.addComponent(lblThngTinTi, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(159, Short.MAX_VALUE)));
 		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap().addComponent(lblThngTinTi).addGap(31)
+				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap().addComponent(lblThngTinTi).addGap(11)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblMTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtMaMon, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+						.addGap(19)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtTenMon, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
 						.addGap(18)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-								.addComponent(txtTenMon, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-						.addGap(29)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(cbxLoaiMon, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblMKhchHng, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-						.addGap(23)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtGiaTien, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-						.addGap(28)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-								.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 						.addGap(18)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtGiaTien, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_1
+								.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createSequentialGroup().addGap(18).addComponent(lblnVTnh,
+										GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+								.addGroup(
+										gl_panel_1.createSequentialGroup().addPreferredGap(ComponentPlacement.UNRELATED)
+												.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+														.addComponent(btnXoaDVT, GroupLayout.PREFERRED_SIZE, 31,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(btnThemDVT, GroupLayout.PREFERRED_SIZE, 31,
+																GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_panel_1.createSequentialGroup().addGap(11).addComponent(txtDonViTinh,
+										GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 						.addContainerGap()));
+
+		table = new JTable();
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		modelDVT = new DefaultTableModel(new Object[][] {}, new String[] { "STT", "Đơn Vị Tính" });
+		table.setModel(modelDVT);
+		scrollPane_1.setViewportView(table);
+
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);
 		cbxLoaiMon.addActionListener(this);
@@ -355,13 +353,83 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 		btnLamMoiDuLieu.addActionListener(this);
 		btnLamMoi.addActionListener(this);
 		btnXoa.addActionListener(this);
+		btnThemDVT.addActionListener(this);
+		btnXoaDVT.addActionListener(this);
 
-		tableMonAn.addMouseListener(this);
+//		tableMonAn.addMouseListener(this);
 		tableMonAn.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		for (int c = 0; c < tableMonAn.getColumnCount(); c++) {
 			Class<?> col_class = tableMonAn.getColumnClass(c);
 			tableMonAn.setDefaultEditor(col_class, null); // remove editor
 		}
+
+//		table.addMouseListener(this);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		for (int c = 0; c < table.getColumnCount(); c++) {
+			Class<?> col_class = table.getColumnClass(c);
+			table.setDefaultEditor(col_class, null); // remove editor
+		}
+
+		tableMonAn.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				modelDVT = (DefaultTableModel) table.getModel();
+				modelDVT.getDataVector().removeAllElements();
+//		        JTable source = (JTable)e.getSource();
+//		        int row = source.rowAtPoint( e.getPoint() );
+//		        int column = source.columnAtPoint( e.getPoint() );
+//
+//		        if (! source.isRowSelected(row))
+//		            source.changeSelection(row, column, false, false);
+//				modelDVT.fireTableDataChanged();
+				int row = tableMonAn.getSelectedRow();
+				System.out.println("row "+row);
+				if (row != -1) {
+					String maMon = tableModel.getValueAt(row, 1).toString();
+//					dvts = new ArrayList<String>();
+//					dvts.clear();
+					try {
+						Mon mon = monDAO.getMonByMa(maMon);
+						txtMaMon.setText(mon.getMaMon());
+						txtTenMon.setText(mon.getTenMon());
+						txtGiaTien.setText(mon.getGiaTien().toString());
+						cbxLoaiMon.setSelectedItem(mon.getLoaiMon().getTenLoaiMon());
+//						dvts.clear();
+						dvts = mon.getDonViTinh();
+						dvts.forEach(x -> System.out.println("======" + x));
+
+						int i = 0;
+						for (String dvt : dvts) {
+							i++;
+							modelDVT.addRow(new Object[] { i, dvt });
+							table.setModel(modelDVT);
+							modelDVT.fireTableDataChanged();
+						}
+					} catch (Exception e2) {
+						System.out.println("error mouse clicked");
+						e2.printStackTrace();
+					}
+					modelDVT.fireTableDataChanged();
+				}
+
+			}
+		});
+
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+//				if (me.getClickCount() == 2) { // to detect doble click events
+//					JTable target = (JTable) me.getSource();
+//					int row = target.getSelectedRow(); // select a row
+////	               int column = target.getSelectedColumn(); // select a column
+//					String dvt = (String) table.getValueAt(row, 1);
+//					System.out.println(dvt);
+////					JOptionPane.showMessageDialog(null, table.getValueAt(row, 1)); // get the value of a row and column.
+//				}
+				System.out.println("click");
+				int row = table.getSelectedRow();
+//				System.out.println(table.getValueAt(row, 1));
+
+			}
+		});
 
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		for (LoaiMon loaiMon : loaiMons) {
@@ -373,81 +441,112 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		int row = tableMonAn.getSelectedRow();
-		String maMon = tableModel.getValueAt(row, 1).toString();
-		try {
-			Mon mon = monDAO.getMonByMa(maMon);
-			txtMaMon.setText(mon.getMaMon());
-			txtTenMon.setText(mon.getTenMon());
-			txtGiaTien.setText(mon.getGiaTien().toString());
-			cbxLoaiMon.setSelectedItem(mon.getLoaiMon().getTenLoaiMon());
-		} catch (Exception e2) {
-			System.out.println("error mouse clicked");
-			e2.printStackTrace();
-		}
+//	@Override
+//	public void mouseClicked(MouseEvent e) {
+//		int row = tableMonAn.getSelectedRow();
+//		String maMon = tableModel.getValueAt(row, 1).toString();
+//		dvts = new ArrayList<String>();
+//		dvts.clear();
+//		try {
+//			Mon mon = monDAO.getMonByMa(maMon);
+//			txtMaMon.setText(mon.getMaMon());
+//			txtTenMon.setText(mon.getTenMon());
+//			txtGiaTien.setText(mon.getGiaTien().toString());
+//			cbxLoaiMon.setSelectedItem(mon.getLoaiMon().getTenLoaiMon());
+//
+//			dvts = mon.getDonViTinh();
+//			int i = 0;
+//			for (String dvt : dvts) {
+//				i++;
+//				modelDVT.addRow(new Object[] { i, dvt });
+//				table.setModel(modelDVT);
+//			}
+//		} catch (Exception e2) {
+//			System.out.println("error mouse clicked");
+//			e2.printStackTrace();
+//		}
+//	}
 
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+//	@Override
+//	public void mousePressed(MouseEvent e) {
+//	}
+//
+//	@Override
+//	public void mouseReleased(MouseEvent e) {
+//	}
+//
+//	@Override
+//	public void mouseEntered(MouseEvent e) {
+//	}
+//
+//	@Override
+//	public void mouseExited(MouseEvent e) {
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btnThem)) {
-			String maMon = txtMaMon.getText().trim();
-			String tenMon = txtTenMon.getText().trim();
-			String tenLoaiMon = cbxLoaiMon.getSelectedItem().toString();
-			String giaTien = txtGiaTien.getText().trim();
-			StringBuilder msg = new StringBuilder();
-			boolean check = true;
-			if (tenMon.isEmpty()) {
-				msg.append("Vui lòng nhập tên món!\n");
-				check = false;
-			}
-			if (giaTien.isEmpty()) {
-				msg.append("Vui lòng nhập giá tiền!\n");
-				check = false;
-			} else if (giaTien.matches(PRICE_PATTERN) == false) {
-				msg.append("Giá tiền không hợp lệ!\n");
-				check = false;
-			}
+			boolean checkE=checkExistedId();
+			if(checkE) {
 
-			if (check == false) {
-				JOptionPane.showMessageDialog(this, msg, "Thông báo", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("images\\warning.png"));
-			} else {
-				boolean checkIdExisted = checkExistedId();
-				if (checkIdExisted == false) {
-					JOptionPane.showMessageDialog(this, "Mã món đã tồn tại. Vui lòng làm mới dữ liệu nhập!",
-							"Thông báo", JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
-				} else {
-					BigDecimal giaTienBD = new BigDecimal(giaTien);
-					LoaiMon loaiMon = loaiMonDAO.getLoaiMonByTenLoai(tenLoaiMon);
-					Mon mon = new Mon(maMon, tenMon, loaiMon, giaTienBD);
-					monDAO.createMon(mon);
-					JOptionPane.showMessageDialog(this, "Thêm món thành công!", "Thông báo", JOptionPane.CLOSED_OPTION,
-							new ImageIcon("images\\yes.png"));
-					updateTable();
-					refresh();
+				String maMon = txtMaMon.getText().trim();
+				String tenMon = txtTenMon.getText().trim();
+				String tenLoaiMon = cbxLoaiMon.getSelectedItem().toString();
+				String giaTien = txtGiaTien.getText().trim();
+				StringBuilder msg = new StringBuilder();
+				boolean check = true;
+				if (tenMon.isEmpty()) {
+					msg.append("Vui lòng nhập tên món!\n");
+					check = false;
+				}
+				if (giaTien.isEmpty()) {
+					msg.append("Vui lòng nhập giá tiền!\n");
+					check = false;
+				} else if (giaTien.matches(PRICE_PATTERN) == false) {
+					msg.append("Giá tiền không hợp lệ!\n");
+					check = false;
 				}
 
+				List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
+				for (LoaiMon loaiMon : loaiMons) {
+					if (tenMon.equalsIgnoreCase(loaiMon.getTenLoaiMon())) {
+						msg.append("Tên món ăn không được trùng với tên loại món!");
+						check = false;
+						break;
+					}
+
+				}
+
+				if (check == false) {
+					JOptionPane.showMessageDialog(this, msg, "Thông báo", JOptionPane.ERROR_MESSAGE,
+							new ImageIcon("images\\warning.png"));
+				} else {
+					boolean checkIdExisted = checkExistedId();
+					if (checkIdExisted == false) {
+						JOptionPane.showMessageDialog(this, "Mã món đã tồn tại. Vui lòng làm mới dữ liệu nhập!",
+								"Thông báo", JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+					} else {
+						BigDecimal giaTienBD = new BigDecimal(giaTien);
+						LoaiMon loaiMon = loaiMonDAO.getLoaiMonByTenLoai(tenLoaiMon);
+						Mon mon = new Mon(maMon, tenMon, loaiMon, giaTienBD, donViTinhs);
+						monDAO.createMon(mon);
+						JOptionPane.showMessageDialog(this, "Thêm món thành công!", "Thông báo", JOptionPane.CLOSED_OPTION,
+								new ImageIcon("images\\yes.png"));
+						updateTable();
+						donViTinhs.clear();
+						refresh();
+						modelDVT = (DefaultTableModel) table.getModel();
+						modelDVT.getDataVector().removeAllElements();
+						modelDVT.fireTableDataChanged();
+					}
+
+				}
+			
+			}else {
+				JOptionPane.showMessageDialog(this, "Món đã tồn tại. Vui lòng làm mới dữ liệu nhập!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 			}
 		} else if (obj.equals(btnLamMoi)) {
 			cbxLoaiMon.removeAllItems();
@@ -456,6 +555,11 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 				cbxLoaiMon.addItem(loaiMon.getTenLoaiMon());
 			}
 			refresh();
+			modelDVT = (DefaultTableModel) table.getModel();
+			modelDVT.getDataVector().removeAllElements();
+			modelDVT.fireTableDataChanged();
+			tableMonAn.getSelectionModel().clearSelection();
+			donViTinhs.clear();
 		} else if (obj.equals(btnXoa)) {
 			int row = tableMonAn.getSelectedRow();
 			if (row != -1) {
@@ -469,7 +573,7 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 						updateTable();
 						refresh();
 					} else {
-						JOptionPane.showMessageDialog(this, "Xóa bàn thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						JOptionPane.showMessageDialog(this, "Xóa món thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 								new ImageIcon("images\\warning.png"));
 					}
 				} catch (Exception e2) {
@@ -513,11 +617,19 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 					mon.setTenMon(tenMon);
 					mon.setLoaiMon(loaiMon);
 					mon.setGiaTien(giaTienBD);
+					mon.setDonViTinh(donViTinhs);
 					monDAO.updateMon(mon);
 					JOptionPane.showMessageDialog(this, "Cập nhật món thành công!", "Thông báo",
-							JOptionPane.CLOSED_OPTION);
+							JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
 					updateTable();
 					refresh();
+					donViTinhs.clear();
+//					updateTableDVT();
+					modelDVT = (DefaultTableModel) table.getModel();
+					modelDVT.getDataVector().removeAllElements();
+					modelDVT.fireTableDataChanged();
+//					modelDVT.getDataVector().removeAllElements();
+//					tableMonAn.getSelectionModel().clearSelection();
 				}
 
 			}
@@ -545,6 +657,47 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 
 		} else if (obj.equals(btnLamMoiDuLieu)) {
 			updateTable();
+		} else if (obj.equals(btnThemDVT)) {
+			donViTinhs.addAll(dvts);
+			String donViTinh = txtDonViTinh.getText().trim();
+			if (donViTinh.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập đơn vị tính!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			} else {
+				if (!donViTinhs.contains(donViTinh)) {
+
+					modelDVT = (DefaultTableModel) table.getModel();
+					modelDVT.getDataVector().removeAllElements();
+					modelDVT.fireTableDataChanged();
+					donViTinhs.add(donViTinh);
+					txtDonViTinh.setText("");
+					txtDonViTinh.requestFocus();
+					updateTableDVT();
+				} else {
+					JOptionPane.showMessageDialog(this, "Đơn vị tính đã tồn tại!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				}
+			}
+		} else if (obj.equals(btnXoaDVT)) {
+			int row = table.getSelectedRow();
+			if (row != -1) {
+
+//				if(dvts.isEmpty()) {
+//					String donViTinh = (String) table.getValueAt(row, 1);
+//					donViTinhs.remove(donViTinh);
+//					updateTableDVT();
+//				}else {
+				donViTinhs.addAll(dvts);
+				dvts.clear();
+				String donViTinh = (String) table.getValueAt(row, 1);
+				donViTinhs.remove(donViTinh);
+				modelDVT.removeRow(row);
+				updateTableDVT();
+//				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn vị tính để xóa!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			}
 		}
 	}
 
@@ -599,5 +752,22 @@ public class MonUI extends JFrame implements ActionListener, MouseListener {
 		txtMaMon.setText(randomMaMonNotExisted());
 		txtGiaTien.setText("");
 		txtTenMon.setText("");
+	}
+
+	public void updateTableDVT() {
+		modelDVT = (DefaultTableModel) table.getModel();
+		modelDVT.getDataVector().removeAllElements();
+		try {
+			int i = 0;
+			for (String dvt : donViTinhs) {
+				i++;
+				modelDVT.addRow(new Object[] { i, dvt });
+			}
+			table.setModel(modelDVT);
+//			table.getSelectionModel().clearSelection();
+//			modelDVT.fireTableDataChanged();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

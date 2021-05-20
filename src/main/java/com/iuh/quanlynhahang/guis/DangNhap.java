@@ -174,8 +174,11 @@ public class DangNhap extends JFrame implements ActionListener {
 		contentPane.setLayout(gl_contentPane);
 		setLocationRelativeTo(null);
 		txtTenDangNhap.requestFocus();
-
+		
 		btnDangNhap.addActionListener(this);
+		
+		txtTenDangNhap.setText("NV16126984");
+		txtMatKhau.setText("Thoai603@");
 
 	}
 

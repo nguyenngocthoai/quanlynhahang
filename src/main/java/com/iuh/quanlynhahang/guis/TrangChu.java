@@ -55,6 +55,8 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 	private static HoaDon hoaDon = new HoaDon();
 	private static LoaiMonUI loaiMonUI = new LoaiMonUI();
 	private static MonUI monUI = new MonUI();
+	private static MuaVeUI muaVeUI = new MuaVeUI();
+	private static PhieuDatMonUI phieuDatMonUI = new PhieuDatMonUI();
 
 	private static TaiKhoanDAOImpl taiKhoanDAO = new TaiKhoanDAOImpl();
 	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
@@ -336,11 +338,11 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Loại Món", null, tabbedPane.add(loaiMonUI.contentPane), "Loại Món");
 		} else if (o.equals(mniPhieuDat)) {
-//			tabbedPane.remove(tabbedPane.getSelectedComponent());
-//			tabbedPane.addTab("Loại Món", null, tabbedPane.add(cvUI.contentPane), "Loại Món");
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Phiếu Đặt", null, tabbedPane.add(phieuDatMonUI.contentPane), "Phiếu Đặt");
 		} else if (o.equals(mniMuaVe)) {
-//			tabbedPane.remove(tabbedPane.getSelectedComponent());
-//			tabbedPane.addTab("Loại Món", null, tabbedPane.add(cvUI.contentPane), "Loại Món");
+			tabbedPane.remove(tabbedPane.getSelectedComponent());
+			tabbedPane.addTab("Mua Về", null, tabbedPane.add(muaVeUI.contentPane), "Mua Về");
 		} else if (o.equals(mniMonAn)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Món", null, tabbedPane.add(monUI.contentPane), "Món");
