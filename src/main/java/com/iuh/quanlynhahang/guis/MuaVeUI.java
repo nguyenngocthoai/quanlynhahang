@@ -597,7 +597,7 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 		}
 		txtTongTien.setText(df.format(amount));
 		tienCoc = amount * 0.3;
-		txtTienCoc.setText(df.format(tienCoc));
+//		txtTienCoc.setText(df.format(tienCoc));
 	}
 
 	private void reloadJtree() {

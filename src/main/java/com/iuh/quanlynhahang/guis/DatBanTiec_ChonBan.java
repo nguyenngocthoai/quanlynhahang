@@ -556,8 +556,8 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 							} else {
 								DatBanTiec_ChonMon datBanTiec_ChonMon = new DatBanTiec_ChonMon();
 								TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-								TrangChu.tabbedPane.addTab("Chọn Bàn", null,
-										TrangChu.tabbedPane.add(datBanTiec_ChonMon.getContentPane()), "Chọn Bàn");
+								TrangChu.tabbedPane.addTab("Chọn Món", null,
+										TrangChu.tabbedPane.add(datBanTiec_ChonMon.getContentPane()), "Chọn Món");
 								soLuongNguoiNextScreen = soLuongNguoi;
 								System.out.println("Chon Ban TT:" + banDaChon.size());
 								System.out.println("Chon ban TT:" + KhachHangUI.khachHang.getTenKhachHang());

@@ -7,8 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -33,9 +39,16 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
+import com.iuh.quanlynhahang.entities.Ban;
+import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
+import com.iuh.quanlynhahang.entities.HoaDon;
 import com.iuh.quanlynhahang.entities.KhachHang;
+import com.iuh.quanlynhahang.entities.NhanVien;
 import com.iuh.quanlynhahang.entities.PhieuDatBan;
 
 public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListener {
@@ -84,13 +97,20 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 	private JButton btnTim;
 	private JButton btnLamMoiTable;
 	public static KhachHang khachHang;
+	public static PhieuDatBan phieuDatBan;
 //	public static DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
 //	private static KhachHangDAOImpl khachHangDAO = new KhachHangDAOImpl();
 	private static PhieuDatBanDAOImpl phieuDatBanDAO = new PhieuDatBanDAOImpl();
+	private static HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
+	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
+	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
 
-	String regexSDT = "^0[0-9]{9}$";
+	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
+	private static String regexSDT = "^0[0-9]{9}$";
 
-	private JButton btnDatBanTiec;
+	private JButton btnCapNhat;
+
+	private JButton btnThanhToan;
 
 	public PhieuDatMonUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,7 +121,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 
-		JLabel lblKhchHng = new JLabel("KHÁCH HÀNG");
+		JLabel lblKhchHng = new JLabel("PHIẾU ĐẶT MÓN");
 		lblKhchHng.setForeground(Color.RED);
 		lblKhchHng.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
@@ -204,17 +224,19 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		txtMaPD.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtMaPD.setColumns(10);
 
-		btnDatBanTiec = new JButton("Cập Nhật");
-		btnDatBanTiec.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		btnCapNhat = new JButton("Cập Nhật");
+		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel_1
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap().addGroup(gl_panel_1
+						.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1.createSequentialGroup()
 								.addComponent(lblMKhchHng, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
 								.addGap(18).addComponent(txtMaPD, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
 								.addContainerGap())
-						.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+						.addGroup(gl_panel_1.createSequentialGroup()
 								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblMKhchHng_3, GroupLayout.PREFERRED_SIZE, 101,
 												GroupLayout.PREFERRED_SIZE)
@@ -222,9 +244,10 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 												GroupLayout.PREFERRED_SIZE))
 								.addGap(18).addGroup(
 										gl_panel_1.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_panel_1.createSequentialGroup()
-														.addComponent(txtSDT, GroupLayout.DEFAULT_SIZE, 277,
-																Short.MAX_VALUE)
+												.addGroup(gl_panel_1
+														.createSequentialGroup()
+														.addComponent(
+																txtSDT, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
 														.addContainerGap())
 												.addGroup(gl_panel_1.createSequentialGroup()
 														.addComponent(rdbNam, GroupLayout.DEFAULT_SIZE, 62,
@@ -232,8 +255,13 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 														.addGap(18)
 														.addComponent(rdbNu, GroupLayout.DEFAULT_SIZE, 61,
 																Short.MAX_VALUE)
-														.addGap(146))))
-						.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+														.addGap(146))
+												.addGroup(gl_panel_1
+														.createSequentialGroup()
+														.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 121,
+																GroupLayout.PREFERRED_SIZE)
+														.addContainerGap())))
+						.addGroup(gl_panel_1.createSequentialGroup()
 								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel_1.createSequentialGroup()
 												.addComponent(lblTnKhchHng, GroupLayout.PREFERRED_SIZE, 108,
@@ -247,14 +275,13 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 										.addComponent(txtNgaySD, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
 										.addComponent(txtTenKH, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
 								.addContainerGap())
-						.addGroup(Alignment.LEADING,
-								gl_panel_1.createSequentialGroup().addGap(102)
-										.addComponent(lblThngTinKhch, GroupLayout.PREFERRED_SIZE, 221,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(86))))
-				.addGroup(gl_panel_1.createSequentialGroup().addGap(199)
-						.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(99, Short.MAX_VALUE)));
+						.addGroup(gl_panel_1.createSequentialGroup().addGap(102)
+								.addComponent(lblThngTinKhch, GroupLayout.PREFERRED_SIZE, 221,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(86))))
+				.addGroup(gl_panel_1.createSequentialGroup().addGap(274)
+						.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(24, Short.MAX_VALUE)));
 		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup().addGap(9).addComponent(lblThngTinKhch).addGap(18)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE, false)
@@ -278,7 +305,9 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 								.addComponent(lblMKhchHng_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSDT, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
 						.addGap(93)
-						.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
 						.addGap(78)));
 		panel_1.setLayout(gl_panel_1);
 
@@ -307,7 +336,8 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 
 		btnTim.addActionListener(this);
 		btnLamMoiTable.addActionListener(this);
-		btnDatBanTiec.addActionListener(this);
+		btnCapNhat.addActionListener(this);
+		btnThanhToan.addActionListener(this);
 
 		updateTable();
 
@@ -358,7 +388,26 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 
 		} else if (obj.equals(btnLamMoiTable)) {
 			updateTable();
-		} else if (obj.equals(btnDatBanTiec)) {
+		} else if (obj.equals(btnCapNhat)) {
+
+			int row = tablePhieuDat.getSelectedRow();
+			if (row != -1) {
+				String maPD=(String) tablePhieuDat.getValueAt(row, 1);
+				phieuDatBan=phieuDatBanDAO.getPhieuDatBanById(maPD);
+				
+				
+				
+				
+				CapNhatPhieuDatMonUI capNhatPhieuDatMonUI=new CapNhatPhieuDatMonUI();
+				TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
+				TrangChu.tabbedPane.addTab("Cập nhật phiếu đặt", null,
+						TrangChu.tabbedPane.add(capNhatPhieuDatMonUI.getContentPane()), "Cập nhật phiếu đặt");
+//				System.out.println(phieuDatBan.getKhachHang().getTenKhachHang());
+
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòn chọn phiếu đặt cần cập nhật!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			}
 
 //			int row = tablePhieuDat.getSelectedRow();
 //			if (row != -1) {
@@ -375,6 +424,53 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 //				JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 //						new ImageIcon("images\\warning.png"));
 //			}
+		} else if (obj.equals(btnThanhToan)) {
+			try {
+				int row = tablePhieuDat.getSelectedRow();
+				if (row != -1) {
+					String maPD = (String) tablePhieuDat.getValueAt(row, 1);
+
+					PhieuDatBan pdb = phieuDatBanDAO.getPhieuDatBanById(maPD);
+
+					NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
+
+					HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), pdb.getKhachHang(), nhanVien, LocalDate.now());
+					hoaDonDAO.createHoaDon(hoaDon);
+
+					ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, pdb, 0);
+					chiTietHoaDonDAO.createCTHD(cthd);
+
+					BigDecimal tienCoc = pdb.getTienCoc();
+					BigDecimal tienKhachPhaiTra;
+
+					if (pdb.getTrangThai().equalsIgnoreCase("Sử Dụng Ngay")) {
+						tienKhachPhaiTra = tienCoc.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP);
+					} else { // Đặt Trước
+						tienKhachPhaiTra = (tienCoc.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP))
+								.subtract(tienCoc);
+					}
+
+					JOptionPane.showMessageDialog(this, "Số tiền phải thanh toán là: " + df.format(tienKhachPhaiTra),
+							"Thông báo", JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\yes.png"));
+
+					Set<Ban> bans = pdb.getBans();
+					for (Ban b : bans)
+						b.settrangThaiDatBan("Trống");
+
+					pdb.setTrangThaiThanhToan("Đã Thanh Toán");
+					phieuDatBanDAO.updatePhieuDatBan(pdb);
+					updateTable();
+					DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+					datBanTiec_ChonBan.updateBan();
+
+				} else {
+					JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu cần thanh toán!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
 		}
 
 	}
@@ -385,8 +481,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 			List<PhieuDatBan> phieuDatBans = phieuDatBanDAO.getAllPhieuDatBan();
 			int i = 0;
 			for (PhieuDatBan pdb : phieuDatBans) {
-				if (pdb.getTrangThai().equalsIgnoreCase("Đặt Trước")
-						|| pdb.getTrangThai().equalsIgnoreCase("Sử Dụng Ngay")) {
+				if (pdb.getTrangThaiThanhToan().equalsIgnoreCase("Chưa Thanh Toán")) {
 					i++;
 					tableModel.addRow(new Object[] { i, pdb.getMaBanTiec(), pdb.getKhachHang().getTenKhachHang(),
 							pdb.getKhachHang().getSoDienThoai(), pdb.getKhachHang().getGioiTinh(),
@@ -395,6 +490,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 			}
 			tablePhieuDat.setModel(tableModel);
 			tablePhieuDat.getSelectionModel().clearSelection();
+			tableModel.fireTableDataChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -423,6 +519,23 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 			e2.printStackTrace();
 		}
 
+	}
+
+	@SuppressWarnings("static-access")
+	public String randomMaHDNotExisted() {
+		String maHD;
+		List<String> idHDs = new ArrayList<String>();
+		List<HoaDon> hoaDons = hoaDonDAO.getAllHoaDon();
+		for (HoaDon hd : hoaDons) {
+			idHDs.add(hd.getMaHoaDon());
+		}
+
+		do {
+			RandomStringUtils randomStringUtils = new RandomStringUtils();
+			maHD = randomStringUtils.randomNumeric(8);
+
+		} while (idHDs.contains(maHD));
+		return "HD" + maHD;
 	}
 
 	@Override

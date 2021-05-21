@@ -421,113 +421,120 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 			System.out.println("Chon Mon TV:" + KhachHangUI.khachHang.getTenKhachHang());
 
 		} else if (obj.equals(btnDat)) {
-			// to do something
-			System.out.println("Chon Mon Dat:" + DatBanTiec_ChonBan.banDaChon.size());
-			System.out.println("Chon Mon Dat:" + KhachHangUI.khachHang.getTenKhachHang());
 
-			int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
-					JOptionPane.YES_NO_OPTION);
-			if (options == JOptionPane.YES_OPTION) {
+			if (tenMons.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để đặt!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+			} else {
+				System.out.println("Chon Mon Dat:" + DatBanTiec_ChonBan.banDaChon.size());
+				System.out.println("Chon Mon Dat:" + KhachHangUI.khachHang.getTenKhachHang());
 
-//				String gioSuDung = DatBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
-//						+ DatBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
+				int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
+						JOptionPane.YES_NO_OPTION);
+				if (options == JOptionPane.YES_OPTION) {
 
-				List<Mon> mons = convertStringtoMon();
-//				List<Ban> bans = new ArrayList<Ban>();
+//					String gioSuDung = DatBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
+//							+ DatBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
 
-				Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
-				Set<Ban> setBans = DatBanTiec_ChonBan.banDaChon.stream().collect(Collectors.toSet());
-				System.out.println(setBans.size());
-				System.out.println(setMons.size());
+					List<Mon> mons = convertStringtoMon();
+//					List<Ban> bans = new ArrayList<Ban>();
 
-//				int thanhToan = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thanh toán!", "Thông báo",
-//						JOptionPane.YES_NO_OPTION);
+					Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
+					Set<Ban> setBans = DatBanTiec_ChonBan.banDaChon.stream().collect(Collectors.toSet());
+					System.out.println(setBans.size());
+					System.out.println(setMons.size());
 
-				String gioSuDung = null;
-				if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
-					gioSuDung = LocalDateTime.now().getHour() + "h" + LocalDateTime.now().getMinute() + "";
-				} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-					gioSuDung = DatBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
-							+ DatBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
-				}
+//					int thanhToan = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thanh toán!", "Thông báo",
+//							JOptionPane.YES_NO_OPTION);
 
-				LocalDate ngaySuDung = null;
-				Date nsd = DatBanTiec_ChonBan.dateNgaySuDung.getDate();
-				if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
-					ngaySuDung = LocalDate.now();
-				} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-					ngaySuDung = nsd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-				}
-				int soLuong = DatBanTiec_ChonBan.soLuongNguoiNextScreen;
-//				try {
-//					soLuong = Integer.parseInt(datBanTiec_ChonBan.txtSoLuong.getText());
+					String gioSuDung = null;
+					if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
+						gioSuDung = LocalDateTime.now().getHour() + "h" + LocalDateTime.now().getMinute() + "";
+					} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
+						gioSuDung = DatBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
+								+ DatBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
+					}
+
+					LocalDate ngaySuDung = null;
+					Date nsd = DatBanTiec_ChonBan.dateNgaySuDung.getDate();
+					if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
+						ngaySuDung = LocalDate.now();
+					} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
+						ngaySuDung = nsd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					}
+					int soLuong = DatBanTiec_ChonBan.soLuongNguoiNextScreen;
+//					try {
+//						soLuong = Integer.parseInt(datBanTiec_ChonBan.txtSoLuong.getText());
+//						
+//					} catch (Exception e2) {
+//						// TODO: handle exception
+//						e2.printStackTrace();
+//					}
+
+//					public PhieuDatBan(String maBanTiec, KhachHang khachHang, Set<Ban> bans, Set<Mon> monAns, LocalDate ngayDatMon,
+//							LocalDate ngaySuDung, String gioSuDung, String trangThaiThanhToan, int soLuongNguoi, int soLuongMon,
+//							BigDecimal tienCoc)
 //					
-//				} catch (Exception e2) {
-//					// TODO: handle exception
-//					e2.printStackTrace();
-//				}
 
-//				public PhieuDatBan(String maBanTiec, KhachHang khachHang, Set<Ban> bans, Set<Mon> monAns, LocalDate ngayDatMon,
-//						LocalDate ngaySuDung, String gioSuDung, String trangThaiThanhToan, int soLuongNguoi, int soLuongMon,
-//						BigDecimal tienCoc)
-//				
+					System.out.println("ma:" + randomMaBTNotExisted());
+					System.out.println(KhachHangUI.khachHang.getTenKhachHang());
+					for (Ban x : setBans)
+						System.out.println(x.getMaBan());
 
-				System.out.println("ma:" + randomMaBTNotExisted());
-				System.out.println(KhachHangUI.khachHang.getTenKhachHang());
-				for (Ban x : setBans)
-					System.out.println(x.getMaBan());
+					for (Mon x : setMons)
+						System.out.println(x.getTenMon());
 
-				for (Mon x : setMons)
-					System.out.println(x.getTenMon());
+					BigDecimal tienCocSave = new BigDecimal(tienCoc);
 
-				BigDecimal tienCocSave = new BigDecimal(tienCoc);
+					System.out.println("ngay dat:" + LocalDate.now());
+					System.out.println("ngay sd:" + ngaySuDung);
+					System.out.println("so luong nguoi:" + soLuong);
+					System.out.println(tienCocSave);
+					System.out.println();
+					System.out.println();
+					KhachHang khachHang = new KhachHang();
+					khachHang.setMaKhachHang(KhachHangUI.khachHang.getMaKhachHang());
+					khachHang.setTenKhachHang(KhachHangUI.khachHang.getTenKhachHang());
+					khachHang.setDiaChi(KhachHangUI.khachHang.getDiaChi());
+					khachHang.setGioiTinh(KhachHangUI.khachHang.getGioiTinh());
+					khachHang.setSoDienThoai(KhachHangUI.khachHang.getSoDienThoai());
 
-				System.out.println("ngay dat:" + LocalDate.now());
-				System.out.println("ngay sd:" + ngaySuDung);
-				System.out.println("so luong nguoi:" + soLuong);
-				System.out.println(tienCocSave);
-				System.out.println();
-				System.out.println();
-				KhachHang khachHang = new KhachHang();
-				khachHang.setMaKhachHang(KhachHangUI.khachHang.getMaKhachHang());
-				khachHang.setTenKhachHang(KhachHangUI.khachHang.getTenKhachHang());
-				khachHang.setDiaChi(KhachHangUI.khachHang.getDiaChi());
-				khachHang.setGioiTinh(KhachHangUI.khachHang.getGioiTinh());
-				khachHang.setSoDienThoai(KhachHangUI.khachHang.getSoDienThoai());
+					String trangThai = "";
+					if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
+						trangThai = "Đặt Trước";
+					} else if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
+						trangThai = "Sử Dụng Ngay";
+					}
 
-				String trangThai = "";
-				if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-					trangThai = "Đặt Trước";
-				} else if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
-					trangThai = "Sử Dụng Ngay";
-				}
+					try {
+						PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), khachHang, setBans, setMons,
+								LocalDate.now(), ngaySuDung, gioSuDung, "Chưa Thanh Toán", soLuong, 1, tienCocSave,
+								trangThai);
 
-				try {
-					PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), khachHang, setBans, setMons,
-							LocalDate.now(), ngaySuDung, gioSuDung, "Chưa Thanh Toán", soLuong, 1, tienCocSave,
-							trangThai);
+						phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
+						JOptionPane.showMessageDialog(null, "Đặt thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+								new ImageIcon("images\\yes.png"));
 
-					phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
-					JOptionPane.showMessageDialog(null, "Đặt thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("images\\yes.png"));
+//						DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+//						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
+//						TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()),
+//								"Chọn Bàn");
 
-//					DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-//					TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-//					TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()),
-//							"Chọn Bàn");
+						for (Ban b : setBans)
+							b.settrangThaiDatBan("Đã Đặt");
 
-					for (Ban b : setBans)
-						b.settrangThaiDatBan("Đã Đặt");
+						DatBanTiec_ChonBan.banDaChon.clear();
+						tenMons.clear();
+						model = (DefaultTableModel) table.getModel();
+						model.getDataVector().removeAllElements();
+						datBanTiec_ChonBan.txtSoLuong.setText("");
+						datBanTiec_ChonBan.updateBan();
+						datBanTiec_ChonBan.txtSoLuong.setText("");
 
-					DatBanTiec_ChonBan.banDaChon.clear();
-					tenMons.clear();
-					model = (DefaultTableModel) table.getModel();
-					model.getDataVector().removeAllElements();
-					datBanTiec_ChonBan.txtSoLuong.setText("");
-					datBanTiec_ChonBan.updateBan();
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
 
-				} catch (Exception e2) {
-					e2.printStackTrace();
 				}
 
 			}

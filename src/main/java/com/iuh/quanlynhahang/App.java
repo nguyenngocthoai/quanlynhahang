@@ -1,6 +1,7 @@
 package com.iuh.quanlynhahang;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import com.iuh.quanlynhahang.entities.Mon;
 public class App {
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
-		KhachHangDAOImpl khachHangDAOImpl = new KhachHangDAOImpl();
+//		KhachHangDAOImpl khachHangDAOImpl = new KhachHangDAOImpl();
 //		BanDAOImpl banDAOImpl=new BanDAOImpl();
 //		System.out.println(LocalDate.now());
 
@@ -38,8 +39,8 @@ public class App {
 //		System.out.println("========");
 //		s.forEach(x -> System.out.println(x));
 //		
-//		BigDecimal d=new BigDecimal(12.2);
-//		BigDecimal a=new BigDecimal(3.2);
+		BigDecimal d=new BigDecimal(120);
+		BigDecimal a=new BigDecimal(0.3);
 //		BigDecimal sum=d.add(a);
 //		System.out.println(sum);
 //		
@@ -62,10 +63,10 @@ public class App {
 //    System.out.println("Created TreeSet is");
 //    for (String x : tSet)
 //        System.out.println(x);
-		System.out.println(LocalDateTime.now().getHour());
-		System.out.println(LocalDateTime.now().getMinute());
+//		System.out.println(LocalDateTime.now().getHour());
+//		System.out.println(LocalDateTime.now().getMinute());
 		
-		
+		System.out.println((d.divide(a, 2, BigDecimal.ROUND_HALF_UP)).subtract(d));
 		
 		
 	}

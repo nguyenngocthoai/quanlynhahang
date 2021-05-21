@@ -128,7 +128,7 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		JLabel lblChnMn = new JLabel("PHIẾU ĐẶT MÓN");
+		JLabel lblChnMn = new JLabel("CẬP NHẬT PHIẾU ĐẶT MÓN");
 		lblChnMn.setForeground(Color.RED);
 		lblChnMn.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
@@ -140,36 +140,27 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch m\u00F3n \u0111\u00E3 ch\u1ECDn", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(419)
-							.addComponent(lblChnMn)))
-					.addContainerGap())
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lblChnMn)
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
-					.addGap(10))
-		);
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup().addContainerGap()
+										.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+										.addGap(18).addComponent(panel, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(282).addComponent(lblChnMn)))
+						.addContainerGap()));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addComponent(lblChnMn).addGap(18)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
+						.addGap(10)));
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		btnDat = new JButton("Đặt Thêm");
-		btnDat.setIcon(new ImageIcon("images\\accept.png"));
+		btnDat.setIcon(new ImageIcon("images\\add.png"));
 		btnDat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		btnSL = new JButton("Cập nhật số lượng");
@@ -203,58 +194,48 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 		txtTienCoc.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		txtTienCoc.setColumns(10);
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(gl_panel
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btnXoaMon, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSL)
-							.addGap(18)
-							.addComponent(btnDVT)
-							.addPreferredGap(ComponentPlacement.RELATED))
+								.addComponent(btnXoaMon, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnSL).addGap(18)
+								.addComponent(btnDVT).addPreferredGap(ComponentPlacement.RELATED))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(lblTinCc, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtTongTien, 272, 272, 272)
-								.addComponent(txtTienCoc, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
-							.addGap(38)
-							.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-							.addGap(13)))
-					.addGap(12))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnDVT)
-						.addComponent(btnSL)
+								.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(lblTinCc, GroupLayout.PREFERRED_SIZE, 76,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 76,
+												GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(txtTongTien, 272, 272, 272)
+										.addComponent(txtTienCoc, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
+								.addGap(38)
+								.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+								.addGap(13)))
+				.addGap(12)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(btnDVT).addComponent(btnSL)
 						.addComponent(btnXoaMon))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(46)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false).addGroup(gl_panel
+						.createSequentialGroup().addGap(46)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(txtTienCoc, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblTinCc, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-							.addGap(8)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addGap(8)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtTongTien, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-							.addContainerGap())
+						.addContainerGap())
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-							.addGap(32))))
-		);
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+								.addGap(32)))));
 
 		table = new JTable();
 		model = new DefaultTableModel(new Object[][] {},
@@ -407,39 +388,43 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 			int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
 					JOptionPane.YES_NO_OPTION);
 			if (options == JOptionPane.YES_OPTION) {
+				if (tenMons.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn thêm món để cập nhật!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				} else {
+					List<Mon> mons = convertStringtoMon();
+					Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
 
-				List<Mon> mons = convertStringtoMon();
-				Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
+					try {
+						PhieuDatBan phieuDatBan = PhieuDatMonUI.phieuDatBan;
+						Set<Mon> monDaDat = phieuDatBan.getMonAns();
 
-				try {
-					PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), setMons, "Chưa Thanh Toán");
+						// ===========
+						System.out.println("Mon da dat:");
+						monDaDat.forEach(x -> System.out.println(x.getTenMon()));
+						System.out.println("Mon moi");
+						mons.forEach(x -> System.out.println(x.getTenMon()));
+						System.out.println("Mon gop:");
+						for (Mon x : set_merge(setMons, monDaDat))
+							System.out.println(x.getTenMon());
+						// ===========
 
-					phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
+						BigDecimal tienCocThem = phieuDatBan.getTienCoc();
 
-					NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
+						phieuDatBan.setMonAns(set_merge(setMons, monDaDat));
+						phieuDatBan.setTienCoc(new BigDecimal(tienCoc).add(tienCocThem));
 
-					HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), nhanVien, LocalDate.now());
-					hoaDonDAO.createHoaDon(hoaDon);
+						phieuDatBanDAO.updatePhieuDatBan(phieuDatBan);
 
-					ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(hoaDon, phieuDatBan, 1);
-					chiTietHoaDonDAO.createCTHD(chiTietHoaDon);
-//					chiTietHoaDon.getBanTiec().getMonAns().
-
-					JOptionPane.showMessageDialog(null, "Mua thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("images\\yes.png"));
-
-//					DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-//					TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-//					TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()),
-//							"Chọn Bàn");
-
-					tenMons.clear();
-					model = (DefaultTableModel) table.getModel();
-					model.getDataVector().removeAllElements();
-				} catch (Exception e2) {
-					e2.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\yes.png"));
+						tenMons.clear();
+						model = (DefaultTableModel) table.getModel();
+						model.getDataVector().removeAllElements();
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
 				}
-
 			}
 
 		} else if (obj.equals(btnXoaMon)) {
@@ -661,6 +646,12 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 
 		} while (idHDs.contains(maHD));
 		return "HD" + maHD;
+	}
+
+	public static <T> Set<T> set_merge(Set<T> set_1, Set<T> set_2) {
+		Set<T> my_set = set_1.stream().collect(Collectors.toSet());
+		my_set.addAll(set_2);
+		return my_set;
 	}
 
 	@Override
