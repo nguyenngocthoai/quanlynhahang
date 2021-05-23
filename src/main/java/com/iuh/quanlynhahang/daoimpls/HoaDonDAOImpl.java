@@ -6,9 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import com.iuh.quanlynhahang.MyEntityManager;
-import com.iuh.quanlynhahang.daos.IBanDAO;
 import com.iuh.quanlynhahang.daos.IHoaDonDAO;
-import com.iuh.quanlynhahang.entities.Ban;
 import com.iuh.quanlynhahang.entities.HoaDon;
 
 public class HoaDonDAOImpl implements IHoaDonDAO {

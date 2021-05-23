@@ -39,6 +39,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.iuh.quanlynhahang.daoimpls.BanDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
@@ -104,6 +105,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 	private static HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
 	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
+	private static BanDAOImpl banDAO = new BanDAOImpl();
 
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
 	private static String regexSDT = "^0[0-9]{9}$";
@@ -392,13 +394,10 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 
 			int row = tablePhieuDat.getSelectedRow();
 			if (row != -1) {
-				String maPD=(String) tablePhieuDat.getValueAt(row, 1);
-				phieuDatBan=phieuDatBanDAO.getPhieuDatBanById(maPD);
-				
-				
-				
-				
-				CapNhatPhieuDatMonUI capNhatPhieuDatMonUI=new CapNhatPhieuDatMonUI();
+				String maPD = (String) tablePhieuDat.getValueAt(row, 1);
+				phieuDatBan = phieuDatBanDAO.getPhieuDatBanById(maPD);
+
+				CapNhatPhieuDatMonUI capNhatPhieuDatMonUI = new CapNhatPhieuDatMonUI();
 				TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
 				TrangChu.tabbedPane.addTab("Cập nhật phiếu đặt", null,
 						TrangChu.tabbedPane.add(capNhatPhieuDatMonUI.getContentPane()), "Cập nhật phiếu đặt");
@@ -425,52 +424,66 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 //						new ImageIcon("images\\warning.png"));
 //			}
 		} else if (obj.equals(btnThanhToan)) {
-			try {
-				int row = tablePhieuDat.getSelectedRow();
-				if (row != -1) {
-					String maPD = (String) tablePhieuDat.getValueAt(row, 1);
+			int choise = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thanh toán!", "Thông báo",
+					JOptionPane.YES_NO_OPTION);
+			if (choise == JOptionPane.YES_OPTION) {
+				try {
+					int row = tablePhieuDat.getSelectedRow();
+					if (row != -1) {
+						String maPD = (String) tablePhieuDat.getValueAt(row, 1);
 
-					PhieuDatBan pdb = phieuDatBanDAO.getPhieuDatBanById(maPD);
+						PhieuDatBan pdb = phieuDatBanDAO.getPhieuDatBanById(maPD);
 
-					NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
+						NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
 
-					HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), pdb.getKhachHang(), nhanVien, LocalDate.now());
-					hoaDonDAO.createHoaDon(hoaDon);
+						HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), pdb.getKhachHang(), nhanVien,
+								LocalDate.now());
+						hoaDonDAO.createHoaDon(hoaDon);
 
-					ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, pdb, 0);
-					chiTietHoaDonDAO.createCTHD(cthd);
+						ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, pdb, 0);
+						chiTietHoaDonDAO.createCTHD(cthd);
 
-					BigDecimal tienCoc = pdb.getTienCoc();
-					BigDecimal tienKhachPhaiTra;
+						BigDecimal tienCoc = pdb.getTienCoc();
+						BigDecimal tienKhachPhaiTra;
 
-					if (pdb.getTrangThai().equalsIgnoreCase("Sử Dụng Ngay")) {
-						tienKhachPhaiTra = tienCoc.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP);
-					} else { // Đặt Trước
-						tienKhachPhaiTra = (tienCoc.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP))
-								.subtract(tienCoc);
+						if (pdb.getTrangThai().equalsIgnoreCase("Sử Dụng Ngay")) {
+							tienKhachPhaiTra = tienCoc.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP);
+						} else { // Đặt Trước
+							tienKhachPhaiTra = (tienCoc.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP))
+									.subtract(tienCoc);
+						}
+
+						JOptionPane.showMessageDialog(this,
+								"Số tiền phải thanh toán là: " + df.format(tienKhachPhaiTra), "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\yes.png"));
+
+						Set<Ban> bans = pdb.getBans();
+						for (Ban b : bans) {
+							b.settrangThaiDatBan("Trống");
+							banDAO.updateBan(b);
+						}
+
+						pdb.setTrangThaiThanhToan("Đã Thanh Toán");
+						phieuDatBanDAO.updatePhieuDatBan(pdb);
+
+						updateTable();
+
+						DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+						datBanTiec_ChonBan.updateBan();
+						datBanTiec_ChonBan.txtSoLuong.setText("");
+
+						datBanTiec_ChonBan.txtSoLuong.setText("");
+						datBanTiec_ChonBan.updateBan();
+						datBanTiec_ChonBan.txtSoLuong.setText("");
+
+					} else {
+						JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu cần thanh toán!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 					}
-
-					JOptionPane.showMessageDialog(this, "Số tiền phải thanh toán là: " + df.format(tienKhachPhaiTra),
-							"Thông báo", JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\yes.png"));
-
-					Set<Ban> bans = pdb.getBans();
-					for (Ban b : bans)
-						b.settrangThaiDatBan("Trống");
-
-					pdb.setTrangThaiThanhToan("Đã Thanh Toán");
-					phieuDatBanDAO.updatePhieuDatBan(pdb);
-					updateTable();
-					DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-					datBanTiec_ChonBan.updateBan();
-
-				} else {
-					JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu cần thanh toán!", "Thông báo",
-							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
 			}
-
 		}
 
 	}

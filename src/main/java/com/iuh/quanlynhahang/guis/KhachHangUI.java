@@ -86,10 +86,9 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 	private JButton btnLamMoiTable;
 
 	public static KhachHang khachHang;
-	public static DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+//	public DatBanTiec_ChonBan datBanTiec_ChonBan;
 	private static KhachHangDAOImpl khachHangDAO = new KhachHangDAOImpl();
 
-	
 	String regexSDT = "^0[0-9]{9}$";
 
 	private JButton btnDatBanTiec;
@@ -365,55 +364,62 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		 * 
 		 */
 		if (obj.equals(btnThem)) {
+
 			String maKH = txtMaKH.getText();
-			String tenKH = txtTenKH.getText().trim();
-			String sDT = txtSDT.getText().trim();
-			String diaChi = txtDiaChi.getText().trim();
-			String gioiTinh = null;
-			if (rdbNam.isSelected()) {
-				gioiTinh = "Nam";
-			} else if (rdbNu.isSelected()) {
-				gioiTinh = "Nữ";
-			}
-
-			boolean check = true;
-			StringBuilder mesgError = new StringBuilder();
-			if (tenKH.isEmpty()) {
-				mesgError.append("Vui lòng nhập tên khách hàng!\n");
-				check = false;
-			}
-			if (diaChi.isEmpty()) {
-				mesgError.append("Vui lòng nhập địa chỉ!\n");
-				check = false;
-			}
-			if (sDT.isEmpty()) {
-				mesgError.append("Vui lòng nhập số điện thoại!\n");
-				check = false;
-			} else if (sDT.matches(regexSDT) == false) {
-				mesgError.append("Số điện thoại không hợp lệ!\n");
-				check = false;
-			}
-
-			if (check == false) {
-				JOptionPane.showMessageDialog(this, mesgError, "Thông báo", JOptionPane.ERROR_MESSAGE,
+			List<String> ids = checkExistedKH();
+			if (ids.contains(maKH)) {
+				JOptionPane.showMessageDialog(this, "Khách hàng đã tồn tại!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
-
-				txtTenKH.selectAll();
-				txtTenKH.requestFocus();
 			} else {
-				try {
-					KhachHang kh = new KhachHang(maKH, tenKH, gioiTinh, sDT, diaChi);
-					khachHangDAO.createKH(kh);
-					updateTable();
-					refresh();
-					txtMaKH.setText(randomMaKHNotExisted());
-					JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!", "Thông báo",
-							JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(this, "Thêm khách hàng lỗi!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("images\\warning.png"));
+				String tenKH = txtTenKH.getText().trim();
+				String sDT = txtSDT.getText().trim();
+				String diaChi = txtDiaChi.getText().trim();
+				String gioiTinh = null;
+				if (rdbNam.isSelected()) {
+					gioiTinh = "Nam";
+				} else if (rdbNu.isSelected()) {
+					gioiTinh = "Nữ";
 				}
 
+				boolean check = true;
+				StringBuilder mesgError = new StringBuilder();
+				if (tenKH.isEmpty()) {
+					mesgError.append("Vui lòng nhập tên khách hàng!\n");
+					check = false;
+				}
+				if (diaChi.isEmpty()) {
+					mesgError.append("Vui lòng nhập địa chỉ!\n");
+					check = false;
+				}
+				if (sDT.isEmpty()) {
+					mesgError.append("Vui lòng nhập số điện thoại!\n");
+					check = false;
+				} else if (sDT.matches(regexSDT) == false) {
+					mesgError.append("Số điện thoại không hợp lệ!\n");
+					check = false;
+				}
+
+				if (check == false) {
+					JOptionPane.showMessageDialog(this, mesgError, "Thông báo", JOptionPane.ERROR_MESSAGE,
+							new ImageIcon("images\\warning.png"));
+
+					txtTenKH.selectAll();
+					txtTenKH.requestFocus();
+				} else {
+					try {
+						KhachHang kh = new KhachHang(maKH, tenKH, gioiTinh, sDT, diaChi);
+						khachHangDAO.createKH(kh);
+						updateTable();
+						refresh();
+						txtMaKH.setText(randomMaKHNotExisted());
+						JOptionPane.showMessageDialog(this, "Thêm khách hàng thành công!", "Thông báo",
+								JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(this, "Thêm khách hàng lỗi!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+					}
+
+				}
 			}
 
 		} else if (obj.equals(btnCapNhat)) {
@@ -508,21 +514,24 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		} else if (obj.equals(btnLamMoiTable)) {
 			updateTable();
 		} else if (obj.equals(btnDatBanTiec)) {
-			int row = tableKhachHang.getSelectedRow();
-			if (row != -1) {
-				KhachHang kh = khachHangDAO.getKHByID(txtMaKH.getText());
-				
-				khachHang = new KhachHang(kh.getMaKhachHang(), kh.getTenKhachHang(), kh.getGioiTinh(),
-						kh.getSoDienThoai(), kh.getDiaChi());
-				
-				TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-				TrangChu.tabbedPane.addTab("Chọn Bàn", null,
-						TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()), "Chọn Bàn");
-				System.out.println("KH TT:"+KhachHangUI.khachHang.getTenKhachHang());
-			} else {
-				JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("images\\warning.png"));
+			try {
+				int row = tableKhachHang.getSelectedRow();
+				if (row != -1) {
+					KhachHang kh = khachHangDAO.getKHByID(txtMaKH.getText());
+
+					khachHang = new KhachHang(kh.getMaKhachHang(), kh.getTenKhachHang(), kh.getGioiTinh(),
+							kh.getSoDienThoai(), kh.getDiaChi());
+
+					TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
+					DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+					TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane(), "Chọn Bàn");
+				} else {
+					JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				}
+			} catch (Exception e2) {
 			}
+
 		}
 
 	}
@@ -595,6 +604,15 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 			e2.printStackTrace();
 		}
 
+	}
+
+	private List<String> checkExistedKH() {
+		List<KhachHang> khachHangs = khachHangDAO.getAllKH();
+		List<String> idKHs = new ArrayList<String>();
+		for (KhachHang khachHang : khachHangs) {
+			idKHs.add(khachHang.getMaKhachHang());
+		}
+		return idKHs;
 	}
 
 	@Override

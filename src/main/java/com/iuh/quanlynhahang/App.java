@@ -1,21 +1,5 @@
 package com.iuh.quanlynhahang;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.iuh.quanlynhahang.daoimpls.BanDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
-import com.iuh.quanlynhahang.entities.Mon;
-
 /**
  * Hello world!
  * 
@@ -39,12 +23,12 @@ public class App {
 //		System.out.println("========");
 //		s.forEach(x -> System.out.println(x));
 //		
-		BigDecimal d=new BigDecimal(120);
-		BigDecimal a=new BigDecimal(0.3);
-//		BigDecimal sum=d.add(a);
+//		BigDecimal d=new BigDecimal(120);
+//		BigDecimal a=new BigDecimal(0.3);
+////		BigDecimal sum=d.add(a);
 //		System.out.println(sum);
 //		
-		
+
 //		MonDAOImpl dao=new MonDAOImpl();
 //		Mon mon=dao.getMonByTen("Cam Vắt");
 //		System.out.println(mon.getTenMon() + mon.getGiaTien() + mon.getDonViTinh());
@@ -65,9 +49,8 @@ public class App {
 //        System.out.println(x);
 //		System.out.println(LocalDateTime.now().getHour());
 //		System.out.println(LocalDateTime.now().getMinute());
-		
-		System.out.println((d.divide(a, 2, BigDecimal.ROUND_HALF_UP)).subtract(d));
-		
-		
+
+//		System.out.println((d.divide(a, 2, BigDecimal.ROUND_HALF_UP)).subtract(d));
+
 	}
 }

@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
@@ -15,39 +14,37 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import com.iuh.quanlynhahang.daoimpls.BanDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.LoaiMonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
@@ -57,19 +54,8 @@ import com.iuh.quanlynhahang.entities.LoaiMon;
 import com.iuh.quanlynhahang.entities.Mon;
 import com.iuh.quanlynhahang.entities.PhieuDatBan;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.ImageIcon;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-
 public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
@@ -78,7 +64,6 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 	private JButton btnDat;
 	private DefaultTableModel model;
 	private JButton btnSL;
-//	private JComboBox comboBox;
 	private JButton btnDVT;
 	private JButton btnXoaMon;
 
@@ -91,7 +76,9 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
 	double tienCoc;
 	private static PhieuDatBanDAOImpl phieuDatBanDAO = new PhieuDatBanDAOImpl();
-	private DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+	private static DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+	private static BanDAOImpl banDAO=new BanDAOImpl();
+	private static BanUI banUI=new BanUI();
 
 	/**
 	 * Launch the application.
@@ -112,7 +99,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("serial")
 	public DatBanTiec_ChonMon() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1084, 551);
@@ -412,86 +399,42 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 			TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
 			TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()),
 					"Chọn Bàn");
-			DatBanTiec_ChonBan.banDaChon.clear();
+			datBanTiec_ChonBan.banDaChon.clear();
 			tenMons.clear();
 			model = (DefaultTableModel) table.getModel();
 			model.getDataVector().removeAllElements();
-
-			System.out.println("Chon Mon TV:" + DatBanTiec_ChonBan.banDaChon.size());
-			System.out.println("Chon Mon TV:" + KhachHangUI.khachHang.getTenKhachHang());
-
 		} else if (obj.equals(btnDat)) {
 
 			if (tenMons.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để đặt!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
 			} else {
-				System.out.println("Chon Mon Dat:" + DatBanTiec_ChonBan.banDaChon.size());
-				System.out.println("Chon Mon Dat:" + KhachHangUI.khachHang.getTenKhachHang());
-
-				int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
+				int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt?", "Thông báo",
 						JOptionPane.YES_NO_OPTION);
 				if (options == JOptionPane.YES_OPTION) {
-
-//					String gioSuDung = DatBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
-//							+ DatBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
-
 					List<Mon> mons = convertStringtoMon();
-//					List<Ban> bans = new ArrayList<Ban>();
-
 					Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
 					Set<Ban> setBans = DatBanTiec_ChonBan.banDaChon.stream().collect(Collectors.toSet());
-					System.out.println(setBans.size());
-					System.out.println(setMons.size());
-
-//					int thanhToan = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thanh toán!", "Thông báo",
-//							JOptionPane.YES_NO_OPTION);
 
 					String gioSuDung = null;
 					if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
 						gioSuDung = LocalDateTime.now().getHour() + "h" + LocalDateTime.now().getMinute() + "";
 					} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-						gioSuDung = DatBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
-								+ DatBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
+						gioSuDung = datBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
+								+ datBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
 					}
 
 					LocalDate ngaySuDung = null;
-					Date nsd = DatBanTiec_ChonBan.dateNgaySuDung.getDate();
+					Date nsd = datBanTiec_ChonBan.dateNgaySuDung.getDate();
 					if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
 						ngaySuDung = LocalDate.now();
 					} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
 						ngaySuDung = nsd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 					}
-					int soLuong = DatBanTiec_ChonBan.soLuongNguoiNextScreen;
-//					try {
-//						soLuong = Integer.parseInt(datBanTiec_ChonBan.txtSoLuong.getText());
-//						
-//					} catch (Exception e2) {
-//						// TODO: handle exception
-//						e2.printStackTrace();
-//					}
-
-//					public PhieuDatBan(String maBanTiec, KhachHang khachHang, Set<Ban> bans, Set<Mon> monAns, LocalDate ngayDatMon,
-//							LocalDate ngaySuDung, String gioSuDung, String trangThaiThanhToan, int soLuongNguoi, int soLuongMon,
-//							BigDecimal tienCoc)
-//					
-
-					System.out.println("ma:" + randomMaBTNotExisted());
-					System.out.println(KhachHangUI.khachHang.getTenKhachHang());
-					for (Ban x : setBans)
-						System.out.println(x.getMaBan());
-
-					for (Mon x : setMons)
-						System.out.println(x.getTenMon());
+					int soLuong = datBanTiec_ChonBan.soLuongNguoiNextScreen;
 
 					BigDecimal tienCocSave = new BigDecimal(tienCoc);
 
-					System.out.println("ngay dat:" + LocalDate.now());
-					System.out.println("ngay sd:" + ngaySuDung);
-					System.out.println("so luong nguoi:" + soLuong);
-					System.out.println(tienCocSave);
-					System.out.println();
-					System.out.println();
 					KhachHang khachHang = new KhachHang();
 					khachHang.setMaKhachHang(KhachHangUI.khachHang.getMaKhachHang());
 					khachHang.setTenKhachHang(KhachHangUI.khachHang.getTenKhachHang());
@@ -515,39 +458,39 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 						JOptionPane.showMessageDialog(null, "Đặt thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 								new ImageIcon("images\\yes.png"));
 
-//						DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-//						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-//						TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()),
-//								"Chọn Bàn");
-
-						for (Ban b : setBans)
+						for (Ban b : setBans) {
 							b.settrangThaiDatBan("Đã Đặt");
+							banDAO.updateBan(b);
+						}
 
 						DatBanTiec_ChonBan.banDaChon.clear();
 						tenMons.clear();
 						model = (DefaultTableModel) table.getModel();
 						model.getDataVector().removeAllElements();
+						
 						datBanTiec_ChonBan.txtSoLuong.setText("");
+						banUI.updateTable();
 						datBanTiec_ChonBan.updateBan();
 						datBanTiec_ChonBan.txtSoLuong.setText("");
+						
+						PhieuDatMonUI phieuDatMonUI = new PhieuDatMonUI();
+						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
+						TrangChu.tabbedPane.addTab("Phiếu Đặt", null,
+								TrangChu.tabbedPane.add(phieuDatMonUI.getContentPane()), "Phiếu Đặt");
+						phieuDatMonUI.updateTable();
 
 					} catch (Exception e2) {
 						e2.printStackTrace();
 					}
-
 				}
-
 			}
 
 		} else if (obj.equals(btnXoaMon)) {
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				String tenMon = (String) table.getValueAt(row, 1);
-				System.out.println("tên món: " + tenMon);
 				tenMons.remove(tenMon);
 				model.removeRow(row);
-				System.out.println("removed:");
-				tenMons.forEach(x -> System.out.println(x));
 			} else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để xóa!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
@@ -557,7 +500,6 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				String soLuong = (String) table.getValueAt(row, 2);
-				System.out.println("Số lượng: " + soLuong);
 				String m = JOptionPane.showInputDialog("Nhập số lượng:", soLuong);
 				if (!m.isEmpty() && m.matches("^([1-9](0)*)*$")) {
 					System.out.println(m);
@@ -609,6 +551,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void loadDataForMon() {
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		List<Mon> mons = monDAO.getAllMon();
@@ -644,55 +587,31 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 
 		try {
 			List<Mon> mons = convertStringtoMon();
-//			int i = 0;
 			for (Mon mon : mons) {
-//				i++;
-//				List<String> dvts = mon.getDonViTinh();
-//				for (String str : dvts) {
-//					System.out.println("wwwwwwwww  " + str);
-//					comboBox.addItem(str);
-//				}
 				model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), "1", "", mon.getGiaTien() });
-//				TableColumn comboCol4 = table.getColumnModel().getColumn(4);
-//				comboCol4.setCellEditor(new DefaultCellEditor(comboBox));
 
 			}
 			model.fireTableDataChanged();
 			table.setModel(model);
-//			table.getSelectionModel().clearSelection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void updateMonInTable(String tenMon) {
 		try {
 			if (!tenMon.equalsIgnoreCase("Danh Sách Món")) {
-//				JOptionPane.showMessageDialog(null,
-//						"Món đã được chọn. Vui lòng chỉnh sửa số lượng ở cột số lượng trong bảng!", "Thông báo",
-//						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 				Mon mon = monDAO.getMonByTen(tenMon);
 				List<String> dvts = mon.getDonViTinh();
 				String[] options = new String[dvts.size()];
 				ImageIcon icon = new ImageIcon("images\\yes.png");
 				String n = (String) JOptionPane.showInputDialog(null, "Chọn đơn vị tính:", "Thông báo",
 						JOptionPane.OK_OPTION, icon, options, options[0]);
-				System.out.println(n);
 
-//				JComboBox comboBox = new JComboBox<>();
 				model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), "1", n, mon.getGiaTien() });
-
-//				List<String> dvts = mon.getDonViTinh();
-//				for (String str : dvts) {
-//					System.out.println("wwwwwwwww  " + str);
-//					cbxDVT.addItem(str);
-//					comboBox.addItem(str);
-//				}
-//				TableColumn comboCol4 = table.getColumnModel().getColumn(4);
-//				comboCol4.setCellEditor(new DefaultCellEditor(comboBox));
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 
 	}
@@ -711,6 +630,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		txtTienCoc.setText(df.format(tienCoc));
 	}
 
+	@SuppressWarnings("unused")
 	private void reloadJtree() {
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		List<Mon> mons = monDAO.getAllMon();
@@ -722,7 +642,6 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 					mon.add(new DefaultMutableTreeNode(m.getTenMon()));
 				}
 			}
-//			add(mon);
 		}
 	}
 

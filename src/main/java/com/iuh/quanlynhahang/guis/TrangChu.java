@@ -325,8 +325,6 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		} else if (o.equals(mniThoat)) {
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 		} else if (o.equals(mniDatBanTiec)) {
-//			tabbedPane.remove(tabbedPane.getSelectedComponent());
-//			tabbedPane.addTab("Đặt Bàn Tiệc", null, tabbedPane.add(datBanTiec.contentPane), "Đặt Bàn Tiệc");
 			tabbedPane.remove(tabbedPane.getSelectedComponent());
 			tabbedPane.addTab("Chọn Khách Hàng", null, tabbedPane.add(khUI.contentPane), "Chọn Khách Hàng");
 		} else if (o.equals(mniTimKiemKhachHang)) {

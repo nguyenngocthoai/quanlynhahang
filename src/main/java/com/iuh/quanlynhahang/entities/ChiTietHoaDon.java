@@ -13,11 +13,11 @@ public class ChiTietHoaDon implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "maHoaDon")
 	private HoaDon hoaDon;
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "maBanTiec")
 	private PhieuDatBan banTiec;
 	private int soLuong;
