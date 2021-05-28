@@ -1,39 +1,53 @@
 package com.iuh.quanlynhahang.guis;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Locale;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
+import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
+import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
+import com.iuh.quanlynhahang.entities.HoaDon;
+import com.iuh.quanlynhahang.entities.PhieuDatBan;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.time.LocalDate;
-import java.time.Month;
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.SpringLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ImageIcon;
+public class ThongKeDoanhThu extends JFrame implements ActionListener {
 
-public class ThongKeDoanhThu extends JFrame {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private static String muaVe = "Mua Về";
+	private static String suDungNgay = "Sử Dụng Ngay";
+	private BigDecimal tongTien = BigDecimal.valueOf(0d);
 
 	/**
 	 * Launch the application.
@@ -57,18 +71,21 @@ public class ThongKeDoanhThu extends JFrame {
 	private JLabel lblTNgy, lblThngKDoanh, lblnNgy;
 	private JPanel panel;
 	private JButton btnThongKe;
-	private JDatePanelImpl datePanelImpl,datePanelImpl2;
-	private JDatePickerImpl dateFrom, dateTo;
+
 	private JTable tableThongKeDoanhThu;
 	private DefaultTableModel tableModel;
 	private JScrollPane scrollPane;
 	private JLabel lblTongTien;
 	private JButton btnBaoCao;
 	private JTextField txtTongTien;
-	private SpringLayout sl_dateFrom;
-	private SpringLayout sl_dateTo;
-	
-	
+	JTextFieldDateEditor editor;
+	private JDateChooser dateFrom, dateTo;
+	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
+	private static HoaDonDAOImpl hdDAO = new HoaDonDAOImpl();
+	private static PhieuDatBanDAOImpl phieuDAO = new PhieuDatBanDAOImpl();
+	private static ChiTietHoaDonDAOImpl cthdDAO = new ChiTietHoaDonDAOImpl();
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 	public ThongKeDoanhThu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1084, 551);
@@ -76,39 +93,35 @@ public class ThongKeDoanhThu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		lblThngKDoanh = new JLabel("Thống Kê Doanh Thu");
+		lblThngKDoanh = new JLabel("THỐNG KÊ DOANH THU");
 		lblThngKDoanh.setForeground(Color.RED);
 		lblThngKDoanh.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
 		lblTNgy = new JLabel("Từ Ngày");
 		lblTNgy.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
-		LocalDate date=LocalDate.now();
-		int year=date.getYear();
-		Month month= date.getMonth();
-		int m=month.getValue();
-		int day=date.getDayOfMonth();
-		UtilDateModel model=new UtilDateModel();
-		model.setDate(year, m, day);
-		model.setSelected(true);
-		
-		datePanelImpl=new JDatePanelImpl(model);
-		dateFrom=new JDatePickerImpl(datePanelImpl);
-//		springLayout.putConstraint(SpringLayout.WEST, datePickerImpl.getJFormattedTextField(), -173, SpringLayout.EAST, datePickerImpl);
-//		springLayout.putConstraint(SpringLayout.EAST, datePickerImpl.getJFormattedTextField(), -28, SpringLayout.EAST, datePickerImpl);
-		sl_dateFrom = (SpringLayout) dateFrom.getLayout();
-		dateFrom.getJFormattedTextField().setFont(new Font("Times New Roman", Font.PLAIN, 16));
-
 		lblnNgy = new JLabel("Đến Ngày");
 		lblnNgy.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
-		datePanelImpl2=new JDatePanelImpl(model);
-		dateTo=new JDatePickerImpl(datePanelImpl);
-//		springLayout_1.putConstraint(SpringLayout.WEST, datePickerImpl2.getJFormattedTextField(), -171, SpringLayout.EAST, datePickerImpl2);
-//		springLayout_1.putConstraint(SpringLayout.EAST, datePickerImpl2.getJFormattedTextField(), -28, SpringLayout.EAST, datePickerImpl2);
-		sl_dateTo = (SpringLayout) dateTo.getLayout();
-		dateTo.getJFormattedTextField().setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		
+		dateFrom = new JDateChooser();
+		dateFrom.getCalendarButton().setEnabled(true);
+		dateFrom.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		dateFrom.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		dateFrom.setLocale(Locale.forLanguageTag("vi-VN"));
+		dateFrom.setDateFormatString("yyyy-MM-dd");
+		dateFrom.setDate(Date.valueOf(LocalDate.now()));
+		editor = (JTextFieldDateEditor) dateFrom.getDateEditor();
+		editor.setEditable(false);
+
+		dateTo = new JDateChooser();
+		dateTo.getCalendarButton().setEnabled(true);
+		dateTo.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		dateTo.setLocale(Locale.forLanguageTag("vi-VN"));
+		dateTo.setDateFormatString("yyyy-MM-dd");
+		dateTo.setDate(Date.valueOf(LocalDate.now()));
+		editor = (JTextFieldDateEditor) dateTo.getDateEditor();
+		editor.setEditable(false);
+
 		btnThongKe = new JButton("Thống Kê");
 		btnThongKe.setIcon(new ImageIcon("images\\calculator.png"));
 		btnThongKe.addActionListener(new ActionListener() {
@@ -116,98 +129,234 @@ public class ThongKeDoanhThu extends JFrame {
 			}
 		});
 		btnThongKe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		
+
 		panel = new JPanel();
-		
+
 		String[] header = "STT; Mã Hóa Đơn; Ngày In Hóa Đơn; Thành Tiền".split(";");
-		DefaultTableModel tableModel = new DefaultTableModel(header, 0);
-		scrollPane = new JScrollPane(tableThongKeDoanhThu = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
-		lblTongTien = new JLabel("Tổng Tiền");
+		tableModel = new DefaultTableModel(header, 0);
+		scrollPane = new JScrollPane(tableThongKeDoanhThu = new JTable(tableModel),
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		tableThongKeDoanhThu.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		lblTongTien = new JLabel("Doanh Thu");
 		lblTongTien.setForeground(Color.RED);
 		lblTongTien.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		
+
 		txtTongTien = new JTextField();
 		txtTongTien.setForeground(Color.RED);
 		txtTongTien.setEditable(false);
 		txtTongTien.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		txtTongTien.setColumns(10);
-		
+
 		btnBaoCao = new JButton("Báo Cáo");
 		btnBaoCao.setIcon(new ImageIcon("images\\report.png"));
 		btnBaoCao.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(151)
-					.addComponent(lblTNgy, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(dateFrom, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-					.addGap(16)
-					.addComponent(lblnNgy, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(dateTo, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-					.addGap(40)
-					.addComponent(btnThongKe, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-					.addGap(31)
-					.addComponent(btnBaoCao, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-					.addGap(90))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(395)
-					.addComponent(lblThngKDoanh, GroupLayout.PREFERRED_SIZE, 265, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(398, Short.MAX_VALUE))
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1058, Short.MAX_VALUE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lblThngKDoanh, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE)
-					.addGap(25)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(7)
-							.addComponent(lblTNgy, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(7)
-							.addComponent(dateFrom, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBaoCao, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(7)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(dateTo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblnNgy, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
-					.addGap(16)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
-					.addGap(0))
-		);
 		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
+		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup().addGap(10)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1040, Short.MAX_VALUE).addGap(10))
+				.addGroup(gl_panel.createSequentialGroup().addGap(20)
+						.addComponent(lblTongTien, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+						.addGap(18).addComponent(txtTongTien, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+						.addGap(502)));
+		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(10)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1038, Short.MAX_VALUE)
-					.addGap(10))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(20)
-					.addComponent(lblTongTien, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(txtTongTien, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-					.addGap(604))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-					.addGap(21)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTongTien, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtTongTien, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(23))
-		);
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE).addGap(21)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTongTien, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtTongTien, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(23)));
 		panel.setLayout(gl_panel);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(5)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(68).addComponent(dateFrom,
+										GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+								.addComponent(lblTNgy, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE))
+						.addGap(23).addComponent(lblnNgy, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(dateTo, GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE).addGap(36)
+						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
+						.addGap(21).addComponent(btnBaoCao, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+						.addGap(248))
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 1058, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(395)
+						.addComponent(lblThngKDoanh, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(338, Short.MAX_VALUE)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+				.createSequentialGroup()
+				.addComponent(lblThngKDoanh, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE).addGap(19)
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(6)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(dateFrom, GroupLayout.PREFERRED_SIZE, 31,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblTNgy, GroupLayout.PREFERRED_SIZE, 31,
+												GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnBaoCao, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(6)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(dateTo, GroupLayout.PREFERRED_SIZE, 31,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblnNgy, GroupLayout.PREFERRED_SIZE, 31,
+												GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+				.addGap(23).addComponent(panel, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)));
 		contentPane.setLayout(gl_contentPane);
+
+		tableThongKeDoanhThu.setRowHeight(30);
+
+		btnThongKe.addActionListener(this);
+		btnBaoCao.addActionListener(this);
+		loadTable();
+		tableThongKeDoanhThu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		for (int c = 0; c < tableThongKeDoanhThu.getColumnCount(); c++) {
+			Class<?> col_class = tableThongKeDoanhThu.getColumnClass(c);
+			tableThongKeDoanhThu.setDefaultEditor(col_class, null);
+		}
+
+	}
+
+	public void updateTable() {
+		tongTien = BigDecimal.valueOf(0);
+		try {
+
+			// tableModel.getDataVector().removeAllElements();
+			int rowCount = tableThongKeDoanhThu.getRowCount();
+			for (int i = rowCount; i > 0; i--) {
+				tableModel.removeRow(i - 1);
+			}
+			try {
+				int i = 0;
+				String ngayBD = "";
+				String ngayEnd = "";
+				ngayBD = dateFormat.format(dateFrom.getDate());
+				ngayEnd = dateFormat.format(dateTo.getDate());
+				System.out.println(ngayBD);
+
+				List<HoaDon> listHD = hdDAO.getHoaDonByDate(ngayBD, ngayEnd);
+				List<PhieuDatBan> listPDB = phieuDAO.getAllPhieuDatBan();
+				List<ChiTietHoaDon> listCTHD = cthdDAO.getAllCTHD();
+
+				for (HoaDon hd : listHD) {
+					i++;
+					try {
+						for (ChiTietHoaDon cthd : listCTHD) {
+							for (PhieuDatBan pdb : listPDB) {
+								if (hd.getMaHoaDon() == cthd.getHoaDon().getMaHoaDon()
+										&& cthd.getBanTiec().getMaBanTiec() == pdb.getMaBanTiec()) {
+									BigDecimal t = BigDecimal.valueOf(0.3d);
+									BigDecimal t1 = pdb.getTienCoc();
+									BigDecimal t2;
+									if (pdb.getTrangThai().equals(suDungNgay)) {
+										t2 = t1.divide(t);
+										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
+												df.format(t2) });
+
+									} else if (pdb.getTrangThai().equals(muaVe)) {
+										t2 = t1.divide(t);
+										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
+												df.format(t2) });
+
+									} else {
+										t2 = (t1.divide(t)).subtract(t1);
+										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
+												df.format(pdb.getTienCoc()) });
+									}
+									tongTien = tongTien.add(t2);
+
+								}
+							}
+						}
+
+					} catch (Exception e) {
+						tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon() });
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			txtTongTien.setText(df.format(tongTien));
+			tableThongKeDoanhThu.setModel(tableModel);
+
+		} catch (Exception e) {
+		}
+	}
+
+	public void loadTable() {
+		try {
+
+			// tableModel.getDataVector().removeAllElements();
+			int rowCount = tableThongKeDoanhThu.getRowCount();
+			for (int i = rowCount; i > 0; i--) {
+				tableModel.removeRow(i - 1);
+			}
+			try {
+				int i = 0;
+				List<HoaDon> listHD = hdDAO.getAllHoaDon();
+				List<PhieuDatBan> listPDB = phieuDAO.getAllPhieuDatBan();
+				List<ChiTietHoaDon> listCTHD = cthdDAO.getAllCTHD();
+
+				for (HoaDon hd : listHD) {
+					i++;
+					try {
+						for (ChiTietHoaDon cthd : listCTHD) {
+							for (PhieuDatBan pdb : listPDB) {
+								if (hd.getMaHoaDon() == cthd.getHoaDon().getMaHoaDon()
+										&& cthd.getBanTiec().getMaBanTiec() == pdb.getMaBanTiec()) {
+									BigDecimal t = BigDecimal.valueOf(0.3d);
+									BigDecimal t1 = pdb.getTienCoc();
+									BigDecimal t2;
+									if (pdb.getTrangThai().equals(suDungNgay)) {
+										t2 = t1.divide(t);
+										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
+												df.format(t2) });
+
+									} else if (pdb.getTrangThai().equals(muaVe)) {
+										t2 = t1.divide(t);
+										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
+												df.format(t2) });
+
+									} else {
+										t2 = (t1.divide(t)).subtract(t1);
+										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
+												df.format(pdb.getTienCoc()) });
+									}
+									tongTien = tongTien.add(t2);
+
+								}
+							}
+						}
+
+					} catch (Exception e) {
+						tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon() });
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			txtTongTien.setText(df.format(tongTien));
+			tableThongKeDoanhThu.setModel(tableModel);
+
+		} catch (Exception e) {
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnThongKe)) {
+			updateTable();
+		} else if (o.equals(btnBaoCao)) {
+			/**
+			 * handle for btnBaoCao here
+			 */
+		}
+
 	}
 }

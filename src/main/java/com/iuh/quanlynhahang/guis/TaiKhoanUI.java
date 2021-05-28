@@ -1,6 +1,7 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -72,6 +74,19 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 
 	private static TaiKhoanDAOImpl taiKhoanDAO = new TaiKhoanDAOImpl();
 	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TaiKhoanUI frame = new TaiKhoanUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	public TaiKhoanUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,6 +104,16 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 		scrollPane = new JScrollPane(tableTaiKhoan = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		tableTaiKhoan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		TableColumnModel columnModel = tableTaiKhoan.getColumnModel();
+		tableTaiKhoan.setDefaultEditor(Object.class, null);
+		columnModel.getColumn(0).setPreferredWidth(50);
+		columnModel.getColumn(1).setPreferredWidth(100);
+		columnModel.getColumn(2).setPreferredWidth(100);
+		columnModel.getColumn(3).setPreferredWidth(100);
+		columnModel.getColumn(4).setPreferredWidth(250);
+		columnModel.getColumn(5).setPreferredWidth(200);
+		tableTaiKhoan.setRowHeight(30);
+		tableTaiKhoan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		panel = new JPanel();
 		panel.setBorder(
@@ -316,6 +341,7 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 		btnThem.addActionListener(this);
 		btnTim.addActionListener(this);
 		btnXoa.addActionListener(this);
+		btnLamMoiDuLieu.addActionListener(this);
 
 		tableTaiKhoan.addMouseListener(this);
 		tableTaiKhoan.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -330,6 +356,7 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
+		// reset password
 		if (obj.equals(btnLamMoi)) {
 			int row = tableTaiKhoan.getSelectedRow();
 			if (row != -1) {
@@ -339,7 +366,7 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 					taiKhoanDAO.updateTK(taiKhoan);
 					updateTable();
 					refresh();
-					JOptionPane.showMessageDialog(this, "Reset mật khẩu thành công!", "Thông báo",
+					JOptionPane.showMessageDialog(this, "Reset mật khẩu thành công, Mật khẩu là: \"12345678\"", "Thông báo",
 							JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
 				} catch (Exception e2) {
 					e2.printStackTrace();
@@ -365,6 +392,8 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 				try {
 					NhanVien nv = nhanVienDAO.getNVByID(maNV);
 					if (nv != null) {
+						tableModel = (DefaultTableModel) tableTaiKhoan.getModel();
+						tableModel.getDataVector().removeAllElements();
 						tableModel.addRow(new Object[] { 1, nv.getMaNhanVien(), nv.getTaiKhoan().getMaTaiKhoan(),
 								nv.getTaiKhoan().getTenTaiKhoan(), nv.getHoTenNhanVien(),
 								nv.getTaiKhoan().getLoaiTaiKhoan().getTenLoaiTaiKhoan() });

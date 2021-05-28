@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ import com.iuh.quanlynhahang.entities.Ban;
 import com.iuh.quanlynhahang.entities.PhieuDatBan;
 import com.iuh.quanlynhahang.entities.Sanh;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseListener {
 
@@ -70,8 +72,9 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 	private JLabel lblClickChn;
 	public JRadioButton rdbDatTruoc;
 	public JRadioButton rdbSuDungNgay;
-	private static final String DATE_PATTERN = "^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-((?:19|20)[0-9][0-9])$";
+//	private static final String DATE_PATTERN = "^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-((?:19|20)[0-9][0-9])$";
 	private static final String SOLUONG_PARRERN = "[0-9]{1,4}$";
+	JTextFieldDateEditor editor;
 
 	private static SanhDAOImpl sanhDAO = new SanhDAOImpl();
 	private static BanDAOImpl banDAO = new BanDAOImpl();
@@ -253,6 +256,10 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 		dateNgaySuDung.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		dateNgaySuDung.setLocale(Locale.forLanguageTag("vi-VN"));
 		dateNgaySuDung.setDateFormatString("dd-MM-yyyy");
+		
+		dateNgaySuDung.setDate(Date.valueOf(LocalDate.now()));
+		editor = (JTextFieldDateEditor) dateNgaySuDung.getDateEditor();
+		editor.setEditable(false);
 
 		JLabel lblGi = new JLabel("Giờ");
 		lblGi.setFont(new Font("Times New Roman", Font.PLAIN, 16));

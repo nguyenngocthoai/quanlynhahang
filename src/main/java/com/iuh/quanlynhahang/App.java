@@ -1,14 +1,22 @@
 package com.iuh.quanlynhahang;
 
+import java.util.List;
+
+import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
+import com.iuh.quanlynhahang.entities.HoaDon;
+
 /**
  * Hello world!
  * 
  */
 public class App {
+//	KhachHangDAOImpl khachHangDAO = new KhachHangDAOImpl();
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
-//		KhachHangDAOImpl khachHangDAOImpl = new KhachHangDAOImpl();
+//		KhachHangDAOImpl khachHangDAO = new KhachHangDAOImpl();
 //		BanDAOImpl banDAOImpl=new BanDAOImpl();
+//		MonDAOImpl monDAO = new MonDAOImpl();
+		HoaDonDAOImpl dao = new HoaDonDAOImpl();
 //		System.out.println(LocalDate.now());
 
 //		List<String> s = new ArrayList<String>();
@@ -52,5 +60,45 @@ public class App {
 
 //		System.out.println((d.divide(a, 2, BigDecimal.ROUND_HALF_UP)).subtract(d));
 
+//		List<Integer> l = monDAO.getAllNamsInHoaDon();
+//		Set<Integer> s= new HashSet<Integer>();
+//		s.addAll(l);
+//		l.forEach(x -> System.out.println(l));
+//		System.out.println("lllllllllllll");
+//		System.out.println(l);
+//		Set<Integer> s= new HashSet<Integer>();
+//		s.addAll(l);
+//		System.out.println(";;;;;;;;;;;;;;;");
+//		System.out.println(s);
+
+//		List<String> l = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<String> l1 = dao.ThongKeKhachHangItNhatTrongThang(5, 2021);
+//		List<String> l2 = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<String> l3 = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<String> l4 = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<String> l5 = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<String> l6 = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<String> l7 = dao.ThongKeKhachHangItNhatTrongNam(2021);
+//		List<Long> l8 = dao.ThongKeSoLanDatKhachHangItNhatTrongNam(2021);
+//		System.out.println(l8);
+//		List<KhachHang> kh=convertStringtoKhachHang(l1);
+//		for (KhachHang khachHang : kh) {
+//			System.out.println(khachHang.getTenKhachHang());
+//		}
+		List<HoaDon> h = dao.getHoaDonsByTenNV("Nguyễn Ngọc Thoại");
+		System.out.println(h.size());
+
 	}
+//	private static List<KhachHang> convertStringtoKhachHang(List<String> list) {
+//		KhachHangDAOImpl khachHangDAO = new KhachHangDAOImpl();
+//		List<KhachHang> khachHangs = new ArrayList<KhachHang>();
+//		try {
+//			for (String str : list) {
+//				KhachHang khachHang = khachHangDAO.getKHByID(str);
+//				khachHangs.add(khachHang);
+//			}
+//		} catch (Exception e) {
+//		}
+//		return khachHangs;
+//	}
 }

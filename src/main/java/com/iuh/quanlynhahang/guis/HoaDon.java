@@ -1,11 +1,19 @@
 package com.iuh.quanlynhahang.guis;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Month;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -18,18 +26,7 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.Month;
-import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
+@SuppressWarnings("serial")
 public class HoaDon extends JFrame {
 
 	public JPanel contentPane;
@@ -53,6 +50,7 @@ public class HoaDon extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unused")
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private JScrollPane scrollPane;
