@@ -58,6 +58,15 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		});
 	}
 
+	public KhachHangUI() {
+		KhachHangUI();
+	}
+
+	public KhachHangUI(String tenKhachHang, String soDienThoai, String diaChi, String gioiTinh) {
+		KhachHangUI();
+		SearchKH(tenKhachHang, soDienThoai, diaChi, gioiTinh);
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -92,8 +101,8 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 
 	private JButton btnDatBanTiec;
 
-	public KhachHangUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public void KhachHangUI() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1084, 551);
 		setSize(1100, 567);
 		contentPane = new JPanel();
@@ -544,10 +553,24 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		txtMaKH.setText(randomMaKHNotExisted());
 	}
 
+	public static List<KhachHang> khachHangs;
+
+	public int Receive(List<KhachHang> khachHangs) {
+
+		if (khachHangs == null) {
+			this.khachHangs = khachHangDAO.getAllKH();
+			return 0;
+		} else {
+			this.khachHangs = khachHangs;
+		}
+		System.out.println(khachHangs.size());
+		return 1;
+	}
+
 	public void updateTable() {
 		tableModel.getDataVector().removeAllElements();
 		try {
-			List<KhachHang> khachHangs = khachHangDAO.getAllKH();
+			Receive(khachHangs);
 			int i = 0;
 			for (KhachHang kh : khachHangs) {
 				i++;
@@ -590,6 +613,35 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 
 	}
 
+<<<<<<< Updated upstream
+=======
+	private List<String> checkExistedKH() {
+		List<KhachHang> khachHangs = khachHangDAO.getAllKH();
+		List<String> idKHs = new ArrayList<String>();
+		for (KhachHang khachHang : khachHangs) {
+			idKHs.add(khachHang.getMaKhachHang());
+		}
+		return idKHs;
+	}
+
+	private void SearchKH(String tenKhachHang, String soDienThoai, String diaChi, String gioiTinh) {
+		int rowCount = tableKhachHang.getRowCount();
+		for (int i = rowCount; i > 0; i--) {
+			tableModel.removeRow(i - 1);
+		}
+		int i = 0;
+		khachHangDAO = new KhachHangDAOImpl();
+		List<KhachHang> list = khachHangDAO.searchKH(tenKhachHang, soDienThoai, diaChi, gioiTinh);
+		for (KhachHang khachHang : list) {
+			i++;
+			String[] rowData = { i + "", khachHang.getMaKhachHang(), khachHang.getTenKhachHang(),
+					khachHang.getSoDienThoai(), khachHang.getGioiTinh(), khachHang.getDiaChi() };
+			tableModel.addRow(rowData);
+		}
+		tableKhachHang.setModel(tableModel);
+	}
+
+>>>>>>> Stashed changes
 	@Override
 	public void mousePressed(MouseEvent e) {
 	}

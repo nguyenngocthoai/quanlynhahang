@@ -56,14 +56,23 @@ public class KhachHangDAOImpl implements IKhachHangDAO {
 
 	@Override
 	public KhachHang getKHBySDT(String sDT) {
-		return em.createQuery("select kh from KhachHang kh where soDienThoai=" +"'"+ sDT+"'", KhachHang.class)
+		return em.createQuery("select kh from KhachHang kh where soDienThoai=" + "'" + sDT + "'", KhachHang.class)
 				.getSingleResult();
 	}
 
 	@Override
-	public List<KhachHang> getKHByTen(String ten) {
-		return em.createQuery("select kh from KhachHang kh where tenKhachHang like" + ten + "%", KhachHang.class)
+	public List<KhachHang> getKHByTen(String tenKhachHang) {
+		return em.createQuery("select kh from KhachHang kh where tenKhachHang=:tenKhachHang", KhachHang.class).setParameter("tenKhachHang", tenKhachHang)
 				.getResultList();
+	}
+
+	@Override
+	public List<KhachHang> searchKH(String tenKhachHang, String soDienThoai, String diaChi, String gioiTinh) {
+		// TODO Auto-generated method stub
+		return em.createQuery("select kh from KhachHang kh "
+				+ "where kh.tenKhachHang=:tenKhachHang and kh.soDienThoai=:soDienThoai and kh.diaChi=:diaChi and kh.gioiTinh=:gioiTinh",
+				KhachHang.class).setParameter("tenKhachHang", tenKhachHang).setParameter("soDienThoai", soDienThoai)
+				.setParameter("diaChi", diaChi).setParameter("gioiTinh", gioiTinh).getResultList();
 	}
 
 }
