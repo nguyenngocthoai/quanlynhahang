@@ -220,74 +220,75 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 		cbxTrangThaiDatBan.addItem("Đã Đặt");
 
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(cbxTrangThaiDatBan, 0, 247, Short.MAX_VALUE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(9)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup().addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup().addContainerGap()
+								.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(cbxTrangThaiDatBan, 0, 247, Short.MAX_VALUE))
+						.addGroup(gl_panel_1.createSequentialGroup().addGap(9).addGroup(gl_panel_1
+								.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblMTiKhon, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblMKhchHng)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_panel_1.createSequentialGroup()
-											.addComponent(cbxTrangThaiHoatDong, 0, 247, Short.MAX_VALUE)
-											.addGap(1))
-										.addComponent(cbxThuocSanh, 0, 248, Short.MAX_VALUE)
-										.addGroup(gl_panel_1.createSequentialGroup()
-											.addComponent(txtMaBan, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED))
-										.addGroup(gl_panel_1.createSequentialGroup()
-											.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-												.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-												.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-												.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-												.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)))
-										.addComponent(lblThngTinTi, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)))
-								.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE))))
-					.addGap(46))
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblThngTinTi)
-					.addGap(31)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblMTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtMaBan, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cbxThuocSanh, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(29)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMKhchHng, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cbxTrangThaiHoatDong, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(31)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cbxTrangThaiDatBan, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(28)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
+								.addGroup(gl_panel_1.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(lblMKhchHng).addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+												.addGroup(
+														gl_panel_1.createSequentialGroup()
+																.addComponent(cbxTrangThaiHoatDong, 0, 247,
+																		Short.MAX_VALUE)
+																.addGap(1))
+												.addComponent(cbxThuocSanh, 0, 248, Short.MAX_VALUE)
+												.addGroup(gl_panel_1.createSequentialGroup()
+														.addComponent(txtMaBan, GroupLayout.DEFAULT_SIZE, 248,
+																Short.MAX_VALUE)
+														.addPreferredGap(ComponentPlacement.RELATED))
+												.addGroup(gl_panel_1.createSequentialGroup()
+														.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+																.addComponent(btnCapNhat, GroupLayout.DEFAULT_SIZE, 120,
+																		Short.MAX_VALUE)
+																.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 120,
+																		Short.MAX_VALUE))
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+																.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 122,
+																		Short.MAX_VALUE)
+																.addComponent(btnXoa, GroupLayout.DEFAULT_SIZE, 122,
+																		Short.MAX_VALUE)))
+												.addComponent(lblThngTinTi, Alignment.LEADING,
+														GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 96,
+										GroupLayout.PREFERRED_SIZE))))
+						.addGap(46)));
+		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap().addComponent(lblThngTinTi).addGap(31)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblMTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtMaBan, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTnTiKhon, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbxThuocSanh, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(29)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMKhchHng, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbxTrangThaiHoatDong, GroupLayout.PREFERRED_SIZE, 35,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(31)
+						.addGroup(
+								gl_panel_1.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblTrngThit, GroupLayout.PREFERRED_SIZE, 24,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(cbxTrangThaiDatBan, GroupLayout.PREFERRED_SIZE, 35,
+												GroupLayout.PREFERRED_SIZE))
+						.addGap(28)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnXoa, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+						.addGap(18)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap()));
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);
 		cbxThuocSanh.addActionListener(this);
@@ -371,6 +372,8 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 						JOptionPane.showMessageDialog(this, "Thêm bàn thành công!", "Thông báo",
 								JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
 						updateTable();
+						DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+						datBanTiec_ChonBan.updateBan();
 					} else {
 						JOptionPane.showMessageDialog(this, "Thêm bàn thất bại!", "Thông báo",
 								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
@@ -396,15 +399,23 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 				String maBan = txtMaBan.getText();
 				try {
 					Ban ban = banDAO.getBanById(Integer.parseInt(maBan));
-					boolean check = banDAO.deleteBan(ban);
-					if (check) {
-						JOptionPane.showMessageDialog(this, "Xóa bàn thành công!", "Thông báo",
-								JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
-						updateTable();
+					if (ban.gettrangThaiDatBan().equalsIgnoreCase("Trống")) {
+						boolean check = banDAO.deleteBan(ban);
+						if (check) {
+							JOptionPane.showMessageDialog(this, "Xóa bàn thành công!", "Thông báo",
+									JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
+							updateTable();
+							DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+							datBanTiec_ChonBan.updateBan();
+						} else {
+							JOptionPane.showMessageDialog(this, "Xóa bàn thất bại!", "Thông báo",
+									JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+						}
 					} else {
-						JOptionPane.showMessageDialog(this, "Xóa bàn thất bại!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-								new ImageIcon("images\\warning.png"));
+						JOptionPane.showMessageDialog(this, "Khách đang sử dụng bàn này. Không thể xóa!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 					}
+
 				} catch (Exception e2) {
 					e2.printStackTrace();
 					JOptionPane.showMessageDialog(this, "Lỗi. Vui lòng thử lại!", "Thông báo",
@@ -426,18 +437,26 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 
 				try {
 					Ban ban = banDAO.getBanById(Integer.parseInt(maBan));
-					ban.setSanh(sanh);
-					ban.settrangThaiDatBan(tTDB);
-					ban.setTrangThaiHoatDong(tTHD);
-					boolean check = banDAO.updateBan(ban);
-					if (check) {
-						JOptionPane.showMessageDialog(this, "Cập nhật bàn thành công!", "Thông báo",
-								JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
-						updateTable();
+					if (ban.gettrangThaiDatBan().equalsIgnoreCase("Trống")) {
+						ban.setSanh(sanh);
+						ban.settrangThaiDatBan(tTDB);
+						ban.setTrangThaiHoatDong(tTHD);
+						boolean check = banDAO.updateBan(ban);
+						if (check) {
+							JOptionPane.showMessageDialog(this, "Cập nhật bàn thành công!", "Thông báo",
+									JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
+							updateTable();
+							DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+							datBanTiec_ChonBan.updateBan();
+						} else {
+							JOptionPane.showMessageDialog(this, "Cập nhật bàn thất bại!", "Thông báo",
+									JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+						}
 					} else {
-						JOptionPane.showMessageDialog(this, "Cập nhật bàn thất bại!", "Thông báo",
-								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+						JOptionPane.showMessageDialog(this, "Khách đang sử dụng bàn này. Không thể cập nhật!",
+								"Thông báo", JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 					}
+
 				} catch (Exception e2) {
 					e2.printStackTrace();
 					JOptionPane.showMessageDialog(this, "Lỗi, hãy thử lại sau!", "Thông báo", JOptionPane.ERROR_MESSAGE,
@@ -476,6 +495,8 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 
 		} else if (obj.equals(btnLamMoiDuLieu)) {
 			updateTable();
+			DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+			datBanTiec_ChonBan.updateBan();
 		}
 
 	}

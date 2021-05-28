@@ -174,8 +174,11 @@ public class DangNhap extends JFrame implements ActionListener {
 		contentPane.setLayout(gl_contentPane);
 		setLocationRelativeTo(null);
 		txtTenDangNhap.requestFocus();
-
+		
 		btnDangNhap.addActionListener(this);
+		
+		txtTenDangNhap.setText("NV16126984");
+		txtMatKhau.setText("Thoai603@");
 
 	}
 
@@ -192,7 +195,6 @@ public class DangNhap extends JFrame implements ActionListener {
 			boolean checkLogin = false;
 
 			String username = txtTenDangNhap.getText().trim();
-//			String password = txtMatKhau.getText().trim();
 			String password = String.valueOf(txtMatKhau.getPassword());
 			if (username.isEmpty()) {
 				msgUsername = "Vui lòng nhập tên đăng nhập!";

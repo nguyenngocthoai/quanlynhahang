@@ -1,7 +1,5 @@
 package com.iuh.quanlynhahang.daoimpls;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -29,12 +27,6 @@ public class ChiTietHoaDonDAOImpl implements IChiTietHoaDon {
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	@Override
-	public List<ChiTietHoaDon> getAllCTHD() {
-		// TODO Auto-generated method stub
-		return em.createQuery("select cthd from ChiTietHoaDon cthd",ChiTietHoaDon.class).getResultList();
 	}
 
 }

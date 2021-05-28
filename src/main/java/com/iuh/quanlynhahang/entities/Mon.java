@@ -2,9 +2,12 @@ package com.iuh.quanlynhahang.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -18,6 +21,8 @@ import javax.persistence.ManyToOne;
 @Entity
 
 public class Mon implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	private String maMon;
 	@Column(columnDefinition = "nvarchar(150)")
@@ -35,7 +40,9 @@ public class Mon implements Serializable {
 //	@JoinColumn(name = "maMon")
 //	private Set<BanTiec> banTiecs;
 
-	private static final long serialVersionUID = 1L;
+	@ElementCollection
+	@Column(columnDefinition = "nvarchar(300)")
+	private List<String> donViTinh=new ArrayList<String>();
 
 	public Mon() {
 		super();
@@ -47,6 +54,17 @@ public class Mon implements Serializable {
 		this.tenMon = tenMon;
 		this.loaiMon = loaiMon;
 		this.giaTien = giaTien;
+	}
+	
+	
+
+	public Mon(String maMon, String tenMon, LoaiMon loaiMon, BigDecimal giaTien, List<String> donViTinh) {
+		super();
+		this.maMon = maMon;
+		this.tenMon = tenMon;
+		this.loaiMon = loaiMon;
+		this.giaTien = giaTien;
+		this.donViTinh = donViTinh;
 	}
 
 	public String getMaMon() {
@@ -81,4 +99,11 @@ public class Mon implements Serializable {
 		this.giaTien = giaTien;
 	}
 
+	public List<String> getDonViTinh() {
+		return donViTinh;
+	}
+
+	public void setDonViTinh(List<String> donViTinh) {
+		this.donViTinh = donViTinh;
+	}
 }

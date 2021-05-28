@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
@@ -14,56 +15,75 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import com.iuh.quanlynhahang.daoimpls.BanDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.LoaiMonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
 import com.iuh.quanlynhahang.entities.Ban;
+import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
+import com.iuh.quanlynhahang.entities.HoaDon;
 import com.iuh.quanlynhahang.entities.KhachHang;
 import com.iuh.quanlynhahang.entities.LoaiMon;
 import com.iuh.quanlynhahang.entities.Mon;
+import com.iuh.quanlynhahang.entities.NhanVien;
 import com.iuh.quanlynhahang.entities.PhieuDatBan;
 
-public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseListener {
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.ImageIcon;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextField;
 
+public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, MouseListener {
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTable table;
 	private JTree tree;
-	private JButton btnTroVe;
 	private JButton btnDat;
 	private DefaultTableModel model;
 	private JButton btnSL;
+//	private JComboBox comboBox;
 	private JButton btnDVT;
 	private JButton btnXoaMon;
 
@@ -76,9 +96,10 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
 	double tienCoc;
 	private static PhieuDatBanDAOImpl phieuDatBanDAO = new PhieuDatBanDAOImpl();
-	private static DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-	private static BanDAOImpl banDAO=new BanDAOImpl();
-	private static BanUI banUI=new BanUI();
+	private DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
+	private static HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
+	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
 
 	/**
 	 * Launch the application.
@@ -87,7 +108,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DatBanTiec_ChonMon frame = new DatBanTiec_ChonMon();
+					CapNhatPhieuDatMonUI frame = new CapNhatPhieuDatMonUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,15 +120,15 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("serial")
-	public DatBanTiec_ChonMon() {
+	@SuppressWarnings("unchecked")
+	public CapNhatPhieuDatMonUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1084, 551);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-		JLabel lblChnMn = new JLabel("CHỌN MÓN");
+		JLabel lblChnMn = new JLabel("CẬP NHẬT PHIẾU ĐẶT MÓN");
 		lblChnMn.setForeground(Color.RED);
 		lblChnMn.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
@@ -119,17 +140,15 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		panel.setBorder(new TitledBorder(null, "Danh s\u00E1ch m\u00F3n \u0111\u00E3 ch\u1ECDn", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup().addContainerGap()
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE).addGap(18)
-								.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addContainerGap())
-						.addGroup(gl_contentPane.createSequentialGroup().addGap(470)
-								.addComponent(lblChnMn, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-								.addGap(409)))));
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup().addContainerGap()
+										.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+										.addGap(18).addComponent(panel, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(282).addComponent(lblChnMn)))
+						.addContainerGap()));
 		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup().addComponent(lblChnMn).addGap(18)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -140,12 +159,8 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		btnTroVe = new JButton("Trở Về");
-		btnTroVe.setIcon(new ImageIcon("images\\back.png"));
-		btnTroVe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-
-		btnDat = new JButton("Đặt");
-		btnDat.setIcon(new ImageIcon("images\\accept.png"));
+		btnDat = new JButton("Đặt Thêm");
+		btnDat.setIcon(new ImageIcon("images\\add.png"));
 		btnDat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		btnSL = new JButton("Cập nhật số lượng");
@@ -194,13 +209,12 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 										.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 76,
 												GroupLayout.PREFERRED_SIZE))
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING).addComponent(txtTongTien)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(txtTongTien, 272, 272, 272)
 										.addComponent(txtTienCoc, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE))
-								.addGap(51)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(btnTroVe, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(btnDat, GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))))
+								.addGap(38)
+								.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
+								.addGap(13)))
 				.addGap(12)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.TRAILING).addGroup(gl_panel
 				.createSequentialGroup().addContainerGap()
@@ -208,22 +222,20 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 						.addComponent(btnXoaMon))
 				.addPreferredGap(ComponentPlacement.RELATED)
 				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup().addGap(46)
-								.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(txtTienCoc, GroupLayout.PREFERRED_SIZE, 32,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblTinCc, GroupLayout.PREFERRED_SIZE, 30,
-												GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panel.createSequentialGroup().addGap(40).addComponent(btnTroVe,
-								GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)))
-				.addPreferredGap(ComponentPlacement.RELATED)
-				.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false).addGroup(gl_panel
+						.createSequentialGroup().addGap(46)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtTienCoc, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblTinCc, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(8)
 						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblTngTin, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtTongTien, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap()));
+						.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnDat, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+								.addGap(32)))));
 
 		table = new JTable();
 		model = new DefaultTableModel(new Object[][] {},
@@ -257,24 +269,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 			table.setDefaultEditor(col_class, null); // remove editor
 		}
 
-//		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
-//		List<Mon> mons = monDAO.getAllMon();
 		tree = new JTree();
-//		TreeModel model = null;
-//		DefaultMutableTreeNode mon=new DefaultMutableTreeNode();
-//		for (LoaiMon lm : loaiMons) {
-//			model = (new DefaultTreeModel(new DefaultMutableTreeNode(lm.getTenLoaiMon()) {
-//				{
-//					for (Mon m : mons) {
-//						if (m.getLoaiMon().getTenLoaiMon().equalsIgnoreCase(lm.getTenLoaiMon())) {
-//							add(new DefaultMutableTreeNode(m.getTenMon()));
-//						}
-//					}
-//					add(model);
-//				}
-//			}));
-//			tree.setModel(model);
-//		}
 
 		try {
 			tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Danh Sách Món") {
@@ -301,18 +296,13 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		scrollPane.setViewportView(tree);
 
 		contentPane.setLayout(gl_contentPane);
-
-		btnTroVe.addActionListener(this);
 		btnDat.addActionListener(this);
 		btnSL.addActionListener(this);
 		btnDVT.addActionListener(this);
 		btnXoaMon.addActionListener(this);
 
-//		List<String> tenMons = new ArrayList<String>();
 		List<LoaiMon> checkLoaiMons = loaiMonDAO.getAllLoaiMon();
 
-//		for (Mon mon : mons) {
-//		tree.getModel().
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 
 			public void valueChanged(TreeSelectionEvent e) {
@@ -394,91 +384,43 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if (obj.equals(btnTroVe)) {
-			DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-			TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-			TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane()),
-					"Chọn Bàn");
-			datBanTiec_ChonBan.banDaChon.clear();
-			tenMons.clear();
-			model = (DefaultTableModel) table.getModel();
-			model.getDataVector().removeAllElements();
-		} else if (obj.equals(btnDat)) {
-
-			if (tenMons.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để đặt!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("images\\warning.png"));
-			} else {
-				int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt?", "Thông báo",
-						JOptionPane.YES_NO_OPTION);
-				if (options == JOptionPane.YES_OPTION) {
+		if (obj.equals(btnDat)) {
+			int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
+					JOptionPane.YES_NO_OPTION);
+			if (options == JOptionPane.YES_OPTION) {
+				if (tenMons.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn thêm món để cập nhật!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				} else {
 					List<Mon> mons = convertStringtoMon();
 					Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
-					Set<Ban> setBans = DatBanTiec_ChonBan.banDaChon.stream().collect(Collectors.toSet());
-
-					String gioSuDung = null;
-					if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
-						gioSuDung = LocalDateTime.now().getHour() + "h" + LocalDateTime.now().getMinute() + "";
-					} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-						gioSuDung = datBanTiec_ChonBan.cbxGio.getSelectedItem().toString() + "h"
-								+ datBanTiec_ChonBan.cbxPhut.getSelectedItem().toString();
-					}
-
-					LocalDate ngaySuDung = null;
-					Date nsd = datBanTiec_ChonBan.dateNgaySuDung.getDate();
-					if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
-						ngaySuDung = LocalDate.now();
-					} else if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-						ngaySuDung = nsd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-					}
-					int soLuong = datBanTiec_ChonBan.soLuongNguoiNextScreen;
-
-					BigDecimal tienCocSave = new BigDecimal(tienCoc);
-
-					KhachHang khachHang = new KhachHang();
-					khachHang.setMaKhachHang(KhachHangUI.khachHang.getMaKhachHang());
-					khachHang.setTenKhachHang(KhachHangUI.khachHang.getTenKhachHang());
-					khachHang.setDiaChi(KhachHangUI.khachHang.getDiaChi());
-					khachHang.setGioiTinh(KhachHangUI.khachHang.getGioiTinh());
-					khachHang.setSoDienThoai(KhachHangUI.khachHang.getSoDienThoai());
-
-					String trangThai = "";
-					if (datBanTiec_ChonBan.rdbDatTruoc.isSelected()) {
-						trangThai = "Đặt Trước";
-					} else if (datBanTiec_ChonBan.rdbSuDungNgay.isSelected()) {
-						trangThai = "Sử Dụng Ngay";
-					}
 
 					try {
-						PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), khachHang, setBans, setMons,
-								LocalDate.now(), ngaySuDung, gioSuDung, "Chưa Thanh Toán", soLuong, 1, tienCocSave,
-								trangThai);
+						PhieuDatBan phieuDatBan = PhieuDatMonUI.phieuDatBan;
+						Set<Mon> monDaDat = phieuDatBan.getMonAns();
 
-						phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
-						JOptionPane.showMessageDialog(null, "Đặt thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-								new ImageIcon("images\\yes.png"));
+						// ===========
+						System.out.println("Mon da dat:");
+						monDaDat.forEach(x -> System.out.println(x.getTenMon()));
+						System.out.println("Mon moi");
+						mons.forEach(x -> System.out.println(x.getTenMon()));
+						System.out.println("Mon gop:");
+						for (Mon x : set_merge(setMons, monDaDat))
+							System.out.println(x.getTenMon());
+						// ===========
 
-						for (Ban b : setBans) {
-							b.settrangThaiDatBan("Đã Đặt");
-							banDAO.updateBan(b);
-						}
+						BigDecimal tienCocThem = phieuDatBan.getTienCoc();
 
-						DatBanTiec_ChonBan.banDaChon.clear();
+						phieuDatBan.setMonAns(set_merge(setMons, monDaDat));
+						phieuDatBan.setTienCoc(new BigDecimal(tienCoc).add(tienCocThem));
+
+						phieuDatBanDAO.updatePhieuDatBan(phieuDatBan);
+
+						JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\yes.png"));
 						tenMons.clear();
 						model = (DefaultTableModel) table.getModel();
 						model.getDataVector().removeAllElements();
-						
-						datBanTiec_ChonBan.txtSoLuong.setText("");
-						banUI.updateTable();
-						datBanTiec_ChonBan.updateBan();
-						datBanTiec_ChonBan.txtSoLuong.setText("");
-						
-						PhieuDatMonUI phieuDatMonUI = new PhieuDatMonUI();
-						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-						TrangChu.tabbedPane.addTab("Phiếu Đặt", null,
-								TrangChu.tabbedPane.add(phieuDatMonUI.getContentPane()), "Phiếu Đặt");
-						phieuDatMonUI.updateTable();
-
 					} catch (Exception e2) {
 						e2.printStackTrace();
 					}
@@ -489,8 +431,11 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				String tenMon = (String) table.getValueAt(row, 1);
+				System.out.println("tên món: " + tenMon);
 				tenMons.remove(tenMon);
 				model.removeRow(row);
+				System.out.println("removed:");
+				tenMons.forEach(x -> System.out.println(x));
 			} else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để xóa!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
@@ -500,6 +445,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				String soLuong = (String) table.getValueAt(row, 2);
+				System.out.println("Số lượng: " + soLuong);
 				String m = JOptionPane.showInputDialog("Nhập số lượng:", soLuong);
 				if (!m.isEmpty() && m.matches("^([1-9](0)*)*$")) {
 					System.out.println(m);
@@ -551,7 +497,6 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void loadDataForMon() {
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		List<Mon> mons = monDAO.getAllMon();
@@ -587,31 +532,55 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 
 		try {
 			List<Mon> mons = convertStringtoMon();
+//			int i = 0;
 			for (Mon mon : mons) {
+//				i++;
+//				List<String> dvts = mon.getDonViTinh();
+//				for (String str : dvts) {
+//					System.out.println("wwwwwwwww  " + str);
+//					comboBox.addItem(str);
+//				}
 				model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), "1", "", mon.getGiaTien() });
+//				TableColumn comboCol4 = table.getColumnModel().getColumn(4);
+//				comboCol4.setCellEditor(new DefaultCellEditor(comboBox));
 
 			}
 			model.fireTableDataChanged();
 			table.setModel(model);
+//			table.getSelectionModel().clearSelection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void updateMonInTable(String tenMon) {
 		try {
 			if (!tenMon.equalsIgnoreCase("Danh Sách Món")) {
+//				JOptionPane.showMessageDialog(null,
+//						"Món đã được chọn. Vui lòng chỉnh sửa số lượng ở cột số lượng trong bảng!", "Thông báo",
+//						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 				Mon mon = monDAO.getMonByTen(tenMon);
 				List<String> dvts = mon.getDonViTinh();
 				String[] options = new String[dvts.size()];
 				ImageIcon icon = new ImageIcon("images\\yes.png");
 				String n = (String) JOptionPane.showInputDialog(null, "Chọn đơn vị tính:", "Thông báo",
 						JOptionPane.OK_OPTION, icon, options, options[0]);
+				System.out.println(n);
 
+//				JComboBox comboBox = new JComboBox<>();
 				model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), "1", n, mon.getGiaTien() });
+
+//				List<String> dvts = mon.getDonViTinh();
+//				for (String str : dvts) {
+//					System.out.println("wwwwwwwww  " + str);
+//					cbxDVT.addItem(str);
+//					comboBox.addItem(str);
+//				}
+//				TableColumn comboCol4 = table.getColumnModel().getColumn(4);
+//				comboCol4.setCellEditor(new DefaultCellEditor(comboBox));
 			}
 		} catch (Exception e) {
+			// TODO: handle exception
 		}
 
 	}
@@ -630,7 +599,6 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		txtTienCoc.setText(df.format(tienCoc));
 	}
 
-	@SuppressWarnings("unused")
 	private void reloadJtree() {
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		List<Mon> mons = monDAO.getAllMon();
@@ -642,6 +610,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 					mon.add(new DefaultMutableTreeNode(m.getTenMon()));
 				}
 			}
+//			add(mon);
 		}
 	}
 
@@ -660,6 +629,29 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 
 		} while (idPDs.contains(maPD));
 		return "PDB" + maPD;
+	}
+
+	@SuppressWarnings("static-access")
+	public String randomMaHDNotExisted() {
+		String maHD;
+		List<String> idHDs = new ArrayList<String>();
+		List<HoaDon> hoaDons = hoaDonDAO.getAllHoaDon();
+		for (HoaDon hd : hoaDons) {
+			idHDs.add(hd.getMaHoaDon());
+		}
+
+		do {
+			RandomStringUtils randomStringUtils = new RandomStringUtils();
+			maHD = randomStringUtils.randomNumeric(8);
+
+		} while (idHDs.contains(maHD));
+		return "HD" + maHD;
+	}
+
+	public static <T> Set<T> set_merge(Set<T> set_1, Set<T> set_2) {
+		Set<T> my_set = set_1.stream().collect(Collectors.toSet());
+		my_set.addAll(set_2);
+		return my_set;
 	}
 
 	@Override

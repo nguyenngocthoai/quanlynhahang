@@ -24,28 +24,38 @@ public class PhieuDatBan implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String maBanTiec;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "maKhachhang")
+//	@Column(nullable = true)
 	private KhachHang khachHang;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "PhieuDatBan_Ban", joinColumns = @JoinColumn(name = "maBanTiec", referencedColumnName = "maBanTiec"), inverseJoinColumns = @JoinColumn(name = "maBan", referencedColumnName = "maBan"))
 //	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 //	@JoinColumn(name = "maBanTiec")
+	@Column(nullable = true)
 	private Set<Ban> bans;
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "PhieuDatBan_Mon", joinColumns = @JoinColumn(name = "maBanTiec", referencedColumnName = "maBanTiec"), inverseJoinColumns = @JoinColumn(name = "maMon", referencedColumnName = "maMon"))
 	private Set<Mon> monAns;
+	@Column(nullable = true)
 	private LocalDate ngayDatMon;
+	@Column(nullable = true)
 	private LocalDate ngaySuDung;
+	@Column(nullable = true)
 	private String gioSuDung;
-	@Column(columnDefinition = "nvarchar(30)")
+	@Column(columnDefinition = "nvarchar(30)", nullable = true)
 	private String trangThaiThanhToan;
+	@Column(nullable = true)
 	private int soLuongNguoi;
+	@Column(nullable = true)
 	private int soLuongMon;
+	@Column(nullable = true)
 	private BigDecimal tienCoc;
+//	@Column(columnDefinition = "nvarchar(30)")
+//	private String donViTinh;
 	@Column(columnDefinition = "nvarchar(30)")
-	private String donViTinh;
+	private String trangThai;
 
 	public PhieuDatBan() {
 		super();
@@ -53,7 +63,7 @@ public class PhieuDatBan implements Serializable {
 
 	public PhieuDatBan(String maBanTiec, KhachHang khachHang, Set<Ban> bans, Set<Mon> monAns, LocalDate ngayDatMon,
 			LocalDate ngaySuDung, String gioSuDung, String trangThaiThanhToan, int soLuongNguoi, int soLuongMon,
-			BigDecimal tienCoc, String donViTinh) {
+			BigDecimal tienCoc, String trangThai) {
 		super();
 		this.maBanTiec = maBanTiec;
 		this.khachHang = khachHang;
@@ -66,7 +76,26 @@ public class PhieuDatBan implements Serializable {
 		this.soLuongNguoi = soLuongNguoi;
 		this.soLuongMon = soLuongMon;
 		this.tienCoc = tienCoc;
-		this.donViTinh = donViTinh;
+		this.trangThai = trangThai;
+	}
+
+	public PhieuDatBan(String maBanTiec, Set<Mon> monAns, String trangThaiThanhToan) {
+		super();
+		this.maBanTiec = maBanTiec;
+		this.monAns = monAns;
+		this.trangThaiThanhToan = trangThaiThanhToan;
+	}
+
+	public PhieuDatBan(String maBanTiec, Set<Mon> monAns, LocalDate ngayDatMon, LocalDate ngaySuDung, String trangThai,
+			String trangThaiThanhToan, BigDecimal tienCoc) {
+		super();
+		this.maBanTiec = maBanTiec;
+		this.monAns = monAns;
+		this.ngayDatMon = ngayDatMon;
+		this.ngaySuDung = ngaySuDung;
+		this.trangThai = trangThai;
+		this.trangThaiThanhToan = trangThaiThanhToan;
+		this.tienCoc = tienCoc;
 	}
 
 	public String getMaBanTiec() {
@@ -157,14 +186,6 @@ public class PhieuDatBan implements Serializable {
 		this.gioSuDung = gioSuDung;
 	}
 
-	public String gettrangThaiThanhToan() {
-		return trangThaiThanhToan;
-	}
-
-	public void settrangThaiThanhToan(String trangThaiThanhToan) {
-		this.trangThaiThanhToan = trangThaiThanhToan;
-	}
-
 //	public int getSoLuong() {
 //		return soLuong;
 //	}
@@ -189,12 +210,12 @@ public class PhieuDatBan implements Serializable {
 		this.trangThaiThanhToan = trangThaiThanhToan;
 	}
 
-	public String getDonViTinh() {
-		return donViTinh;
+	public String getTrangThai() {
+		return trangThai;
 	}
 
-	public void setDonViTinh(String donViTinh) {
-		this.donViTinh = donViTinh;
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
 	}
 
 }

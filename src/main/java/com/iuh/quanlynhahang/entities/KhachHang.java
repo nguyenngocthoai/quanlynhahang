@@ -13,6 +13,8 @@ import javax.persistence.Id;
 @Entity
 
 public class KhachHang implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	private String maKhachHang;
 	@Column(columnDefinition = "nvarchar(50)")
@@ -23,7 +25,6 @@ public class KhachHang implements Serializable {
 	@Column(columnDefinition = "nvarchar(200)")
 	private String diaChi;
 
-	private static final long serialVersionUID = 1L;
 
 	public KhachHang() {
 		super();

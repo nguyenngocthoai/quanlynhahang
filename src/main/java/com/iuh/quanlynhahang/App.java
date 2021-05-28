@@ -1,31 +1,14 @@
 package com.iuh.quanlynhahang;
 
-<<<<<<< Updated upstream
-import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
-=======
-import java.math.BigDecimal;
-import java.util.List;
-
-import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
-import com.iuh.quanlynhahang.entities.HoaDon;
-import com.iuh.quanlynhahang.entities.KhachHang;
-import com.iuh.quanlynhahang.entities.Mon;
-import com.quanlynhahang.dto.PhieuDatBan_Mon;
->>>>>>> Stashed changes
-
 /**
  * Hello world!
- *		
+ * 
  */
 public class App {
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
-		KhachHangDAOImpl khachHangDAOImpl = new KhachHangDAOImpl();
+//		KhachHangDAOImpl khachHangDAOImpl = new KhachHangDAOImpl();
 //		BanDAOImpl banDAOImpl=new BanDAOImpl();
-<<<<<<< Updated upstream
-=======
 //		System.out.println(LocalDate.now());
 
 //		List<String> s = new ArrayList<String>();
@@ -68,32 +51,6 @@ public class App {
 //		System.out.println(LocalDateTime.now().getMinute());
 
 //		System.out.println((d.divide(a, 2, BigDecimal.ROUND_HALF_UP)).subtract(d));
-		
-		MonDAOImpl daoImpl=new MonDAOImpl();
-		//List<String> mon=daoImpl.ThongKeMonAnNhieuNhatTrongThang(5, 2021);
-		List<Mon> list=daoImpl.searchMon("Cháo Cá Lóc", "Cháo", BigDecimal.valueOf(10000), BigDecimal.valueOf(300000));
-		System.out.println(list.size());
-		System.out.println("==============");
-//		
-//		List<String> doUong=daoImpl.ThongKeDoUongNhieuNhatTrongThang(5, 2021,"Đồ Uống");
-//		System.out.println(doUong);
-//		System.out.println("==============");
 
-//		KhachHangDAOImpl khdao=new KhachHangDAOImpl();
-//		List<KhachHang> kh=khdao.searchKH("AS", "0321555478", "ÂS", "Nam");
-//		List<KhachHang> tenKH=khdao.getKHByTen("AS");
-//		System.out.println(kh);
-//		System.out.println(tenKH.size());
-//		System.out.println("==============");
-		
-//		HoaDonDAOImpl hdDAO=new HoaDonDAOImpl();
-//		List<HoaDon> listHD=hdDAO.searchHD("Nguyễn Ngọc Thoại", "Nguyễn Ngọc Thoại", "2021-05-21", "2021-05-23");
-//		System.out.println(listHD);
-//		List<String> solan=daoImpl.ThongKeSoLanDatNhieuNhatTrongThang(5, 2021);
-//		System.out.println(solan);
-		
-		
-
->>>>>>> Stashed changes
 	}
 }

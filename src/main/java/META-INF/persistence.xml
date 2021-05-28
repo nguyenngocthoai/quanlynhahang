@@ -17,8 +17,6 @@
 		<class>com.iuh.quanlynhahang.entities.LoaiMon</class>
 		<class>com.iuh.quanlynhahang.entities.ChiTietHoaDon_PK</class>
 		<class>com.iuh.quanlynhahang.entities.Sanh</class>
-		<!-- <class>com.iuh.quanlynhahang.entities.ChucVu</class> -->
-		
 		<properties>
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.SQLServerDialect" />
