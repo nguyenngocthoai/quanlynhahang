@@ -1,26 +1,9 @@
-<<<<<<< Updated upstream
+
 package com.iuh.quanlynhahang.daos;
 
 import java.util.List;
 
 import com.iuh.quanlynhahang.entities.Mon;
-
-public interface IMonDAO {
-	public boolean createMon(Mon mon);
-
-	public boolean updateMon(Mon mon);
-
-	public boolean deleteMon(Mon mon);
-
-	public Mon getMonByTen(String tenMon);
-
-	public Mon getMonByMa(String maMon);
-
-	public List<Mon> getAllMon();
-
-}
-=======
-package com.iuh.quanlynhahang.daos;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -54,4 +37,3 @@ public interface IMonDAO {
 	
 	public List<Mon> searchMon(String tenMon,String loaiMon,BigDecimal tienMin, BigDecimal tienMax);
 }
->>>>>>> Stashed changes
