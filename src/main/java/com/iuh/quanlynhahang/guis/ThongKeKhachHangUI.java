@@ -1,210 +1,3 @@
-<<<<<<< HEAD
-package com.iuh.quanlynhahang.guis;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
-import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
-import com.iuh.quanlynhahang.entities.HoaDon;
-import com.iuh.quanlynhahang.entities.KhachHang;
-
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-
-public class ThongKeKhachHangUI extends JFrame implements ActionListener {
-
-	public JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ThongKeKhachHangUI frame = new ThongKeKhachHangUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	private JTable table;
-	private DefaultTableModel tableModel;
-	private JScrollPane jScrollPane;
-	private JComboBox cbxThang, cbxNam;
-	private JButton btnThongKe, btnBaoCao;
-	private JLabel lblSoLuong;
-
-	public ThongKeKhachHangUI() {
-		setTitle("Thống Kê Khách Hàng");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1084, 551);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setLocationRelativeTo(null);
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JLabel lblThngKMn = new JLabel("THỐNG KÊ KHÁCH HÀNG");
-		lblThngKMn.setForeground(Color.RED);
-		lblThngKMn.setFont(new Font("Times New Roman", Font.BOLD, 25));
-		lblThngKMn.setBounds(415, 23, 312, 30);
-		contentPane.add(lblThngKMn);
-
-		cbxThang = new JComboBox();
-		cbxThang.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		cbxThang.setBounds(312, 100, 188, 28);
-		contentPane.add(cbxThang);
-
-		cbxNam = new JComboBox();
-		cbxNam.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		cbxNam.setBounds(569, 100, 188, 28);
-		contentPane.add(cbxNam);
-
-		JLabel lblNewLabel = new JLabel("Theo Tháng:");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblNewLabel.setBounds(207, 100, 95, 28);
-		contentPane.add(lblNewLabel);
-
-		JLabel lblNm = new JLabel("Năm:");
-		lblNm.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblNm.setBounds(509, 100, 51, 28);
-		contentPane.add(lblNm);
-
-		String[] header = "STT;Mã Hóa Đơn;Mã Khách Hàng; Tên Khách Hàng; Số Điện Thoại ; Ngày Đặt Món".split(";");
-		tableModel = new DefaultTableModel(header, 0);
-		JScrollPane scrollPane = new JScrollPane(table = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		contentPane.add(scrollPane);
-		scrollPane.setBounds(10, 147, 1050, 294);
-
-		btnThongKe = new JButton("Thống Kê");
-		btnThongKe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnThongKe.setBounds(806, 100, 95, 28);
-		contentPane.add(btnThongKe);
-
-		lblSoLuong = new JLabel("Số Lượng Khách Hàng Đặt Món :");
-		lblSoLuong.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblSoLuong.setBounds(10, 463, 230, 28);
-		contentPane.add(lblSoLuong);
-
-		btnBaoCao = new JButton("Báo Cáo");
-		btnBaoCao.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnBaoCao.setBounds(929, 100, 95, 28);
-		contentPane.add(btnBaoCao);
-
-		btnThongKe.addActionListener(this);
-		btnBaoCao.addActionListener(this);
-		loadCombobox();
-		//table.addMouseListener(this);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		for (int c = 0; c < table.getColumnCount(); c++) {
-			Class<?> col_class = table.getColumnClass(c);
-			table.setDefaultEditor(col_class, null); // remove editor
-		}
-		// updateTable();
-	}
-
-	private HoaDonDAOImpl hdDAO;
-	private KhachHangDAOImpl khDAO;
-	private static final String soluong = "Số Lượng Khách Hàng Đặt Món :";
-
-	public void updateTable() {
-		hdDAO = new HoaDonDAOImpl();
-		khDAO = new KhachHangDAOImpl();
-		int sl = 0;
-		lblSoLuong.setText(soluong);
-		// tableModel.getDataVector().removeAllElements();
-		int rowCount = table.getRowCount();
-		for (int i = rowCount; i > 0; i--) {
-			tableModel.removeRow(i - 1);
-		}
-		try {
-
-			int m = cbxThang.getSelectedIndex();
-
-			System.out.println(m + 1);
-			String y = cbxNam.getSelectedItem() + "";
-			int year = Integer.parseInt(y);
-			System.out.println(year);
-			List<HoaDon> listHD = hdDAO.getAllHoaDon(m + 1, year);
-			int i = 0;
-			List<KhachHang> listKH = khDAO.getAllKH();
-			for (HoaDon hd : listHD) {
-				i++;
-				try {
-
-					tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getKhachHang().getMaKhachHang(),
-							hd.getKhachHang().getTenKhachHang(), hd.getKhachHang().getSoDienThoai(),
-							hd.getNgayXuatHoaDon() });
-
-				} catch (Exception e) {
-					tableModel.addRow(
-							new Object[] { i, hd.getMaHoaDon(), "Mua Về", "Mua Về", "Mua Về", hd.getNgayXuatHoaDon() });
-				}
-
-			}
-
-			table.setModel(tableModel);
-			sl = i;
-
-			lblSoLuong.setText(soluong + sl);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static int namHoatDong = 2019;
-	private Date date;
-
-	public void loadCombobox() {
-		for (int i = 1; i <= 12; i++) {
-			cbxThang.addItem("Tháng " + i);
-		}
-
-		int year = LocalDate.now().getYear();
-		for (int j = year; j >= namHoatDong; j--) {
-			cbxNam.addItem(j);
-		}
-		System.out.println(year);
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		if (o.equals(btnThongKe)) {
-
-			updateTable();
-		}
-
-	}
-
-}
-=======
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
@@ -224,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -239,6 +33,9 @@ import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
 import com.iuh.quanlynhahang.entities.KhachHang;
+import com.quanlynhahang.baocao.BaoCao;
+import com.quanlynhahang.dto.KhachHangDTO;
+
 import javax.swing.ImageIcon;
 
 public class ThongKeKhachHangUI extends JFrame implements ActionListener {
@@ -289,6 +86,11 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 	@SuppressWarnings("rawtypes")
 	private JComboBox cboKH;
 	private JButton btnBaoCao;
+	public static final String muaNhieuNhat = "Mua Nhiều Nhất";
+	public static final String muaItNhat = "Mua Ít Nhất";
+	public static String getCBXMonAn;
+	public static String getMonth;
+	public static String getYear;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ThongKeKhachHangUI() {
@@ -439,8 +241,11 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 		buttonGroup.add(rdbNam);
 		buttonGroup.add(rdbThang);
 
-		cboKH.addItem("Mua Nhiều Nhất");
-		cboKH.addItem("Mua Ít Nhất");
+//		cboKH.addItem("Mua Nhiều Nhất");
+//		cboKH.addItem("Mua Ít Nhất");
+		cboKH.addItem(muaNhieuNhat);
+		cboKH.addItem(muaItNhat);
+		
 		TableColumnModel columnModel = table.getColumnModel();
 		table.setDefaultEditor(Object.class, null);
 		table.setRowHeight(30);
@@ -488,19 +293,66 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 			thongKeKhachHang();
 			updateTable();
 		} else if (o.equals(btnBaoCao)) {
-			/**
-			 * handle for btnBaoCao here
-			 */
+			if (table.getRowCount() <= 0) {
+				int options = JOptionPane.showConfirmDialog(this,
+						"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo", JOptionPane.YES_NO_OPTION);
+				if (options == JOptionPane.YES_OPTION) {
+					BaoCao bc = new BaoCao();
+					bc.BaoCaoKhachHang();
+				}
+			} else {
+				BaoCao bc = new BaoCao();
+				bc.BaoCaoKhachHang();
+			}
 		}
 
 	}
 
+//	private void thongKeKhachHang() {
+//		try {
+//			String loai = cboKH.getSelectedItem().toString().trim();
+//			String thang = cbxThang.getSelectedItem().toString().trim();
+//			String nam = cbxNam.getSelectedItem().toString().trim();
+//			if (rdbThang.isSelected()) {
+//				if (loai.equalsIgnoreCase("Mua Nhiều Nhất")) {
+//					maKhachHangs = hoaDonDAO.ThongKeKhachHangNhieuNhatTrongThang(Integer.parseInt(thang),
+//							Integer.parseInt(nam));
+//					khachHangs = convertStringtoKhachHang(maKhachHangs);
+//					soLanDats = hoaDonDAO.ThongKeSoLanDatKhachHangNhieuNhatTrongThang(Integer.parseInt(thang),
+//							Integer.parseInt(nam));
+//				} else if (loai.equalsIgnoreCase("Mua Ít Nhất")) {
+//					maKhachHangs = hoaDonDAO.ThongKeKhachHangItNhatTrongThang(Integer.parseInt(thang),
+//							Integer.parseInt(nam));
+//					khachHangs = convertStringtoKhachHang(maKhachHangs);
+//					soLanDats = hoaDonDAO.ThongKeSoLanDatKhachHangItNhatTrongThang(Integer.parseInt(thang),
+//							Integer.parseInt(nam));
+//				}
+//			} else if (rdbNam.isSelected()) {
+//				if (loai.equalsIgnoreCase("Mua Nhiều Nhất")) {
+//					maKhachHangs = hoaDonDAO.ThongKeKhachHangNhieuNhatTrongNam(Integer.parseInt(nam));
+//					khachHangs = convertStringtoKhachHang(maKhachHangs);
+//					soLanDats = hoaDonDAO.ThongKeSoLanDatKhachHangNhieuNhatTrongNam(Integer.parseInt(nam));
+//				} else if (loai.equalsIgnoreCase("Mua Ít Nhất")) {
+//					maKhachHangs = hoaDonDAO.ThongKeKhachHangItNhatTrongNam(Integer.parseInt(nam));
+//					khachHangs = convertStringtoKhachHang(maKhachHangs);
+//					soLanDats = hoaDonDAO.ThongKeSoLanDatKhachHangItNhatTrongNam(Integer.parseInt(nam));
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
 	private void thongKeKhachHang() {
 		try {
 			String loai = cboKH.getSelectedItem().toString().trim();
 			String thang = cbxThang.getSelectedItem().toString().trim();
 			String nam = cbxNam.getSelectedItem().toString().trim();
+			
+			getCBXMonAn = loai;
+
 			if (rdbThang.isSelected()) {
+				getMonth = thang;
 				if (loai.equalsIgnoreCase("Mua Nhiều Nhất")) {
 					maKhachHangs = hoaDonDAO.ThongKeKhachHangNhieuNhatTrongThang(Integer.parseInt(thang),
 							Integer.parseInt(nam));
@@ -515,6 +367,7 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 							Integer.parseInt(nam));
 				}
 			} else if (rdbNam.isSelected()) {
+				getYear = nam;
 				if (loai.equalsIgnoreCase("Mua Nhiều Nhất")) {
 					maKhachHangs = hoaDonDAO.ThongKeKhachHangNhieuNhatTrongNam(Integer.parseInt(nam));
 					khachHangs = convertStringtoKhachHang(maKhachHangs);
@@ -542,6 +395,25 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 		return khachHangs;
 	}
 
+//	public void updateTable() {
+//		tableModel = (DefaultTableModel) table.getModel();
+//		tableModel.getDataVector().removeAllElements();
+//		try {
+//			int i = 0;
+//			for (KhachHang kh : khachHangs) {
+//				i++;
+//				tableModel.addRow(new Object[] { i, kh.getMaKhachHang(), kh.getTenKhachHang(),
+//						soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi() });
+//			}
+//			table.setModel(tableModel);
+//			table.getSelectionModel().clearSelection();
+//			tableModel.fireTableDataChanged();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	public static List<KhachHangDTO> listKHDTO=new ArrayList<KhachHangDTO>();
 	public void updateTable() {
 		tableModel = (DefaultTableModel) table.getModel();
 		tableModel.getDataVector().removeAllElements();
@@ -551,6 +423,9 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 				i++;
 				tableModel.addRow(new Object[] { i, kh.getMaKhachHang(), kh.getTenKhachHang(),
 						soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi() });
+				KhachHangDTO khDTO=new KhachHangDTO(kh.getMaKhachHang(), kh.getTenKhachHang(),
+						soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi());
+				listKHDTO.add(khDTO);
 			}
 			table.setModel(tableModel);
 			table.getSelectionModel().clearSelection();
@@ -572,4 +447,4 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 
 	}
 }
->>>>>>> master
+
