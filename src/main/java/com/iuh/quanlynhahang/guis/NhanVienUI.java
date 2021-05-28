@@ -573,6 +573,7 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 			}
 		} else if (obj.equals(btnLamMoiDuLieu)) { // refresh data for table
 			updateTable();
+			refresh();
 		} else if (obj.equals(btnTimNV)) {
 			try {
 
@@ -615,8 +616,7 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 				String ma = txtMaNV.getText().trim();
 				String ten = txtTenNV.getText().trim();
 				String diaChi = txtDiaChi.getText().trim();
-				
-				
+
 				java.util.Date ngaySinhsql = dateNgaySinh.getDate();
 
 				String sDT = txtSDT.getText().trim();
@@ -644,9 +644,13 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 				} else if (sDT.matches(PHONE_PATTERN) == false) {
 					mesgError.append("Số điện thoại không hợp lệ!\n");
 					check = false;
-				} else if (sDT.contains(sdts.toString())) {
-					mesgError.append("Số điện thoại đã tồn tại trong hệ thống!\n");
-					check = false;
+				} else {
+					for (String string : sdts) {
+						if (sDT.equalsIgnoreCase(string)) {
+							mesgError.append("Số điện thoại đã tồn tại trong hệ thống!\n");
+							check = false;
+						}
+					}
 				}
 				if (email.isEmpty()) {
 					mesgError.append("Vui lòng nhập email!\n");

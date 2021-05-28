@@ -1,6 +1,8 @@
 package com.iuh.quanlynhahang;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.entities.HoaDon;
@@ -85,8 +87,18 @@ public class App {
 //		for (KhachHang khachHang : kh) {
 //			System.out.println(khachHang.getTenKhachHang());
 //		}
-		List<HoaDon> h = dao.getHoaDonsByTenNV("Nguyễn Ngọc Thoại");
-		System.out.println(h.size());
+//		List<HoaDon> h = dao.getHoaDonsByTenNV("Nguyễn Ngọc Thoại");
+//		System.out.println(h.size());
+
+//		List<Integer> list = new ArrayList<Integer>();
+//		list.add(1);
+//		list.add(0);
+//		int i;
+//		do {
+//			Random random = new Random();
+//			i = random.nextInt(1);
+//			System.out.println(i);
+//		} while (list.contains(i));
 
 	}
 //	private static List<KhachHang> convertStringtoKhachHang(List<String> list) {
@@ -101,4 +113,5 @@ public class App {
 //		}
 //		return khachHangs;
 //	}
+
 }

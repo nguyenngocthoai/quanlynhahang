@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
 import com.iuh.quanlynhahang.entities.NhanVien;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 public class ThongTinCaNhan extends JFrame implements ActionListener {
 
@@ -61,6 +62,7 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 	private JRadioButton rdbNam, rdbNu;
 	private JDateChooser dateNgaySinh;
 	private JTextField txtChucVu;
+	JTextFieldDateEditor editor;
 
 	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 
@@ -88,10 +90,12 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 		lblEmail.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		txtTen = new JTextField();
+		txtTen.setEditable(false);
 		txtTen.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtTen.setColumns(10);
 
 		txtSDT = new JTextField();
+		txtSDT.setEditable(false);
 		txtSDT.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtSDT.setColumns(10);
 
@@ -111,6 +115,7 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 		lblDiaChi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		txtDiaChi = new JTextField();
+		txtDiaChi.setEditable(false);
 		txtDiaChi.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtDiaChi.setColumns(10);
 
@@ -118,6 +123,7 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 		lblNgaySinh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
 		txtEmail.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		txtEmail.setColumns(10);
 
@@ -127,23 +133,23 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 		txtChucVu.setColumns(10);
 
 		dateNgaySinh = new JDateChooser();
+		dateNgaySinh.getCalendarButton().setEnabled(false);
 		dateNgaySinh.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		dateNgaySinh.setLocale(Locale.forLanguageTag("vi-VN"));
 		dateNgaySinh.setDateFormatString("dd-MM-yyyy");
+		editor = (JTextFieldDateEditor) dateNgaySinh.getDateEditor();
+		editor.setEditable(false);
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(220)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(220)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblTen, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblChucVu, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblGioiTinh, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(186)
-							.addComponent(lblDiaChi, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(lblTen, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblChucVu, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblGioiTinh, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDiaChi, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE))
 					.addGap(10)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -215,13 +221,10 @@ public class ThongTinCaNhan extends JFrame implements ActionListener {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(dateNgaySinh, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblNgaySinh, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(19)
-							.addComponent(lblDiaChi, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(18)
-							.addComponent(txtDiaChi, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtDiaChi, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDiaChi, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 					.addGap(238))
 		);
 		contentPane.setLayout(gl_contentPane);
