@@ -17,7 +17,7 @@ public class ConverDTOImpl implements IConverDTO{
 	@Override
 	public List<PhieuDatBan_Mon> getAllPM() {
 		// TODO Auto-generated method stub
-		return em.createQuery("select pm from PhieuDatBan_Mon pm").getResultList();
+		return em.createQuery("select pm from PhieuDatBan_Mon pm",PhieuDatBan_Mon.class).getResultList();
 	}
 
 }

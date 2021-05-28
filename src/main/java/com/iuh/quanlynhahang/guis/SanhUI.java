@@ -97,6 +97,8 @@ public class SanhUI extends JFrame implements ActionListener, MouseListener {
 		tableModel = new DefaultTableModel(header, 0);
 		scrollPane = new JScrollPane(tableSanh = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		tableSanh.setRowHeight(30);
+		tableSanh.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(192, 192, 192)), "T\u00ECm Ki\u1EBFm S\u1EA3nh",

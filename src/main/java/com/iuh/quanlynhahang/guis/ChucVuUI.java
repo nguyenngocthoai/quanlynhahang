@@ -88,6 +88,7 @@ public class ChucVuUI extends JFrame implements ActionListener, MouseListener {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		table.addMouseListener(this);
+		table.setRowHeight(30);
 
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -144,9 +145,11 @@ public class ChucVuUI extends JFrame implements ActionListener, MouseListener {
 		);
 
 		btnThem = new JButton("Thêm");
+		btnThem.setIcon(new ImageIcon("images\\add.png"));
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
 		btnCapNhat = new JButton("Cập Nhật");
+		btnCapNhat.setIcon(new ImageIcon("images\\edit.png"));
 		btnCapNhat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel.createParallelGroup(Alignment.TRAILING)

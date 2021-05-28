@@ -231,6 +231,8 @@ public class LoaiMonUI extends JFrame implements ActionListener, MouseListener {
 						.addGap(88)));
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);
+		
+		tableLoaiMon.setRowHeight(30);
 
 		btnCapNhat.addActionListener(this);
 		btnLamMoi.addActionListener(this);

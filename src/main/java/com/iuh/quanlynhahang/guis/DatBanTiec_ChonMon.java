@@ -391,6 +391,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
@@ -491,6 +492,7 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 				String tenMon = (String) table.getValueAt(row, 1);
 				tenMons.remove(tenMon);
 				model.removeRow(row);
+				tinhTongTien();
 			} else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để xóa!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
@@ -578,7 +580,6 @@ public class DatBanTiec_ChonMon extends JFrame implements ActionListener, MouseL
 		} catch (Exception e) {
 		}
 		return mons;
-
 	}
 
 	public void updateTable() {

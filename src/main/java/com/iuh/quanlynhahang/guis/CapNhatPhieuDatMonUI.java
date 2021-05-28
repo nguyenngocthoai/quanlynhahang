@@ -5,71 +5,49 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
-import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.LoaiMonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
-import com.iuh.quanlynhahang.entities.Ban;
-import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
 import com.iuh.quanlynhahang.entities.HoaDon;
-import com.iuh.quanlynhahang.entities.KhachHang;
 import com.iuh.quanlynhahang.entities.LoaiMon;
 import com.iuh.quanlynhahang.entities.Mon;
-import com.iuh.quanlynhahang.entities.NhanVien;
 import com.iuh.quanlynhahang.entities.PhieuDatBan;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.ImageIcon;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
 
 public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, MouseListener {
 
@@ -96,10 +74,10 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
 	double tienCoc;
 	private static PhieuDatBanDAOImpl phieuDatBanDAO = new PhieuDatBanDAOImpl();
-	private DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
+//	private DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
+//	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 	private static HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
-	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
+//	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
 
 	/**
 	 * Launch the application.
@@ -120,7 +98,6 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public CapNhatPhieuDatMonUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1084, 551);
@@ -273,6 +250,11 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 
 		try {
 			tree.setModel(new DefaultTreeModel(new DefaultMutableTreeNode("Danh Sách Món") {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				{
 					List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 					List<Mon> mons = monDAO.getAllMon();
@@ -431,11 +413,9 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				String tenMon = (String) table.getValueAt(row, 1);
-				System.out.println("tên món: " + tenMon);
 				tenMons.remove(tenMon);
 				model.removeRow(row);
-				System.out.println("removed:");
-				tenMons.forEach(x -> System.out.println(x));
+				tinhTongTien();
 			} else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để xóa!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
@@ -497,6 +477,7 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void loadDataForMon() {
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		List<Mon> mons = monDAO.getAllMon();
@@ -553,6 +534,7 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void updateMonInTable(String tenMon) {
 		try {
 			if (!tenMon.equalsIgnoreCase("Danh Sách Món")) {
@@ -599,6 +581,7 @@ public class CapNhatPhieuDatMonUI extends JFrame implements ActionListener, Mous
 		txtTienCoc.setText(df.format(tienCoc));
 	}
 
+	@SuppressWarnings("unused")
 	private void reloadJtree() {
 		List<LoaiMon> loaiMons = loaiMonDAO.getAllLoaiMon();
 		List<Mon> mons = monDAO.getAllMon();

@@ -1,27 +1,7 @@
 package com.iuh.quanlynhahang.guis;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
-
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,11 +11,20 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 import java.util.Locale;
-import java.awt.Color;
-import javax.swing.LayoutStyle.ComponentPlacement;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
@@ -45,8 +34,14 @@ import com.iuh.quanlynhahang.entities.KhachHang;
 import com.iuh.quanlynhahang.entities.NhanVien;
 import com.toedter.calendar.JDateChooser;
 
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 public class HoaDonUI extends JFrame implements ActionListener, MouseListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JPanel contentPane;
 
 	/**
@@ -65,14 +60,14 @@ public class HoaDonUI extends JFrame implements ActionListener, MouseListener {
 		});
 	}
 
-	public HoaDonUI() {
-		HoaDonUI();
-	}
-
-	public HoaDonUI(String tenKhachHang, String hoTenNhanVien, LocalDate tuNgay, LocalDate denNgay) {
-		HoaDonUI();
-		SearchKH(tenKhachHang, hoTenNhanVien, tuNgay, denNgay);
-	}
+//	public HoaDonUI() {
+//		HoaDonUI();
+//	}
+//
+//	public HoaDonUI(String tenKhachHang, String hoTenNhanVien, LocalDate tuNgay, LocalDate denNgay) {
+//		HoaDonUI();
+//		SearchKH(tenKhachHang, hoTenNhanVien, tuNgay, denNgay);
+//	}
 
 	/**
 	 * Create the frame.
@@ -89,13 +84,13 @@ public class HoaDonUI extends JFrame implements ActionListener, MouseListener {
 	private JLabel lblMKhchHng_4;
 	private JTextField txtTenKH;
 	private JTextField txtTenNV;
-	private JDatePanelImpl datePanelImpl, datePanelImpl2;
 	private JTextField txtmaHD;
+	@SuppressWarnings("unused")
 	private JDateChooser dateFrom, dateTo;
 	private JButton btnTroVe, btnXemDSHD;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-	public void HoaDonUI() {
+	public HoaDonUI() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		setBounds(100, 100, 1100, 650);
 		setSize(1100, 575);
@@ -128,9 +123,9 @@ public class HoaDonUI extends JFrame implements ActionListener, MouseListener {
 		model.setDate(year, m, day);
 		model.setSelected(true);
 
-		datePanelImpl = new JDatePanelImpl(model);
+//		datePanelImpl = new JDatePanelImpl(model);
 
-		datePanelImpl2 = new JDatePanelImpl(model);
+//		datePanelImpl2 = new JDatePanelImpl(model);
 
 		panel_1 = new JPanel();
 		panel_1.setBounds(659, 102, 417, 351);
@@ -235,6 +230,7 @@ public class HoaDonUI extends JFrame implements ActionListener, MouseListener {
 	private KhachHangDAOImpl khDAO = new KhachHangDAOImpl();
 	private NhanVienDAOImpl nvDAO = new NhanVienDAOImpl();
 
+	@SuppressWarnings("unused")
 	private void SearchKH(String tenKhachHang, String hoTenNhanVien, LocalDate tuNgay, LocalDate denNgay) {
 		int rowCount = table.getRowCount();
 		for (int i = rowCount; i > 0; i--) {
@@ -251,7 +247,9 @@ public class HoaDonUI extends JFrame implements ActionListener, MouseListener {
 				try {
 					if (hd.getKhachHang().getTenKhachHang().equals(kh.getTenKhachHang())
 							&& hd.getNhanVien().getHoTenNhanVien().equals(hoTenNhanVien)
-							&& ((hd.getNgayXuatHoaDon().isBefore(denNgay) || hd.getNgayXuatHoaDon().isEqual(denNgay)) && (hd.getNgayXuatHoaDon().isAfter(tuNgay) || hd.getNgayXuatHoaDon().isEqual(tuNgay)))) {
+							&& ((hd.getNgayXuatHoaDon().isBefore(denNgay) || hd.getNgayXuatHoaDon().isEqual(denNgay))
+									&& (hd.getNgayXuatHoaDon().isAfter(tuNgay)
+											|| hd.getNgayXuatHoaDon().isEqual(tuNgay)))) {
 						String[] rowData = { hd.getMaHoaDon(), hd.getKhachHang().getTenKhachHang(),
 								hd.getNhanVien().getHoTenNhanVien(), hd.getNgayXuatHoaDon() + "" };
 						tableModel.addRow(rowData);

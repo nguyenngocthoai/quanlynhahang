@@ -291,6 +291,8 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 						.addContainerGap()));
 		panel_1.setLayout(gl_panel_1);
 		contentPane.setLayout(gl_contentPane);
+		tableBan.setRowHeight(30);
+		
 		cbxThuocSanh.addActionListener(this);
 		cbxTrangThaiDatBan.addActionListener(this);
 		cbxTrangThaiHoatDong.addActionListener(this);

@@ -39,6 +39,16 @@ public class KhachHang implements Serializable {
 		this.soDienThoai = soDienThoai;
 		this.diaChi = diaChi;
 	}
+	
+
+
+	public KhachHang(String tenKhachHang, String soDienThoai, String diaChi, String gioiTinh) {
+		super();
+		this.tenKhachHang = tenKhachHang;
+		this.gioiTinh = gioiTinh;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+	}
 
 
 	public String getMaKhachHang() {

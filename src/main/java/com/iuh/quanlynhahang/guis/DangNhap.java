@@ -95,7 +95,7 @@ public class DangNhap extends JFrame implements ActionListener {
 		txtTenDangNhap.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		txtTenDangNhap.setColumns(10);
 
-		JLabel label_2 = new JLabel("HỆ THỐNG QUẢN LÝ NHÀ HÀNG");
+		JLabel label_2 = new JLabel("HỆ THỐNG QUẢN LÝ NHÀ HÀNG LEGUE");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setForeground(Color.RED);
 		label_2.setFont(new Font("Times New Roman", Font.BOLD, 22));
@@ -177,8 +177,8 @@ public class DangNhap extends JFrame implements ActionListener {
 		
 		btnDangNhap.addActionListener(this);
 		
-		txtTenDangNhap.setText("NV16126984");
-		txtMatKhau.setText("Thoai603@");
+		txtTenDangNhap.setText("NV90862417");
+		txtMatKhau.setText("12345678");
 
 	}
 
@@ -216,9 +216,23 @@ public class DangNhap extends JFrame implements ActionListener {
 			}
 
 			if (checkLogin == true) {
-				TrangChu trangChuUI = new TrangChu();
-				trangChuUI.setVisible(true);
-				this.dispose();
+				if(taiKhoan.getLoaiTaiKhoan().getTenLoaiTaiKhoan().equals("Nhân Viên")) {
+					TrangChu trangChuUI = new TrangChu();
+					trangChuUI.mniTaiKhoan.setEnabled(false);
+					trangChuUI.mniChucVu.setEnabled(false);
+					trangChuUI.mniNhanVien.setEnabled(false);
+					trangChuUI.mniMonAn.setEnabled(false);
+					trangChuUI.mniBan.setEnabled(false);
+					trangChuUI.mniSanh.setEnabled(false);
+					trangChuUI.mniLoaiMon.setEnabled(false);
+					trangChuUI.setVisible(true);
+					this.dispose();
+				}
+				else {
+					TrangChu trangChuUI = new TrangChu();
+					trangChuUI.setVisible(true);
+					this.dispose();
+				}
 			} else {
 				lblUsername.setText("Tên đăng nhập hoặc mật khẩu không hợp lê!");
 				lblPassword.setText("");

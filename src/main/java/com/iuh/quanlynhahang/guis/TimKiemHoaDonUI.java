@@ -1,179 +1,415 @@
 package com.iuh.quanlynhahang.guis;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Locale;
 
 import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
-import com.iuh.quanlynhahang.daoimpls.KhachHangDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
+import com.iuh.quanlynhahang.entities.HoaDon;
 import com.iuh.quanlynhahang.entities.NhanVien;
-
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import java.awt.SystemColor;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 
 public class TimKiemHoaDonUI extends JFrame implements ActionListener {
 
-	private JPanel contentPane;
-	private JTextField txtKH;
-	private JTextField textField;
-	private JTextField textField_1;
-	private Properties p;
-	private UtilDateModel model1, model2;
-	private JDatePanelImpl datePanel1, datePanel2;
-	private JComboBox cboNV;
-	private JButton btnTimKiem, btnTroVe;
-	private NhanVienDAOImpl nhanVienDAOImpl;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public JPanel contentPane;
+	private JTextField txtTenKH;
+	private JButton btnTimKiem;
 	private JDateChooser dateFrom, dateTo;
-	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private JTable table;
+	private DefaultTableModel tableModel;
+	private JScrollPane scrollPane;
+	private JLabel lblTmKimHa;
+	private JLabel label;
+	private JRadioButton rdbMa;
+	private JRadioButton rdbtenKH;
+	private JRadioButton rdbTenNV;
+	private JRadioButton rdbNgay;
+	private JLabel lblMHd;
+	private JTextField txtMa;
+	JTextFieldDateEditor editor;
+	@SuppressWarnings("rawtypes")
+	private JComboBox cboNV;
 
+	private static List<HoaDon> hoaDons = new ArrayList<HoaDon>();
+	private NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
+	private HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TimKiemHoaDonUI frame = new TimKiemHoaDonUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TimKiemHoaDonUI() {
 
 		setTitle("Tìm Kiếm Hóa Đơn");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 414, 432);
+		setBounds(100, 100, 1084, 551);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 
-		JLabel lblTmKimHa = new JLabel("Tìm Kiếm Hóa Đơn");
-		lblTmKimHa.setBounds(99, 11, 200, 39);
-		lblTmKimHa.setFont(new Font("Times New Roman", Font.PLAIN, 23));
-		contentPane.add(lblTmKimHa);
-
-		JLabel lblTnKhchHng = new JLabel("Tên Khách Hàng:");
+		JLabel lblTnKhchHng = new JLabel("Tên Khách Hàng");
 		lblTnKhchHng.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblTnKhchHng.setBounds(10, 66, 124, 28);
-		contentPane.add(lblTnKhchHng);
 
-		JLabel lblTnNhnVin = new JLabel("Tên Nhân Viên:");
+		JLabel lblTnNhnVin = new JLabel("Tên Nhân Viên");
 		lblTnNhnVin.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblTnNhnVin.setBounds(10, 111, 100, 28);
-		contentPane.add(lblTnNhnVin);
 
 		JLabel lblnNgy = new JLabel("Đến Ngày:");
 		lblnNgy.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblnNgy.setBounds(65, 249, 69, 31);
-		contentPane.add(lblnNgy);
 
 		JLabel lblTNgy = new JLabel("Từ Ngày:");
 		lblTNgy.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblTNgy.setBounds(65, 199, 69, 31);
-		contentPane.add(lblTNgy);
 
 		btnTimKiem = new JButton("Tìm Kiếm");
+		btnTimKiem.setIcon(new ImageIcon("images\\search.png"));
 		btnTimKiem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnTimKiem.setBounds(91, 339, 108, 28);
-		contentPane.add(btnTimKiem);
 
-		btnTroVe = new JButton("Trở Về");
-		btnTroVe.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnTroVe.setBounds(236, 339, 89, 28);
-		contentPane.add(btnTroVe);
-
-		JLabel lblNgyLpHa = new JLabel("Ngày Lập Hóa Đơn:");
+		JLabel lblNgyLpHa = new JLabel("Ngày Lập Hóa Đơn");
 		lblNgyLpHa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblNgyLpHa.setBounds(10, 161, 134, 28);
-		contentPane.add(lblNgyLpHa);
 
-		txtKH = new JTextField();
-		txtKH.setBounds(135, 69, 240, 28);
-		contentPane.add(txtKH);
-		txtKH.setColumns(10);
-		cboNV = new JComboBox();
-		cboNV.setBounds(135, 113, 237, 28);
-		contentPane.add(cboNV);
-
-		ButtonGroup group = new ButtonGroup();
-
-		p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		model1 = new UtilDateModel();
-		datePanel1 = new JDatePanelImpl(model1);
-
-		model2 = new UtilDateModel();
-		datePanel2 = new JDatePanelImpl(model2);
+		txtTenKH = new JTextField();
+		txtTenKH.setEditable(false);
+		txtTenKH.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		txtTenKH.setColumns(10);
 
 		btnTimKiem.addActionListener(this);
-		btnTroVe.addActionListener(this);
-
-		nhanVienDAOImpl = new NhanVienDAOImpl();
-		List<com.iuh.quanlynhahang.entities.NhanVien> list = nhanVienDAOImpl.getAllNV();
-		cboNV.addItem("---------------------------------------------------");
 
 		dateFrom = new JDateChooser();
+		dateFrom.getCalendarButton().setEnabled(false);
 		dateFrom.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		dateFrom.setBounds(154, 200, 171, 31);
+		dateFrom.setLocale(Locale.forLanguageTag("vi-VN"));
+		dateFrom.setDateFormatString("yyyy-MM-dd");
 		dateFrom.setDate(Date.valueOf(LocalDate.now()));
-		contentPane.add(dateFrom);
+		editor = (JTextFieldDateEditor) dateFrom.getDateEditor();
+		editor.setEditable(false);
 
 		dateTo = new JDateChooser();
+		dateTo.getCalendarButton().setEnabled(false);
 		dateTo.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		dateTo.setBounds(153, 249, 171, 31);
+		dateTo.setLocale(Locale.forLanguageTag("vi-VN"));
+		dateTo.setDateFormatString("yyyy-MM-dd");
 		dateTo.setDate(Date.valueOf(LocalDate.now()));
-		contentPane.add(dateTo);
-		for (NhanVien Nhanvien : list) {
-			String[] rowData = { Nhanvien.getMaNhanVien(), Nhanvien.getHoTenNhanVien(),
-					Nhanvien.getNgaySinh().toString(), Nhanvien.getSoDienThoai(), Nhanvien.getEmail(),
-					Nhanvien.getDiaChi() };
-			cboNV.addItem(Nhanvien.getHoTenNhanVien());
+		editor = (JTextFieldDateEditor) dateTo.getDateEditor();
+		editor.setEditable(false);
+
+		String[] header = "STT;Mã Hóa Đơn; Tên Khách Hàng;Ngày Xuất Hóa Đơn;Nhân Viên Xuất HD".split(";");
+		tableModel = new DefaultTableModel(header, 0);
+		scrollPane = new JScrollPane(table = new JTable(tableModel), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		table.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		lblTmKimHa = new JLabel("TÌM KIẾM HÓA ĐƠN");
+		lblTmKimHa.setForeground(Color.RED);
+		lblTmKimHa.setFont(new Font("Times New Roman", Font.BOLD, 25));
+
+		label = new JLabel("Tìm Kiếm Theo");
+		label.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		rdbMa = new JRadioButton("Mã");
+		rdbMa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		rdbtenKH = new JRadioButton("Tên KH");
+		rdbtenKH.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		rdbTenNV = new JRadioButton("Tên NV");
+		rdbTenNV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		rdbNgay = new JRadioButton("Ngày lập HD");
+		rdbNgay.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		lblMHd = new JLabel("Mã HD");
+		lblMHd.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		txtMa = new JTextField();
+		txtMa.setEditable(false);
+		txtMa.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		txtMa.setColumns(10);
+
+		cboNV = new JComboBox();
+		cboNV.setEnabled(false);
+		cboNV.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(406).addComponent(lblTmKimHa,
+						GroupLayout.PREFERRED_SIZE, 287, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(6).addGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(3)
+								.addComponent(label, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+								.addGap(19)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(rdbMa, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+										.addComponent(rdbTenNV, GroupLayout.PREFERRED_SIZE, 81,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(36)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(rdbNgay, GroupLayout.PREFERRED_SIZE, 108,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(rdbtenKH, GroupLayout.PREFERRED_SIZE, 82,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(3)
+								.addComponent(lblMHd, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+								.addGap(40).addComponent(txtMa, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+						.addComponent(lblNgyLpHa, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(53)
+								.addComponent(lblTNgy, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+								.addGap(20).addComponent(dateFrom, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+								.addGap(52))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(53)
+								.addComponent(lblnNgy, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+								.addGap(20).addComponent(dateTo, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+								.addGap(52))
+						.addGroup(gl_contentPane.createSequentialGroup().addGroup(gl_contentPane
+								.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTnKhchHng, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(3).addComponent(lblTnNhnVin,
+										GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
+								.addGap(17)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(cboNV, 0, 238, Short.MAX_VALUE).addGap(2))
+										.addComponent(txtTenKH, GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(153).addComponent(btnTimKiem,
+								GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)))
+						.addGap(35).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+						.addGap(31)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+				.createSequentialGroup().addGap(10).addComponent(lblTmKimHa).addGap(48)
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+						.createSequentialGroup()
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(label, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createSequentialGroup().addComponent(rdbMa).addGap(3)
+										.addComponent(rdbTenNV))
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(4)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(rdbNgay)
+												.addGroup(gl_contentPane
+														.createSequentialGroup().addGap(28).addComponent(rdbtenKH)))))
+						.addGap(7)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblMHd, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtMa, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+						.addGap(21)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTnKhchHng, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtTenKH, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+						.addGap(23)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTnNhnVin, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboNV, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+						.addGap(24).addComponent(lblNgyLpHa, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+						.addGap(11)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTNgy, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dateFrom, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+						.addGap(14)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblnNgy, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dateTo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+						.addGap(29)
+						.addComponent(btnTimKiem, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(5).addComponent(scrollPane,
+								GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)))
+				.addGap(10)));
+		contentPane.setLayout(gl_contentPane);
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(rdbTenNV);
+		group.add(rdbMa);
+		group.add(rdbNgay);
+		group.add(rdbtenKH);
+
+		TableColumnModel columnModel = table.getColumnModel();
+		table.setDefaultEditor(Object.class, null);
+		table.setRowHeight(30);
+		columnModel.getColumn(0).setPreferredWidth(70);
+		columnModel.getColumn(1).setPreferredWidth(100);
+		columnModel.getColumn(2).setPreferredWidth(200);
+		columnModel.getColumn(3).setPreferredWidth(150);
+		columnModel.getColumn(4).setPreferredWidth(300);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+		List<NhanVien> list = nhanVienDAO.getAllNV();
+		for (NhanVien nv : list) {
+			cboNV.addItem(nv.getHoTenNhanVien());
 		}
-		model2.setValue(Date.valueOf(LocalDate.now()));
-		model1.setValue(Date.valueOf(LocalDate.now()));
+
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		for (int c = 0; c < table.getColumnCount(); c++) {
+			Class<?> col_class = table.getColumnClass(c);
+			table.setDefaultEditor(col_class, null); // remove editor
+		}
+
+		rdbMa.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				txtMa.setEditable(true);
+				txtTenKH.setEditable(false);
+				cboNV.setEnabled(false);
+				dateFrom.setEnabled(false);
+				dateTo.setEnabled(false);
+
+			}
+		});
+		rdbtenKH.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				txtMa.setEditable(false);
+				txtTenKH.setEditable(true);
+				cboNV.setEnabled(false);
+				dateFrom.setEnabled(false);
+				dateTo.setEnabled(false);
+			}
+		});
+		rdbTenNV.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				txtMa.setEditable(false);
+				txtTenKH.setEditable(false);
+				cboNV.setEnabled(true);
+				dateFrom.setEnabled(false);
+				dateTo.setEnabled(false);
+			}
+		});
+		rdbNgay.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				txtMa.setEditable(false);
+				txtTenKH.setEditable(false);
+				cboNV.setEnabled(false);
+				dateFrom.setEnabled(true);
+				dateTo.setEnabled(true);
+			}
+		});
+
 	}
-	
-	private KhachHangDAOImpl khDAO=new KhachHangDAOImpl();
-	private NhanVienDAOImpl nvDAO=new NhanVienDAOImpl();
-	private HoaDonDAOImpl hdDAO=new HoaDonDAOImpl();
-	private HoaDonUI hdUI;
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		if (o.equals(btnTroVe)) {
-			setVisible(false);
-		} else if (o.equals(btnTimKiem)) {
-			String tenKH = txtKH.getText();
-			String tenNV = (String) cboNV.getSelectedItem();
-			if (tenNV.equals("---------------------------------------------------"))
-				tenNV = "";
-			String ngayBD = "";
-			String ngayEnd = "";
-			ngayBD = dateFormat.format(dateFrom.getDate());
-			ngayEnd = dateFormat.format(dateTo.getDate());
+		if (o.equals(btnTimKiem)) {
+			timHoaDon();
+			updateTable();
+		}
 
-			 hdUI = new HoaDonUI(tenKH, tenNV, Date.valueOf(ngayBD).toLocalDate() ,Date.valueOf(ngayEnd).toLocalDate());
-			 hdUI.setVisible(true);
-			setVisible(false);
+	}
 
+	private void timHoaDon() {
+		try {
+
+			String ma = txtMa.getText().trim();
+			String tenKH = txtTenKH.getText().trim();
+			String tenNV = cboNV.getSelectedItem().toString().trim();
+			java.util.Date from = dateFrom.getDate();
+			java.util.Date to = dateTo.getDate();
+			ZoneId defaultZoneId = ZoneId.systemDefault();
+			Instant instantFrom = from.toInstant();
+			Instant instantTo = to.toInstant();
+			LocalDate localDateFrom = instantFrom.atZone(defaultZoneId).toLocalDate();
+			LocalDate localDateTo = instantTo.atZone(defaultZoneId).toLocalDate();
+
+			if (rdbMa.isSelected()) {
+				if (ma.equalsIgnoreCase("") || ma == null || ma.isEmpty()) {
+					JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				} else {
+					hoaDons.clear();
+					hoaDons = hoaDonDAO.getHoaDonsById(ma);
+				}
+			} else if (rdbTenNV.isSelected()) {
+				hoaDons.clear();
+				hoaDons = hoaDonDAO.getHoaDonsByTenNV(tenNV);
+				System.out.println(hoaDons.size());
+			} else if (rdbtenKH.isSelected()) {
+				if (tenKH.equalsIgnoreCase("") || tenKH == null || tenKH.isEmpty()) {
+					JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+				} else {
+					hoaDons.clear();
+					hoaDons = hoaDonDAO.getHoaDonsByTenKH(tenKH);
+				}
+			} else if (rdbNgay.isSelected()) {
+				hoaDons.clear();
+				hoaDons = hoaDonDAO.getHoaDonsFromDateToDate(localDateFrom, localDateTo);
+			}
+
+		} catch (Exception e) {
 		}
 	}
+
+	private void updateTable() {
+		tableModel = (DefaultTableModel) table.getModel();
+		tableModel.getDataVector().removeAllElements();
+		try {
+			int i = 0;
+			for (HoaDon hd : hoaDons) {
+				i++;
+				if (hd.getKhachHang() == null) {
+					tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), "Null", hd.getNgayXuatHoaDon(),
+							hd.getNhanVien().getHoTenNhanVien() });
+				} else {
+					tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getKhachHang().getTenKhachHang(),
+							hd.getNgayXuatHoaDon(), hd.getNhanVien().getHoTenNhanVien() });
+				}
+			}
+			table.setModel(tableModel);
+			table.getSelectionModel().clearSelection();
+			tableModel.fireTableDataChanged();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

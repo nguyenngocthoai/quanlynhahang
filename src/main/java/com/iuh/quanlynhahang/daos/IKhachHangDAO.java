@@ -13,9 +13,15 @@ public interface IKhachHangDAO {
 
 	public KhachHang getKHByID(String maKH);
 
-	public KhachHang getKHBySDT(String sDT);
-	
-	public List<KhachHang> searchKH(String tenKhachHang, String soDienThoai, String diaChi, String gioiTinh);
+	public List<KhachHang> getKHsByID(String maKH);
 
-	public List<KhachHang> getKHByTen(String tenKhachHang);
+	public KhachHang getKHBySDT(String sDT);
+
+	public List<KhachHang> getKHsBySDT(String soDienThoai);
+
+	public List<KhachHang> getKHByTen(String ten);
+
+	public List<KhachHang> getKHsByTen(String tenKhachHang);
+
+	public List<KhachHang> searchKH(String tenKhachHang, String soDienThoai, String diaChi, String gioiTinh);
 }
