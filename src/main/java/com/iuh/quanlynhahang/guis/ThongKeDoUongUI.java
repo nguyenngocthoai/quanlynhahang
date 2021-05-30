@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -31,6 +32,9 @@ import javax.swing.table.DefaultTableModel;
 
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
 import com.iuh.quanlynhahang.entities.Mon;
+import com.quanlynhahang.baocao.BaoCao;
+import com.quanlynhahang.dto.DoUongDTO;
+
 import javax.swing.ImageIcon;
 
 public class ThongKeDoUongUI extends JFrame implements ActionListener {
@@ -46,6 +50,8 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 	private static List<Mon> mons = new ArrayList<Mon>();
 	private static List<String> maMons = new ArrayList<String>();
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
+
+	public static List<DoUongDTO> listDU = new ArrayList<DoUongDTO>();
 
 	/**
 	 * Launch the application.
@@ -77,6 +83,12 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 	private JRadioButton rdbNam;
 	private JLabel lblThngKTheo_1;
 	private JButton btnBaoCao;
+
+	public static final String banChayNhat = "Bán chạy nhất";
+	public static final String banItNhat = "Bán ít nhất";
+	public static String getCBXMonAn;
+	public static String getMonth;
+	public static String getYear;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ThongKeDoUongUI() {
@@ -134,100 +146,89 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 		lblThngKTheo_1 = new JLabel("Thống kê theo top 10");
 		lblThngKTheo_1.setForeground(Color.RED);
 		lblThngKTheo_1.setFont(new Font("Times New Roman", Font.ITALIC, 15));
-		
+
 		btnBaoCao = new JButton("Báo Cáo");
 		btnBaoCao.setIcon(new ImageIcon("images\\report.png"));
 		btnBaoCao.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(23)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING).addGroup(gl_contentPane
+				.createSequentialGroup().addGap(23)
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblThngKTheo_1, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblThngKTheo_1, GroupLayout.PREFERRED_SIZE, 178,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup().addGroup(gl_contentPane
+								.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblThngKTheo, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-									.addGap(6)
-									.addComponent(rdbThang, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-									.addGap(21)
-									.addComponent(rdbNam, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+										.addComponent(lblThngKTheo, GroupLayout.PREFERRED_SIZE, 95,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(6)
+										.addComponent(rdbThang, GroupLayout.PREFERRED_SIZE, 69,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(21).addComponent(rdbNam, GroupLayout.PREFERRED_SIZE, 69,
+												GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblMnn, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-									.addGap(32)
-									.addComponent(cboMonAn, 0, 126, Short.MAX_VALUE)
-									.addGap(33))
+										.addComponent(lblMnn, GroupLayout.PREFERRED_SIZE, 69,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(32).addComponent(cboMonAn, 0, 126, Short.MAX_VALUE).addGap(33))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblTheoThng, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
-									.addGap(32)
-									.addComponent(cbxThang, 0, 126, Short.MAX_VALUE)
-									.addGap(33))
+										.addComponent(lblTheoThng, GroupLayout.PREFERRED_SIZE, 69,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(32).addComponent(cbxThang, 0, 126, Short.MAX_VALUE).addGap(33))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblNm, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-									.addGap(40)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(cbxNam, 0, 129, Short.MAX_VALUE)
-											.addGap(33))
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(btnBaoCao, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(btnThongKe, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)))))
-							.addGap(25)
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
-							.addGap(30))))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(410)
-					.addComponent(lblThngKMn, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(389, Short.MAX_VALUE))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(20)
-					.addComponent(lblThngKMn)
-					.addGap(33)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblNm, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+										.addGap(40)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPane.createSequentialGroup()
+														.addComponent(cbxNam, 0, 129, Short.MAX_VALUE).addGap(33))
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+														.addComponent(btnBaoCao, GroupLayout.DEFAULT_SIZE,
+																GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(btnThongKe, GroupLayout.DEFAULT_SIZE, 118,
+																Short.MAX_VALUE)))))
+								.addGap(25).addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+								.addGap(30))))
+				.addGroup(gl_contentPane.createSequentialGroup().addGap(410)
+						.addComponent(lblThngKMn, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(389, Short.MAX_VALUE)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+				.createSequentialGroup().addGap(20).addComponent(lblThngKMn).addGap(33)
+				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
+						.createSequentialGroup()
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblThngKTheo, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(4)
-									.addComponent(rdbThang, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(4)
-									.addComponent(rdbNam, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
-							.addGap(12)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(4).addComponent(rdbThang,
+										GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup().addGap(4).addComponent(rdbNam,
+										GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
+						.addGap(12)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblMnn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 								.addComponent(cboMonAn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
-							.addGap(11)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGap(11)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblTheoThng, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cbxThang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(26)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(cbxThang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(26)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNm, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cbxNam, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(29)
-							.addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-							.addGap(33)
-							.addComponent(btnBaoCao, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(4)
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblThngKTheo_1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
+								.addComponent(cbxNam, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addGap(29).addComponent(btnThongKe, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+						.addGap(33).addComponent(btnBaoCao, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup().addGap(4).addComponent(scrollPane,
+								GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)))
+				.addPreferredGap(ComponentPlacement.RELATED)
+				.addComponent(lblThngKTheo_1, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap()));
 		contentPane.setLayout(gl_contentPane);
 
 		cboMonAn.addActionListener(this);
 		btnThongKe.addActionListener(this);
 		btnBaoCao.addActionListener(this);
-		
+
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(rdbNam);
 		buttonGroup.add(rdbThang);
@@ -269,12 +270,31 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThongKe)) {
-			thongKeDoUong();
-			updateTable();
+			if(!rdbNam.isSelected() && !rdbThang.isSelected()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+			}else {
+				thongKeDoUong();
+				updateTable();
+			}
 		} else if (o.equals(btnBaoCao)) {
-			/**
-			 * handle for btnBaoCao here
-			 */
+			try {
+				if (table.getRowCount() <= 0) {
+					int options = JOptionPane.showConfirmDialog(this,
+							"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo",
+							JOptionPane.YES_NO_OPTION);
+					if (options == JOptionPane.YES_OPTION) {
+						BaoCao bc = new BaoCao();
+						bc.BaoCaoDoUong();
+					}
+				} else {
+					BaoCao bc = new BaoCao();
+					bc.BaoCaoDoUong();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+
 		}
 
 	}
@@ -284,7 +304,11 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 			String loai = cboMonAn.getSelectedItem().toString();
 			String thang = cbxThang.getSelectedItem().toString();
 			String nam = cbxNam.getSelectedItem().toString();
+			
+			getCBXMonAn=loai;
+			
 			if (rdbThang.isSelected()) {
+				getMonth=thang;
 				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeDoUongNhieuNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
 							"Đồ Uống");
@@ -295,6 +319,7 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 					mons = convertStringtoMon(maMons);
 				}
 			} else if (rdbNam.isSelected()) {
+				getYear=nam;
 				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeDoUongNhieuNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
 					mons = convertStringtoMon(maMons);
@@ -329,6 +354,9 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 				i++;
 				tableModel.addRow(new Object[] { i, mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
 						df.format(mon.getGiaTien()) });
+				DoUongDTO doUongDTO = new DoUongDTO(mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
+						df.format(mon.getGiaTien()));
+				listDU.add(doUongDTO);
 			}
 			table.setModel(tableModel);
 			table.getSelectionModel().clearSelection();

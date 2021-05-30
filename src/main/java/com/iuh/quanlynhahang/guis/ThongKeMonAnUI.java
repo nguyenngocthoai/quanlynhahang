@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -31,6 +32,9 @@ import javax.swing.table.DefaultTableModel;
 
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
 import com.iuh.quanlynhahang.entities.Mon;
+import com.quanlynhahang.baocao.BaoCao;
+import com.quanlynhahang.dto.MonAnDTO;
+
 import javax.swing.ImageIcon;
 
 public class ThongKeMonAnUI extends JFrame implements ActionListener {
@@ -77,6 +81,14 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 	private JRadioButton rdbNam;
 	private JLabel lblThngKTheo_1;
 	private JButton btnBaoCao;
+
+	public static final String banChayNhat = "Bán chạy nhất";
+	public static final String banItNhat = "Bán ít nhất";
+	public static String getCBXMonAn;
+
+	public static String getMonth;
+	public static String getYear;
+	public static List<MonAnDTO> listMA = new ArrayList<MonAnDTO>();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ThongKeMonAnUI() {
@@ -257,12 +269,30 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThongKe)) {
-			thongKeMonAn();
-			updateTable();
+			if(!rdbNam.isSelected() && !rdbThang.isSelected()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+			}else {
+				thongKeMonAn();
+				updateTable();
+			}
 		} else if (o.equals(btnBaoCao)) {
-			/**
-			 * handle for btnBaoCao here
-			 */
+			try {
+				if (table.getRowCount() <= 0) {
+					int options = JOptionPane.showConfirmDialog(this,
+							"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo",
+							JOptionPane.YES_NO_OPTION);
+					if (options == JOptionPane.YES_OPTION) {
+						BaoCao bc = new BaoCao();
+						bc.BaoCaoMonAn();
+					}
+				} else {
+					BaoCao bc = new BaoCao();
+					bc.BaoCaoMonAn();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 
 	}
@@ -272,7 +302,11 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 			String loai = cboMonAn.getSelectedItem().toString();
 			String thang = cbxThang.getSelectedItem().toString();
 			String nam = cbxNam.getSelectedItem().toString();
+			
+			getCBXMonAn=loai;
+			
 			if (rdbThang.isSelected()) {
+				getMonth=thang;
 				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeMonAnNhieuNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
 							"Đồ Uống");
@@ -283,6 +317,7 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 					mons = convertStringtoMon(maMons);
 				}
 			} else if (rdbNam.isSelected()) {
+				getYear=nam;
 				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeMonAnNhieuNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
 					mons = convertStringtoMon(maMons);
@@ -317,6 +352,9 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 				i++;
 				tableModel.addRow(new Object[] { i, mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
 						df.format(mon.getGiaTien()) });
+				MonAnDTO bcMonAn=new MonAnDTO(mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
+						df.format(mon.getGiaTien()));
+				listMA.add(bcMonAn);
 			}
 			table.setModel(tableModel);
 			table.getSelectionModel().clearSelection();
