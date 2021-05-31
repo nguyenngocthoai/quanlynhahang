@@ -132,11 +132,11 @@ public class TrangChu extends JFrame implements ActionListener, MenuListener {
 		mnDanhMuc.add(mniNhanVien);
 		mniNhanVien.addActionListener(this);
 
-		mniMonAn = new JMenuItem("Món Ăn");
+		mniMonAn = new JMenuItem("Món");
 		mniMonAn.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnDanhMuc.add(mniMonAn);
 
-		mniLoaiMon = new JMenuItem("Loại Món Ăn");
+		mniLoaiMon = new JMenuItem("Loại Món");
 		mniLoaiMon.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		mnDanhMuc.add(mniLoaiMon);
 

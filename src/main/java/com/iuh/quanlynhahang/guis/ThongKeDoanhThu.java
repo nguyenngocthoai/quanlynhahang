@@ -51,8 +51,11 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 	public JPanel contentPane;
 	private static String muaVe = "Mua Về";
 	private static String suDungNgay = "Sử Dụng Ngay";
-//	private BigDecimal tongTien = BigDecimal.valueOf(0d);
 	public static BigDecimal tongTien = BigDecimal.valueOf(0d);
+
+	public static List<DoanhThu> listDT = new ArrayList<DoanhThu>();
+	public static String ngayBD;
+	public static String ngayEnd;
 
 	/**
 	 * Launch the application.
@@ -223,10 +226,85 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 		}
 
 	}
-	
 
-//	public void updateTable() {
-//		tongTien = BigDecimal.valueOf(0);
+	public void updateTable() {
+		java.util.Date from = dateFrom.getDate();
+		java.util.Date to = dateTo.getDate();// localdate kia
+		if (from.after(to)) {
+			JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+					new ImageIcon("images\\warning.png"));
+		} else {
+			tongTien = BigDecimal.valueOf(0);
+			try {
+
+				// tableModel.getDataVector().removeAllElements();
+				int rowCount = tableThongKeDoanhThu.getRowCount();
+				for (int i = rowCount; i > 0; i--) {
+					tableModel.removeRow(i - 1);
+				}
+				try {
+					int i = 0;
+					String ngayBD = "";
+					String ngayEnd = "";
+					ngayBD = dateFormat.format(dateFrom.getDate());
+					ngayEnd = dateFormat.format(dateTo.getDate());
+					System.out.println(ngayBD);
+
+					List<HoaDon> listHD = hdDAO.getHoaDonByDate(ngayBD, ngayEnd);
+					List<PhieuDatBan> listPDB = phieuDAO.getAllPhieuDatBan();
+					List<ChiTietHoaDon> listCTHD = cthdDAO.getAllCTHD();
+
+					for (HoaDon hd : listHD) {
+						i++;
+						try {
+							for (ChiTietHoaDon cthd : listCTHD) {
+								for (PhieuDatBan pdb : listPDB) {
+									if (hd.getMaHoaDon() == cthd.getHoaDon().getMaHoaDon()
+											&& cthd.getBanTiec().getMaBanTiec() == pdb.getMaBanTiec()) {
+										BigDecimal t = BigDecimal.valueOf(0.3d);
+										BigDecimal t1 = pdb.getTienCoc();
+										BigDecimal t2;
+										if (pdb.getTrangThai().equals(suDungNgay)) {
+											t2 = t1.divide(t);
+											tableModel.addRow(new Object[] { i, hd.getMaHoaDon(),
+													hd.getNgayXuatHoaDon(), df.format(t2) });
+
+										} else if (pdb.getTrangThai().equals(muaVe)) {
+											t2 = t1.divide(t);
+											tableModel.addRow(new Object[] { i, hd.getMaHoaDon(),
+													hd.getNgayXuatHoaDon(), df.format(t2) });
+
+										} else {
+											t2 = (t1.divide(t)).subtract(t1);
+											tableModel.addRow(new Object[] { i, hd.getMaHoaDon(),
+													hd.getNgayXuatHoaDon(), df.format(pdb.getTienCoc()) });
+										}
+										tongTien = tongTien.add(t2);
+
+									}
+								}
+							}
+
+						} catch (Exception e) {
+							tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon() });
+						}
+
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				txtTongTien.setText(df.format(tongTien));
+				tienTong = txtTongTien.getText();
+				tableThongKeDoanhThu.setModel(tableModel);
+
+			} catch (Exception e) {
+			}
+
+		}
+	}
+
+//	public void loadTable() {
 //		try {
 //
 //			// tableModel.getDataVector().removeAllElements();
@@ -236,13 +314,7 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 //			}
 //			try {
 //				int i = 0;
-//				String ngayBD = "";
-//				String ngayEnd = "";
-//				ngayBD = dateFormat.format(dateFrom.getDate());
-//				ngayEnd = dateFormat.format(dateTo.getDate());
-//				System.out.println(ngayBD);
-//
-//				List<HoaDon> listHD = hdDAO.getHoaDonByDate(ngayBD, ngayEnd);
+//				List<HoaDon> listHD = hdDAO.getAllHoaDon();
 //				List<PhieuDatBan> listPDB = phieuDAO.getAllPhieuDatBan();
 //				List<ChiTietHoaDon> listCTHD = cthdDAO.getAllCTHD();
 //
@@ -260,10 +332,12 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 //										t2 = t1.divide(t);
 //										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
 //												df.format(t2) });
+//
 //									} else if (pdb.getTrangThai().equals(muaVe)) {
 //										t2 = t1.divide(t);
 //										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
 //												df.format(t2) });
+//
 //									} else {
 //										t2 = (t1.divide(t)).subtract(t1);
 //										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
@@ -290,85 +364,10 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 //		} catch (Exception e) {
 //		}
 //	}
-	public static List<DoanhThu> listDT=new ArrayList<DoanhThu>();
-	public static String ngayBD;
-	public static String ngayEnd;
-	public void updateTable() {
-		tongTien = BigDecimal.valueOf(0);
-		try {
-			
-			// tableModel.getDataVector().removeAllElements();
-			int rowCount = tableThongKeDoanhThu.getRowCount();
-			for (int i = rowCount; i > 0; i--) {
-				tableModel.removeRow(i - 1);
-			}
-			try {
-				int i = 0;
-				
-				ngayBD = dateFormat.format(dateFrom.getDate());
-				ngayEnd = dateFormat.format(dateTo.getDate());
-				System.out.println(ngayBD);
-
-				List<HoaDon> listHD = hdDAO.getHoaDonByDate(ngayBD, ngayEnd);
-				List<PhieuDatBan> listPDB = phieuDAO.getAllPhieuDatBan();
-				List<ChiTietHoaDon> listCTHD = cthdDAO.getAllCTHD();
-
-				for (HoaDon hd : listHD) {
-					i++;
-					try {
-						for (ChiTietHoaDon cthd : listCTHD) {
-							for (PhieuDatBan pdb : listPDB) {
-								if (hd.getMaHoaDon() == cthd.getHoaDon().getMaHoaDon()
-										&& cthd.getBanTiec().getMaBanTiec() == pdb.getMaBanTiec()) {
-									BigDecimal t = BigDecimal.valueOf(0.3d);
-									BigDecimal t1 = pdb.getTienCoc();
-									BigDecimal t2;
-									if (pdb.getTrangThai().equals(suDungNgay)) {
-										t2 = t1.divide(t);
-										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
-												df.format(t2) });
-										
-										DoanhThu dt=new DoanhThu(hd.getMaHoaDon(), hd.getNgayXuatHoaDon()+"",df.format(t2));
-										listDT.add(dt);
-									} else if (pdb.getTrangThai().equals(muaVe)) {
-										t2 = t1.divide(t);
-										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
-												df.format(t2) });
-										
-										DoanhThu dt=new DoanhThu(hd.getMaHoaDon(), hd.getNgayXuatHoaDon()+"",df.format(t2));
-												listDT.add(dt);
-												//System.out.println(listDT.get(i).getNgayInHD());
-									} else {
-										t2 = (t1.divide(t)).subtract(t1);
-										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
-												df.format(pdb.getTienCoc()) });
-										DoanhThu dt=new DoanhThu(hd.getMaHoaDon(), hd.getNgayXuatHoaDon()+"",df.format(t2));
-										listDT.add(dt);
-									}
-									tongTien = tongTien.add(t2);
-
-								}
-							}
-						}
-
-					} catch (Exception e) {
-						tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon() });
-					}
-
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			txtTongTien.setText(df.format(tongTien));
-			tienTong=txtTongTien.getText();
-			System.out.println(tienTong);
-			tableThongKeDoanhThu.setModel(tableModel);
-
-		} catch (Exception e) {
-		}
-	}
-
+	// quên chưa bắt regex ngày bắt
+	/**
+	 * chổ nào
+	 */
 	public void loadTable() {
 		try {
 
@@ -378,6 +377,8 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 				tableModel.removeRow(i - 1);
 			}
 			try {
+				ngayBD = dateFormat.format(dateFrom.getDate());
+				ngayEnd = dateFormat.format(dateTo.getDate());
 				int i = 0;
 				List<HoaDon> listHD = hdDAO.getAllHoaDon();
 				List<PhieuDatBan> listPDB = phieuDAO.getAllPhieuDatBan();
@@ -397,16 +398,25 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 										t2 = t1.divide(t);
 										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
 												df.format(t2) });
+										DoanhThu dt = new DoanhThu(hd.getMaHoaDon(), hd.getNgayXuatHoaDon() + "",
+												df.format(t2));
+										listDT.add(dt);
 
 									} else if (pdb.getTrangThai().equals(muaVe)) {
 										t2 = t1.divide(t);
 										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
 												df.format(t2) });
+										DoanhThu dt = new DoanhThu(hd.getMaHoaDon(), hd.getNgayXuatHoaDon() + "",
+												df.format(t2));
+										listDT.add(dt);
 
 									} else {
 										t2 = (t1.divide(t)).subtract(t1);
 										tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getNgayXuatHoaDon(),
 												df.format(pdb.getTienCoc()) });
+										DoanhThu dt = new DoanhThu(hd.getMaHoaDon(), hd.getNgayXuatHoaDon() + "",
+												df.format(t2));
+										listDT.add(dt);
 									}
 									tongTien = tongTien.add(t2);
 
@@ -436,18 +446,22 @@ public class ThongKeDoanhThu extends JFrame implements ActionListener {
 		if (o.equals(btnThongKe)) {
 			updateTable();
 		} else if (o.equals(btnBaoCao)) {
-			if (tableThongKeDoanhThu.getRowCount() <= 0) {
-				int options = JOptionPane.showConfirmDialog(this,
-						"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo", JOptionPane.YES_NO_OPTION);
-				if (options == JOptionPane.YES_OPTION) {
+			try {
+				if (tableThongKeDoanhThu.getRowCount() <= 0) {
+					int options = JOptionPane.showConfirmDialog(this,
+							"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo",
+							JOptionPane.YES_NO_OPTION);
+					if (options == JOptionPane.YES_OPTION) {
+						BaoCao bc = new BaoCao();
+						bc.BaoCaoDoanhThu();
+					}
+				} else {
 					BaoCao bc = new BaoCao();
 					bc.BaoCaoDoanhThu();
 				}
-			} else {
-				BaoCao bc = new BaoCao();
-				bc.BaoCaoDoanhThu();
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
-			
 		}
 
 	}

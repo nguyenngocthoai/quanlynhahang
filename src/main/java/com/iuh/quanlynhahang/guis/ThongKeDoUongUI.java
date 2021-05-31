@@ -51,6 +51,8 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 	private static List<String> maMons = new ArrayList<String>();
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
 
+	public static List<DoUongDTO> listDU = new ArrayList<DoUongDTO>();
+
 	/**
 	 * Launch the application.
 	 */
@@ -81,9 +83,12 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 	private JRadioButton rdbNam;
 	private JLabel lblThngKTheo_1;
 	private JButton btnBaoCao;
+
 	public static final String banChayNhat = "Bán chạy nhất";
 	public static final String banItNhat = "Bán ít nhất";
 	public static String getCBXMonAn;
+	public static String getMonth;
+	public static String getYear;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ThongKeDoUongUI() {
@@ -232,10 +237,8 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 		for (int i = 1; i <= 12; i++) {
 			cbxThang.addItem(i + "");
 		}
-//		cboMonAn.addItem("Bán chạy nhất");
-//		cboMonAn.addItem("Bán ít nhất");
-		cboMonAn.addItem(banChayNhat);
-		cboMonAn.addItem(banItNhat);
+		cboMonAn.addItem("Bán chạy nhất");
+		cboMonAn.addItem("Bán ít nhất");
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		for (int c = 0; c < table.getColumnCount(); c++) {
@@ -267,80 +270,60 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThongKe)) {
-			thongKeDoUong();
-			updateTable();
+			if(!rdbNam.isSelected() && !rdbThang.isSelected()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+			}else {
+				thongKeDoUong();
+				updateTable();
+			}
 		} else if (o.equals(btnBaoCao)) {
-			if (table.getRowCount() <= 0) {
-				int options = JOptionPane.showConfirmDialog(this,
-						"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo", JOptionPane.YES_NO_OPTION);
-				if (options == JOptionPane.YES_OPTION) {
+			try {
+				if (table.getRowCount() <= 0) {
+					int options = JOptionPane.showConfirmDialog(this,
+							"Không có dữ liệu nào hết. Bạn có chắc muốn tiếp tục?", "Thông báo",
+							JOptionPane.YES_NO_OPTION);
+					if (options == JOptionPane.YES_OPTION) {
+						BaoCao bc = new BaoCao();
+						bc.BaoCaoDoUong();
+					}
+				} else {
 					BaoCao bc = new BaoCao();
 					bc.BaoCaoDoUong();
 				}
-			} else {
-				BaoCao bc = new BaoCao();
-				bc.BaoCaoDoUong();
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
+
 		}
 
 	}
-
-//	private void thongKeDoUong() {
-//		try {
-//			String loai = cboMonAn.getSelectedItem().toString();
-//			String thang = cbxThang.getSelectedItem().toString();
-//			String nam = cbxNam.getSelectedItem().toString();
-//			if (rdbThang.isSelected()) {
-//				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
-//					maMons = monDAO.ThongKeDoUongNhieuNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
-//							"Đồ Uống");
-//					mons = convertStringtoMon(maMons);
-//				} else if (loai.equalsIgnoreCase("Bán ít nhất")) {
-//					maMons = monDAO.ThongKeDoUongItNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
-//							"Đồ Uống");
-//					mons = convertStringtoMon(maMons);
-//				}
-//			} else if (rdbNam.isSelected()) {
-//				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
-//					maMons = monDAO.ThongKeDoUongNhieuNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
-//					mons = convertStringtoMon(maMons);
-//				} else if (loai.equalsIgnoreCase("Bán ít nhất")) {
-//					maMons = monDAO.ThongKeDoUongItNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
-//					mons = convertStringtoMon(maMons);
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-	public static String getMonth;
-	public static String getYear;
 
 	private void thongKeDoUong() {
 		try {
 			String loai = cboMonAn.getSelectedItem().toString();
 			String thang = cbxThang.getSelectedItem().toString();
 			String nam = cbxNam.getSelectedItem().toString();
-
-			getCBXMonAn = loai;
-			getMonth = thang;
-			getYear = nam;
-
+			
+			getCBXMonAn=loai;
+			
 			if (rdbThang.isSelected()) {
-				if (loai.equalsIgnoreCase(banChayNhat)) {
+				getMonth=thang;
+				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeDoUongNhieuNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
 							"Đồ Uống");
 					mons = convertStringtoMon(maMons);
-				} else if (loai.equalsIgnoreCase(banItNhat)) {
+				} else if (loai.equalsIgnoreCase("Bán ít nhất")) {
 					maMons = monDAO.ThongKeDoUongItNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
 							"Đồ Uống");
 					mons = convertStringtoMon(maMons);
 				}
 			} else if (rdbNam.isSelected()) {
-				if (loai.equalsIgnoreCase(banChayNhat)) {
+				getYear=nam;
+				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeDoUongNhieuNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
 					mons = convertStringtoMon(maMons);
-				} else if (loai.equalsIgnoreCase(banItNhat)) {
+				} else if (loai.equalsIgnoreCase("Bán ít nhất")) {
 					maMons = monDAO.ThongKeDoUongItNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
 					mons = convertStringtoMon(maMons);
 				}
@@ -362,25 +345,6 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 		return mons;
 	}
 
-//	public void updateTable() {
-//		tableModel = (DefaultTableModel) table.getModel();
-//		tableModel.getDataVector().removeAllElements();
-//		try {
-//			int i = 0;
-//			for (Mon mon : mons) {
-//				i++;
-//				tableModel.addRow(new Object[] { i, mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
-//						df.format(mon.getGiaTien()) });
-//			}
-//			table.setModel(tableModel);
-//			table.getSelectionModel().clearSelection();
-//			tableModel.fireTableDataChanged();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-	public static List<DoUongDTO> listDU = new ArrayList<DoUongDTO>();
-
 	public void updateTable() {
 		tableModel = (DefaultTableModel) table.getModel();
 		tableModel.getDataVector().removeAllElements();
@@ -390,7 +354,6 @@ public class ThongKeDoUongUI extends JFrame implements ActionListener {
 				i++;
 				tableModel.addRow(new Object[] { i, mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
 						df.format(mon.getGiaTien()) });
-
 				DoUongDTO doUongDTO = new DoUongDTO(mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
 						df.format(mon.getGiaTien()));
 				listDU.add(doUongDTO);

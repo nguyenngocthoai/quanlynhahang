@@ -374,63 +374,69 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btnDat)) {
-			int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
-					JOptionPane.YES_NO_OPTION);
-			if (options == JOptionPane.YES_OPTION) {
+			if(tenMons.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để đặt!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+			}else {
+				int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
+						JOptionPane.YES_NO_OPTION);
+				if (options == JOptionPane.YES_OPTION) {
 
-				List<Mon> mons = convertStringtoMon();
-				Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
+					List<Mon> mons = convertStringtoMon();
+					Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
 
-				try {
-					BigDecimal tienCocSave = new BigDecimal(tienCoc);
+					try {
+						BigDecimal tienCocSave = new BigDecimal(tienCoc);
 
-					PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), setMons, LocalDate.now(),
-							LocalDate.now(), "Mua Về", "Đã Thanh Toán", tienCocSave);
+						PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), setMons, LocalDate.now(),
+								LocalDate.now(), "Mua Về", "Đã Thanh Toán", tienCocSave);
 
-					phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
+						phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
 
-					NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
+						NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
 
-					HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), nhanVien, LocalDate.now());
-					hoaDonDAO.createHoaDon(hoaDon);
+						HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), nhanVien, LocalDate.now());
+						hoaDonDAO.createHoaDon(hoaDon);
 
-					ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(hoaDon, phieuDatBan, 1);
-					chiTietHoaDonDAO.createCTHD(chiTietHoaDon);
-//					chiTietHoaDon.getBanTiec().getMonAns().
+						ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(hoaDon, phieuDatBan, 1);
+						chiTietHoaDonDAO.createCTHD(chiTietHoaDon);
+//						chiTietHoaDon.getBanTiec().getMonAns().
 
-					JOptionPane.showMessageDialog(null, "Mua thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-							new ImageIcon("images\\yes.png"));
-//					tenMons.clear();
-//					model = (DefaultTableModel) table.getModel();
-//					model.getDataVector().removeAllElements();
+						JOptionPane.showMessageDialog(null, "Mua thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+								new ImageIcon("images\\yes.png"));
+//						tenMons.clear();
+//						model = (DefaultTableModel) table.getModel();
+//						model.getDataVector().removeAllElements();
 
-					// print
-					inHoaDonUI.lblMaHD.setText(hoaDon.getMaHoaDon());
-					inHoaDonUI.lblNgayLap1.setText(hoaDon.getNgayXuatHoaDon() + "");
-					BigDecimal tienKhachPhaiTra = tienCocSave.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP);
-					inHoaDonUI.lblTongTien.setText(df.format(tienKhachPhaiTra));
+						// print
+						inHoaDonUI.lblMaHD.setText(hoaDon.getMaHoaDon());
+						inHoaDonUI.lblNgayLap1.setText(hoaDon.getNgayXuatHoaDon() + "");
+						BigDecimal tienKhachPhaiTra = tienCocSave.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP);
+						inHoaDonUI.lblTongTien.setText(df.format(tienKhachPhaiTra));
 
-					Set<Mon> monPD = phieuDatBan.getMonAns();
-					int i = 0;
-					for (Mon mon : monPD) {
-						i++;
-						inHoaDonUI.tableModel.addRow(
-								new Object[] { i, mon.getTenMon(), mon.getDonViTinh(), df.format(mon.getGiaTien()) });
+						Set<Mon> monPD = phieuDatBan.getMonAns();
+						int i = 0;
+						for (Mon mon : monPD) {
+							i++;
+							inHoaDonUI.tableModel.addRow(
+									new Object[] { i, mon.getTenMon(), mon.getDonViTinh(), df.format(mon.getGiaTien()) });
+						}
+						this.inHoaDonUI.setVisible(true);
+						inHoaDonUI.setLocationRelativeTo(null);
+						inHoaDonUI.printingHoaDon();
+						this.inHoaDonUI.setVisible(false);
+
+						MuaVeUI muaVeUI = new MuaVeUI();
+						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
+						TrangChu.tabbedPane.addTab("Mua Về", null, TrangChu.tabbedPane.add(muaVeUI.contentPane), "Mua Về");
+					} catch (Exception e2) {
+						e2.printStackTrace();
 					}
-					this.inHoaDonUI.setVisible(true);
-					inHoaDonUI.setLocationRelativeTo(null);
-					inHoaDonUI.printingHoaDon();
-					this.inHoaDonUI.setVisible(false);
 
-					MuaVeUI muaVeUI = new MuaVeUI();
-					TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-					TrangChu.tabbedPane.addTab("Mua Về", null, TrangChu.tabbedPane.add(muaVeUI.contentPane), "Mua Về");
-				} catch (Exception e2) {
-					e2.printStackTrace();
 				}
 
+			
 			}
-
 		} else if (obj.equals(btnXoaMon)) {
 			int row = table.getSelectedRow();
 			if (row != -1) {

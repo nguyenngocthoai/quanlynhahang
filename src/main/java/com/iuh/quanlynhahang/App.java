@@ -1,11 +1,6 @@
 package com.iuh.quanlynhahang;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
-import com.iuh.quanlynhahang.entities.HoaDon;
 
 /**
  * Hello world!
@@ -18,7 +13,7 @@ public class App {
 //		KhachHangDAOImpl khachHangDAO = new KhachHangDAOImpl();
 //		BanDAOImpl banDAOImpl=new BanDAOImpl();
 //		MonDAOImpl monDAO = new MonDAOImpl();
-		HoaDonDAOImpl dao = new HoaDonDAOImpl();
+//		HoaDonDAOImpl dao = new HoaDonDAOImpl();
 //		System.out.println(LocalDate.now());
 
 //		List<String> s = new ArrayList<String>();

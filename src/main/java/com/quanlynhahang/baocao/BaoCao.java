@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -24,9 +21,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.iuh.quanlynhahang.guis.ThongKeDoUongUI;
@@ -246,8 +241,14 @@ public class BaoCao {
 			}
 			row = sheet.createRow(rownum + 2);
 			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(
-					"*Top 10 món ăn " + tkMA.getCBXMonAn + " theo tháng " + tkMA.getMonth + " năm " + tkMA.getYear);
+			if (tkMA.getMonth==null) {
+				cell1.setCellValue(
+						"*Top 10 món ăn " + tkMA.getCBXMonAn + " theo năm " + tkMA.getYear);
+			}else {
+				cell1.setCellValue(
+						"*Top 10 món ăn " + tkMA.getCBXMonAn + " theo tháng " + tkMA.getMonth + " năm " + tkMA.getYear);
+			}
+			
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
 
@@ -348,8 +349,14 @@ public class BaoCao {
 //				row.createCell(0, CellType.STRING).setCellValue("Top 10 món ăn "+tkMA.getCBXMonAn+" theo tháng "+tkMA.getMonth
 //						+" năm "+tkMA.getYear);
 			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(
-					"*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo tháng " + tkDU.getMonth + " năm " + tkDU.getYear);
+			if (tkDU.getMonth==null) {
+				cell1.setCellValue(
+						"*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo năm " + tkDU.getYear);
+			}else {
+				cell1.setCellValue(
+						"*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo tháng " + tkDU.getMonth + " năm " + tkDU.getYear);
+			}
+			
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
 
@@ -452,8 +459,14 @@ public class BaoCao {
 //						row.createCell(0, CellType.STRING).setCellValue("Top 10 món ăn "+tkMA.getCBXMonAn+" theo tháng "+tkMA.getMonth
 //								+" năm "+tkMA.getYear);
 			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(
-					"*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo tháng " + tkKH.getMonth + " năm " + tkKH.getYear);
+			if (tkKH.getMonth==null) {
+				cell1.setCellValue(
+						"*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo năm " + tkKH.getYear);
+			}else {
+				cell1.setCellValue(
+						"*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo tháng " + tkKH.getMonth + " năm " + tkKH.getYear);
+			}
+			
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
 

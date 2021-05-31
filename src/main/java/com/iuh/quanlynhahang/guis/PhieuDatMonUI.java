@@ -125,7 +125,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		setLocationRelativeTo(null);
 
 		JLabel lblKhchHng = new JLabel("PHIẾU ĐẶT MÓN");
-		lblKhchHng.setForeground(Color.RED);
+		lblKhchHng.setForeground(Color.RED); 
 		lblKhchHng.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
 		String[] header = "STT;Mã Phiếu Đặt; Tên Khách Hàng;Số Điện Thoại;Giới Tính;Ngày Sử Dụng;".split(";");
@@ -541,13 +541,15 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		tableModel.getDataVector().removeAllElements();
 		try {
 			List<PhieuDatBan> phieuDatBans = phieuDatBanDAO.getAllPhieuDatBan();
+//			Set<Ban> bans=new HashSet<Ban>();
 			int i = 0;
 			for (PhieuDatBan pdb : phieuDatBans) {
 				if (pdb.getTrangThaiThanhToan().equalsIgnoreCase("Chưa Thanh Toán")) {
 					i++;
+//					bans= pdb.getBans();
 					tableModel.addRow(new Object[] { i, pdb.getMaBanTiec(), pdb.getKhachHang().getTenKhachHang(),
 							pdb.getKhachHang().getSoDienThoai(), pdb.getKhachHang().getGioiTinh(),
-							pdb.getNgaySuDung() });
+							pdb.getNgaySuDung()});
 				}
 			}
 			tablePhieuDat.setModel(tableModel);
@@ -557,6 +559,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 			e.printStackTrace();
 		}
 	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
