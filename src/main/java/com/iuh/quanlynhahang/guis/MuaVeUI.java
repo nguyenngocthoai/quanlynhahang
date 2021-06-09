@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,8 +12,6 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -42,12 +39,14 @@ import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.ChiTietPhieuDatDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.LoaiMonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.MonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
 import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
+import com.iuh.quanlynhahang.entities.ChiTietPhieuDat;
 import com.iuh.quanlynhahang.entities.HoaDon;
 import com.iuh.quanlynhahang.entities.LoaiMon;
 import com.iuh.quanlynhahang.entities.Mon;
@@ -73,6 +72,8 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 	private JButton btnXoaMon;
 
 	private static List<String> tenMons = new ArrayList<String>();
+//	private static List<Integer> soLuongs = new ArrayList<Integer>();
+//	private static List<String> donViTinhs = new ArrayList<String>();
 	private static MonDAOImpl monDAO = new MonDAOImpl();
 	private static LoaiMonDAOImpl loaiMonDAO = new LoaiMonDAOImpl();
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
@@ -81,23 +82,24 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 	private static HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
 	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
 	private InHoaDonUI inHoaDonUI = new InHoaDonUI();
+	private static ChiTietPhieuDatDAOImpl chiTietPhieuDatDAO = new ChiTietPhieuDatDAOImpl();
 	double tienCoc;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MuaVeUI frame = new MuaVeUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					MuaVeUI frame = new MuaVeUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -142,7 +144,7 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		btnDat = new JButton("Đặt");
+		btnDat = new JButton("Mua");
 		btnDat.setIcon(new ImageIcon("images\\accept.png"));
 		btnDat.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 
@@ -318,45 +320,26 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 
 							Mon mon = monDAO.getMonByTen(nodeInfo.toString());
 
-							ImageIcon icon = new ImageIcon("images\\yes.png");
+//							ImageIcon icon = new ImageIcon("images\\yes.png");
 							String sl = JOptionPane.showInputDialog("Nhập số lượng:");
 
 							try {
-								if (!sl.isEmpty() && sl.matches("^([1-9](0)*)*$")) {
+								if (!sl.isEmpty() && sl.matches("^(([0-9]{1,})[.]([0-9]{1,}))*(([1-9])+0*)*$")) {
 
-									List<String> dvts = new ArrayList<String>();
-									dvts = mon.getDonViTinh();
-									String[] options = new String[dvts.size()];
-									dvts.toArray(options);
-									String dvt = (String) JOptionPane.showInputDialog(null, "Chọn đơn vị tính:",
-											"Thông báo", JOptionPane.OK_OPTION, icon, options, "");
+									BigDecimal gt;
+									gt = mon.getGiaTien();
+									BigDecimal sol = null;
+									sol = BigDecimal.valueOf(Double.parseDouble(sl));
 
-									if (!dvt.isEmpty()) {
-										BigDecimal gt;
-										gt = mon.getGiaTien();
-										BigDecimal sol = null;
-										sol = BigDecimal.valueOf(Integer.parseInt(sl));
-
-										try {
-											if (dvt.equalsIgnoreCase("kg")) {
-												gt = gt.multiply(new BigDecimal(2));
-											} else {
-//												sol = BigDecimal.valueOf(Integer.parseInt(sl));
-											}
-										} catch (Exception e2) {
-
-										}
-										model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), sl, dvt,
-												gt.multiply(sol) });
-										table.setModel(model);
-										tenMons.add(nodeInfo.toString());
-										tinhTongTien();
-//										dvts.clear();
-
-									}
+									model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), sl, mon.getDonViTinh(),
+											gt.multiply(sol) });
+									table.setModel(model);
+									tenMons.add(nodeInfo.toString());
+									tinhTongTien();
 								} else {
 									JOptionPane.showMessageDialog(null, "Số lượng không hợp lệ!", "Thông báo",
 											JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+									tree.clearSelection();
 								}
 							} catch (Exception e2) {
 							}
@@ -374,68 +357,79 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btnDat)) {
-			if(tenMons.isEmpty()) {
+			if (tenMons.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để đặt!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
-			}else {
+			} else {
 				int options = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn đặt!", "Thông báo",
 						JOptionPane.YES_NO_OPTION);
 				if (options == JOptionPane.YES_OPTION) {
 
-					List<Mon> mons = convertStringtoMon();
-					Set<Mon> setMons = mons.stream().collect(Collectors.toSet());
-
 					try {
 						BigDecimal tienCocSave = new BigDecimal(tienCoc);
 
-						PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), setMons, LocalDate.now(),
-								LocalDate.now(), "Mua Về", "Đã Thanh Toán", tienCocSave);
-
+						PhieuDatBan phieuDatBan = new PhieuDatBan(randomMaBTNotExisted(), LocalDate.now(),
+								LocalDate.now(), "Đã Thanh Toán", tienCocSave, "Mua Về");
 						phieuDatBanDAO.createPhieuDatBan(phieuDatBan);
 
-						NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
+						int index = 0;
+						List<Mon> mons = convertStringtoMon();
+						List<Integer> soLuongMons = new ArrayList<Integer>();
+						for (int i = 0; i < table.getRowCount(); i++) {
+							soLuongMons.add(Integer.parseInt(table.getValueAt(i, 2) + ""));
+						}
+						for (Mon mon : mons) {
+							ChiTietPhieuDat chiTietPhieuDat = new ChiTietPhieuDat(phieuDatBan, mon,
+									soLuongMons.get(index), table.getValueAt(index, 3).toString());
+							index++;
+							chiTietPhieuDatDAO.createCTPD(chiTietPhieuDat);
+						}
+
+						NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhapUI.taiKhoan.getMaTaiKhoan());
 
 						HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), nhanVien, LocalDate.now());
 						hoaDonDAO.createHoaDon(hoaDon);
 
-						ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(hoaDon, phieuDatBan, 1);
+						ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(hoaDon, phieuDatBan);
 						chiTietHoaDonDAO.createCTHD(chiTietHoaDon);
-//						chiTietHoaDon.getBanTiec().getMonAns().
 
 						JOptionPane.showMessageDialog(null, "Mua thành công!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 								new ImageIcon("images\\yes.png"));
-//						tenMons.clear();
-//						model = (DefaultTableModel) table.getModel();
-//						model.getDataVector().removeAllElements();
 
 						// print
 						inHoaDonUI.lblMaHD.setText(hoaDon.getMaHoaDon());
 						inHoaDonUI.lblNgayLap1.setText(hoaDon.getNgayXuatHoaDon() + "");
-						BigDecimal tienKhachPhaiTra = tienCocSave.divide(new BigDecimal(0.3), 0, BigDecimal.ROUND_HALF_UP);
+						inHoaDonUI.lblLoaiHD.setText(phieuDatBan.getTrangThai());
+						BigDecimal tienKhachPhaiTra = tienCocSave.divide(new BigDecimal(0.3), 0,
+								BigDecimal.ROUND_HALF_UP);
 						inHoaDonUI.lblTongTien.setText(df.format(tienKhachPhaiTra));
 
-						Set<Mon> monPD = phieuDatBan.getMonAns();
 						int i = 0;
-						for (Mon mon : monPD) {
+
+						List<ChiTietPhieuDat> chiTietPhieuDats = chiTietPhieuDatDAO
+								.getAllCTPDByMaBanTiec(phieuDatBan.getMaPhieuDatBan());
+						for (ChiTietPhieuDat ctpd : chiTietPhieuDats) {
 							i++;
-							inHoaDonUI.tableModel.addRow(
-									new Object[] { i, mon.getTenMon(), mon.getDonViTinh(), df.format(mon.getGiaTien()) });
+							inHoaDonUI.tableModel.addRow(new Object[] { i, ctpd.getMon().getTenMon(), ctpd.getSoLuong(),
+									ctpd.getDonViTinh(), df.format(
+											ctpd.getMon().getGiaTien().multiply(new BigDecimal(ctpd.getSoLuong()))) });
 						}
+
 						this.inHoaDonUI.setVisible(true);
 						inHoaDonUI.setLocationRelativeTo(null);
 						inHoaDonUI.printingHoaDon();
 						this.inHoaDonUI.setVisible(false);
 
 						MuaVeUI muaVeUI = new MuaVeUI();
-						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-						TrangChu.tabbedPane.addTab("Mua Về", null, TrangChu.tabbedPane.add(muaVeUI.contentPane), "Mua Về");
+						TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
+						TrangChuUI.tabbedPane.addTab("Mua Về", null, TrangChuUI.tabbedPane.add(muaVeUI.contentPane),
+								"Mua Về");
 					} catch (Exception e2) {
 						e2.printStackTrace();
 					}
 
 				}
 
-			
 			}
 		} else if (obj.equals(btnXoaMon)) {
 			int row = table.getSelectedRow();
@@ -444,6 +438,7 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 				tenMons.remove(tenMon);
 				model.removeRow(row);
 				tinhTongTien();
+				model.fireTableDataChanged();
 			} else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để xóa!", "Thông báo", JOptionPane.ERROR_MESSAGE,
 						new ImageIcon("images\\warning.png"));
@@ -453,7 +448,6 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				String soLuong = (String) table.getValueAt(row, 2);
-				System.out.println("Số lượng: " + soLuong);
 				String m = JOptionPane.showInputDialog("Nhập số lượng:", soLuong);
 				if (!m.isEmpty() && m.matches("^([1-9](0)*)*$")) {
 					System.out.println(m);
@@ -461,19 +455,20 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 					/**
 					 * update gia tien
 					 */
+					String dvt = (String) table.getValueAt(row, 3);
 					String tm = (String) table.getValueAt(row, 1);
 					Mon mon = monDAO.getMonByTen(tm);
 					BigDecimal gt = mon.getGiaTien();
 					try {
-						String dvt = (String) table.getValueAt(row, 3);
-						if (dvt.equalsIgnoreCase("kg")) {
-							gt = gt.multiply(new BigDecimal(2));
+						if (dvt.equalsIgnoreCase("Kg")) {
+							gt = gt.multiply(new BigDecimal(2)).multiply(new BigDecimal(Integer.parseInt(m)));
+						} else {
+							gt = gt.multiply(new BigDecimal(Integer.parseInt(m)));
 						}
 					} catch (Exception e2) {
 
 					}
-					BigDecimal sol = BigDecimal.valueOf(Integer.parseInt(m));
-					table.setValueAt(gt.multiply(sol), row, 4);
+					table.setValueAt(gt, row, 4);
 					tinhTongTien();
 				}
 
@@ -487,17 +482,25 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 			if (row != -1) {
 				String tm = (String) table.getValueAt(row, 1);
 				Mon m = monDAO.getMonByTen(tm);
+				String sl = (String) table.getValueAt(row, 2);
+				String dvt = table.getValueAt(row, 3).toString();
+//				ImageIcon icon = new ImageIcon("images\\yes.png");
 
-				List<String> list = new ArrayList<String>();
-				list = m.getDonViTinh();
-				String[] options = new String[list.size()];
-				list.toArray(options);
-				ImageIcon icon = new ImageIcon("images\\yes.png");
+				String dvtchange = JOptionPane.showInputDialog("Nhập đơn vị tính:", dvt);
+				if (dvt.equalsIgnoreCase("Kg")) {
+					BigDecimal giaTien = m.getGiaTien();
+					if (dvtchange.equalsIgnoreCase("Kg")) {
+						giaTien = giaTien.multiply(new BigDecimal(2)).multiply(new BigDecimal(Integer.parseInt(sl)));
+					} else {
+						giaTien = giaTien.multiply(new BigDecimal(Integer.parseInt(sl)));
+					}
+					table.setValueAt(giaTien, row, 4);
+					table.setValueAt(dvtchange, row, 3);
+					tinhTongTien();
+				} else {
+					table.clearSelection();
+				}
 
-				String dvt = (String) JOptionPane.showInputDialog(null, "Chọn đơn vị tính:", "Thông báo",
-						JOptionPane.OK_OPTION, icon, options, "");
-				table.setValueAt(dvt, row, 3);
-				tinhTongTien();
 			} else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn món để cập nhật!", "Thông báo",
 						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
@@ -562,39 +565,6 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void updateMonInTable(String tenMon) {
-		try {
-			if (!tenMon.equalsIgnoreCase("Danh Sách Món")) {
-//				JOptionPane.showMessageDialog(null,
-//						"Món đã được chọn. Vui lòng chỉnh sửa số lượng ở cột số lượng trong bảng!", "Thông báo",
-//						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
-				Mon mon = monDAO.getMonByTen(tenMon);
-				List<String> dvts = mon.getDonViTinh();
-				String[] options = new String[dvts.size()];
-				ImageIcon icon = new ImageIcon("images\\yes.png");
-				String n = (String) JOptionPane.showInputDialog(null, "Chọn đơn vị tính:", "Thông báo",
-						JOptionPane.OK_OPTION, icon, options, options[0]);
-				System.out.println(n);
-
-//				JComboBox comboBox = new JComboBox<>();
-				model.addRow(new Object[] { mon.getMaMon(), mon.getTenMon(), "1", n, mon.getGiaTien() });
-
-//				List<String> dvts = mon.getDonViTinh();
-//				for (String str : dvts) {
-//					System.out.println("wwwwwwwww  " + str);
-//					cbxDVT.addItem(str);
-//					comboBox.addItem(str);
-//				}
-//				TableColumn comboCol4 = table.getColumnModel().getColumn(4);
-//				comboCol4.setCellEditor(new DefaultCellEditor(comboBox));
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-	}
-
 	private void tinhTongTien() {
 		int rowCount = table.getRowCount();
 		double amount = 0;
@@ -631,7 +601,7 @@ public class MuaVeUI extends JFrame implements ActionListener, MouseListener {
 		List<String> idPDs = new ArrayList<String>();
 		List<PhieuDatBan> phieuDatBans = phieuDatBanDAO.getAllPhieuDatBan();
 		for (PhieuDatBan pd : phieuDatBans) {
-			idPDs.add(pd.getMaBanTiec());
+			idPDs.add(pd.getMaPhieuDatBan());
 		}
 
 		do {

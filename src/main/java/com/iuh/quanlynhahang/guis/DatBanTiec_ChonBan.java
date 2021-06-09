@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -11,9 +10,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -57,10 +60,10 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 	private DefaultTableModel tableModel;
 	private JTable tableBanDaChon;
 	@SuppressWarnings("rawtypes")
-	public JComboBox cbxGio;
+	public static JComboBox cbxGio;
 	@SuppressWarnings("rawtypes")
-	public JComboBox cbxPhut;
-	public JDateChooser dateNgaySuDung;
+	public static JComboBox cbxPhut;
+	public static JDateChooser dateNgaySuDung;
 	private JScrollPane scrollPane;
 	private JTabbedPane tabbedPane;
 	private JPanel panel;
@@ -70,8 +73,8 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 	private JPanel panel_6;
 	private JLabel lblangChn;
 	private JLabel lblClickChn;
-	public JRadioButton rdbDatTruoc;
-	public JRadioButton rdbSuDungNgay;
+	public static JRadioButton rdbDatTruoc;
+	public static JRadioButton rdbSuDungNgay;
 //	private static final String DATE_PATTERN = "^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[012])-((?:19|20)[0-9][0-9])$";
 	private static final String SOLUONG_PARRERN = "[0-9]{1,4}$";
 	JTextFieldDateEditor editor;
@@ -80,23 +83,27 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 	private static BanDAOImpl banDAO = new BanDAOImpl();
 	private static PhieuDatBanDAOImpl phieuDatBanDAO = new PhieuDatBanDAOImpl();
 	public static List<Ban> banDaChon = new ArrayList<Ban>();
-	public int soLuongNguoiNextScreen;
+
+	public static int soLuongNguoiNextScreen;
+	public static String trangThaiNextScreen;
+	public static LocalDate ngaySuDungNextScreen;
+	public static String gioSuDungNextScreen;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DatBanTiec_ChonBan frame = new DatBanTiec_ChonBan();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					DatBanTiec_ChonBan frame = new DatBanTiec_ChonBan();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -255,8 +262,8 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 		dateNgaySuDung = new JDateChooser();
 		dateNgaySuDung.getCalendarButton().setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		dateNgaySuDung.setLocale(Locale.forLanguageTag("vi-VN"));
-		dateNgaySuDung.setDateFormatString("dd-MM-yyyy");
-		
+		dateNgaySuDung.setDateFormatString("yyyy-MM-dd");
+
 		dateNgaySuDung.setDate(Date.valueOf(LocalDate.now()));
 		editor = (JTextFieldDateEditor) dateNgaySuDung.getDateEditor();
 		editor.setEditable(false);
@@ -267,7 +274,11 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 		cbxGio = new JComboBox();
 		cbxGio.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		for (int i = 8; i < 24; i++) {
-			cbxGio.addItem(i + "");
+			if (i < 10) {
+				cbxGio.addItem("0" + i);
+			} else {
+				cbxGio.addItem(i + "");
+			}
 		}
 
 		JLabel lblPht = new JLabel("Phút");
@@ -420,9 +431,9 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj.equals(btnTroVe)) {
-			KhachHangUI khachHangUI = new KhachHangUI();
-			TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-			TrangChu.tabbedPane.addTab("Chọn Bàn", null, TrangChu.tabbedPane.add(khachHangUI.getContentPane()),
+			DatBanTiecUI datBanTiecUI = new DatBanTiecUI();
+			TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
+			TrangChuUI.tabbedPane.addTab("Chọn Bàn", null, TrangChuUI.tabbedPane.add(datBanTiecUI.getContentPane()),
 					"Chọn Bàn");
 			banDaChon.clear();
 
@@ -434,7 +445,6 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 				if (soLuong.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng người!", "Thông báo",
 							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
-					System.out.println("acb");
 					txtSoLuong.requestFocus();
 				} else if (soLuong.matches(SOLUONG_PARRERN) == false) {
 					JOptionPane.showMessageDialog(null, "Số lượng không hợp lệ!", "Thông báo",
@@ -480,25 +490,36 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 						if (check == true) {
 							if (rdbDatTruoc.isSelected()) {
 								if (dateNgaySuDung.getDate().toString().isEmpty()) {
-									JOptionPane.showMessageDialog(null, "Vui lòng chọn " + size + " bàn!", "Thông báo",
+									JOptionPane.showMessageDialog(null, "Vui lòng nhập ngày sử dụng!", "Thông báo",
 											JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
 								} else {
+
+									gioSuDungNextScreen = cbxGio.getSelectedItem().toString() + "h"
+											+ cbxPhut.getSelectedItem().toString();
+
+									trangThaiNextScreen = "Đặt Trước";
+									ngaySuDungNextScreen = dateNgaySuDung.getDate().toInstant()
+											.atZone(ZoneId.systemDefault()).toLocalDate();
 									DatBanTiec_ChonMon datBanTiec_ChonMon = new DatBanTiec_ChonMon();
-									TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-									TrangChu.tabbedPane.addTab("Chọn Món", null,
-											TrangChu.tabbedPane.add(datBanTiec_ChonMon.getContentPane()), "Chọn Món");
+									TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
+									TrangChuUI.tabbedPane.addTab("Chọn Món", null,
+											TrangChuUI.tabbedPane.add(datBanTiec_ChonMon.getContentPane()), "Chọn Món");
 									soLuongNguoiNextScreen = soLuongNguoi;
-									System.out.println("Chon Ban TT:" + banDaChon.size());
-									System.out.println("Chon ban TT:" + KhachHangUI.khachHang.getTenKhachHang());
+//									System.out.println("Chon Ban TT:" + banDaChon.size());
+//									System.out.println("Chon ban TT:" + KhachHangUI.khachHang.getTenKhachHang());
 								}
 							} else {
+								gioSuDungNextScreen = LocalDateTime.now().getHour() + "h"
+										+ LocalDateTime.now().getMinute() + "";
+								trangThaiNextScreen = "Sử Dụng Ngay";
+								ngaySuDungNextScreen = LocalDate.now();
 								DatBanTiec_ChonMon datBanTiec_ChonMon = new DatBanTiec_ChonMon();
-								TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-								TrangChu.tabbedPane.addTab("Chọn Bàn", null,
-										TrangChu.tabbedPane.add(datBanTiec_ChonMon.getContentPane()), "Chọn Bàn");
+								TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
+								TrangChuUI.tabbedPane.addTab("Chọn Món", null,
+										TrangChuUI.tabbedPane.add(datBanTiec_ChonMon.getContentPane()), "Chọn Món");
 								soLuongNguoiNextScreen = soLuongNguoi;
-								System.out.println("Chon Ban TT:" + banDaChon.size());
-								System.out.println("Chon ban TT:" + KhachHangUI.khachHang.getTenKhachHang());
+//								System.out.println("Chon Ban TT:" + banDaChon.size());
+//								System.out.println("Chon ban TT:" + KhachHangUI.khachHang.getTenKhachHang());
 							}
 
 						}
@@ -568,14 +589,14 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 					if (ban.getSanh().getTenSanh().equalsIgnoreCase(sanh.getTenSanh())
 							&& ban.getTrangThaiHoatDong().equalsIgnoreCase("Đang Sử Dụng")) {
 
-						JButton btnBan = new JButton(ban.getMaBan() + "");
+						JButton btnBan = new JButton("Bàn số " + ban.getMaBan());
 						btnBan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 						panel_2.add(btnBan);
 						List<PhieuDatBan> phieuDatBans = phieuDatBanDAO.getAllPhieuDatBan();
 						for (PhieuDatBan p : phieuDatBans) {
 							if (ban.gettrangThaiDatBan().equalsIgnoreCase("Đã Đặt")
 									&& p.getNgaySuDung().isEqual(LocalDate.now()) == true
-									&& p.getTrangThaiThanhToan().equalsIgnoreCase("Chưa Thanh Toán")) {
+									&& p.getBans().contains(ban)) {
 								btnBan.setBackground(Color.GRAY);
 							}
 						}
@@ -585,9 +606,32 @@ public class DatBanTiec_ChonBan extends JFrame implements ActionListener, MouseL
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								if (btnBan.getBackground() == Color.GRAY) {
-									JOptionPane.showMessageDialog(null, "Bàn đã đặt. Vui lòng chọn bàn bàn khác!",
-											"Thông báo", JOptionPane.ERROR_MESSAGE,
-											new ImageIcon("images\\warning.png"));
+									System.out.println(btnBan.getText().substring(7));
+									int banso = Integer.parseInt(btnBan.getText().substring(7));
+									List<PhieuDatBan> pdbs = phieuDatBanDAO.getAllPhieuDatBan();
+									Set<Ban> banInfor = new HashSet<Ban>();
+									PhieuDatBan pdb = null;
+									for (PhieuDatBan p : pdbs) {
+//										p.getBans().contains(o)
+										banInfor = p.getBans();
+										for (Ban b : banInfor) {
+											if (b.getMaBan() == banso) {
+												pdb = p;
+												break;
+											}
+										}
+									}
+//									 if(PhieuDatMonUI.phieuDatBan.getBans())
+									StringBuilder msg = new StringBuilder();
+									msg.append("Bàn đã đặt. Vui lòng chọn bàn bàn khác!\n");
+									msg.append("THÔNG TIN KHÁCH HÀNG ĐÃ ĐẶT BÀN NÀY:\n");
+									msg.append("Tên: " + pdb.getKhachHang().getTenKhachHang() + "\n");
+									msg.append("Thời gian sử dụng: " + pdb.getGioSuDung() + "ngày "
+											+ pdb.getNgaySuDung() + "\n");
+									msg.append("Mã phiếu đặt: " + pdb.getMaPhieuDatBan() + "\n");
+
+									JOptionPane.showMessageDialog(null, msg, "Thông báo",
+											JOptionPane.INFORMATION_MESSAGE, new ImageIcon("images\\warning.png"));
 								} else {
 									if (btnBan.getBackground() == Color.red) {
 										banDaChon.remove(ban);

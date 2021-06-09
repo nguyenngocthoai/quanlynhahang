@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import com.iuh.quanlynhahang.MyEntityManager;
 import com.iuh.quanlynhahang.daos.IChiTietHoaDon;
+import com.iuh.quanlynhahang.daos.MyEntityManager;
 import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
 
 public class ChiTietHoaDonDAOImpl implements IChiTietHoaDon {
@@ -35,5 +35,6 @@ public class ChiTietHoaDonDAOImpl implements IChiTietHoaDon {
 	public List<ChiTietHoaDon> getAllCTHD(){
 		return em.createQuery("select c from ChiTietHoaDon c",ChiTietHoaDon.class).getResultList();
 	}
+	
 
 }

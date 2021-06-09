@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -68,19 +67,20 @@ public class TimKiemHoaDonUI extends JFrame implements ActionListener {
 	private static List<HoaDon> hoaDons = new ArrayList<HoaDon>();
 	private NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 	private HoaDonDAOImpl hoaDonDAO = new HoaDonDAOImpl();
+	private static boolean validateData = true;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TimKiemHoaDonUI frame = new TimKiemHoaDonUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TimKiemHoaDonUI frame = new TimKiemHoaDonUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TimKiemHoaDonUI() {
@@ -340,8 +340,15 @@ public class TimKiemHoaDonUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnTimKiem)) {
-			timHoaDon();
-			updateTable();
+			if (!rdbNgay.isSelected() && !rdbTenNV.isSelected() && !rdbMa.isSelected() && !rdbtenKH.isSelected()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại tìm kiếm!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			} else {
+				timHoaDon();
+				if (validateData == true) {
+					updateTable();
+				}
+			}
 		}
 
 	}
@@ -364,25 +371,37 @@ public class TimKiemHoaDonUI extends JFrame implements ActionListener {
 				if (ma.equalsIgnoreCase("") || ma == null || ma.isEmpty()) {
 					JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hóa đơn!", "Thông báo",
 							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+					validateData = false;
 				} else {
 					hoaDons.clear();
 					hoaDons = hoaDonDAO.getHoaDonsById(ma);
+					validateData = true;
 				}
 			} else if (rdbTenNV.isSelected()) {
 				hoaDons.clear();
 				hoaDons = hoaDonDAO.getHoaDonsByTenNV(tenNV);
 				System.out.println(hoaDons.size());
+				validateData = true;
 			} else if (rdbtenKH.isSelected()) {
 				if (tenKH.equalsIgnoreCase("") || tenKH == null || tenKH.isEmpty()) {
 					JOptionPane.showMessageDialog(this, "Vui lòng nhập tên khách hàng!", "Thông báo",
 							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+					validateData = false;
 				} else {
 					hoaDons.clear();
 					hoaDons = hoaDonDAO.getHoaDonsByTenKH(tenKH);
+					validateData = true;
 				}
 			} else if (rdbNgay.isSelected()) {
-				hoaDons.clear();
-				hoaDons = hoaDonDAO.getHoaDonsFromDateToDate(localDateFrom, localDateTo);
+				if (from.after(to)) {
+					JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày hợp lệ(Ngày bắt đầu <= ngày kết thúc)!",
+							"Thông báo", JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+					validateData = false;
+				} else {
+					hoaDons.clear();
+					hoaDons = hoaDonDAO.getHoaDonsFromDateToDate(localDateFrom, localDateTo);
+					validateData = true;
+				}
 			}
 
 		} catch (Exception e) {
@@ -394,19 +413,25 @@ public class TimKiemHoaDonUI extends JFrame implements ActionListener {
 		tableModel.getDataVector().removeAllElements();
 		try {
 			int i = 0;
-			for (HoaDon hd : hoaDons) {
-				i++;
-				if (hd.getKhachHang() == null) {
-					tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), "Null", hd.getNgayXuatHoaDon(),
-							hd.getNhanVien().getHoTenNhanVien() });
-				} else {
-					tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getKhachHang().getTenKhachHang(),
-							hd.getNgayXuatHoaDon(), hd.getNhanVien().getHoTenNhanVien() });
+			if (hoaDons.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Không có dữ liệu!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+				tableModel.fireTableDataChanged();
+			} else {
+				for (HoaDon hd : hoaDons) {
+					i++;
+					if (hd.getKhachHang() == null) {
+						tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), "Null", hd.getNgayXuatHoaDon(),
+								hd.getNhanVien().getHoTenNhanVien() });
+					} else {
+						tableModel.addRow(new Object[] { i, hd.getMaHoaDon(), hd.getKhachHang().getTenKhachHang(),
+								hd.getNgayXuatHoaDon(), hd.getNhanVien().getHoTenNhanVien() });
+					}
 				}
+				table.setModel(tableModel);
+				table.getSelectionModel().clearSelection();
+				tableModel.fireTableDataChanged();
 			}
-			table.setModel(tableModel);
-			table.getSelectionModel().clearSelection();
-			tableModel.fireTableDataChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

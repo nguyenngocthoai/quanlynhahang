@@ -17,20 +17,18 @@ public class ChiTietHoaDon implements Serializable {
 	@JoinColumn(name = "maHoaDon")
 	private HoaDon hoaDon;
 	@Id
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "maBanTiec")
-	private PhieuDatBan banTiec;
-	private int soLuong;
+	@OneToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "maPhieuDatBan", insertable = false, updatable = false, unique = true)
+	private PhieuDatBan phieuDatBan;
 
 	public ChiTietHoaDon() {
 		super();
 	}
 
-	public ChiTietHoaDon(HoaDon hoaDon, PhieuDatBan banTiec, int soLuong) {
+	public ChiTietHoaDon(HoaDon hoaDon, PhieuDatBan phieuDatBan) {
 		super();
 		this.hoaDon = hoaDon;
-		this.banTiec = banTiec;
-		this.soLuong = soLuong;
+		this.phieuDatBan = phieuDatBan;
 	}
 
 	public HoaDon getHoaDon() {
@@ -41,20 +39,12 @@ public class ChiTietHoaDon implements Serializable {
 		this.hoaDon = hoaDon;
 	}
 
-	public PhieuDatBan getBanTiec() {
-		return banTiec;
+	public PhieuDatBan getPhieuDatBan() {
+		return phieuDatBan;
 	}
 
-	public void setBanTiec(PhieuDatBan banTiec) {
-		this.banTiec = banTiec;
-	}
-
-	public int getSoLuong() {
-		return soLuong;
-	}
-
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
+	public void setPhieuDatBan(PhieuDatBan phieuDatBan) {
+		this.phieuDatBan = phieuDatBan;
 	}
 
 }

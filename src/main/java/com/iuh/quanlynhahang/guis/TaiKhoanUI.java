@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,18 +74,18 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 	private static TaiKhoanDAOImpl taiKhoanDAO = new TaiKhoanDAOImpl();
 	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TaiKhoanUI frame = new TaiKhoanUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TaiKhoanUI frame = new TaiKhoanUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	public TaiKhoanUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -361,7 +360,7 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 			int row = tableTaiKhoan.getSelectedRow();
 			if (row != -1) {
 				try {
-					TaiKhoan taiKhoan = DangNhap.taiKhoan;
+					TaiKhoan taiKhoan = DangNhapUI.taiKhoan;
 					taiKhoan.setMatKhau("12345678");
 					taiKhoanDAO.updateTK(taiKhoan);
 					updateTable();
@@ -413,7 +412,7 @@ public class TaiKhoanUI extends JFrame implements ActionListener, MouseListener 
 	}
 
 	@SuppressWarnings("static-access")
-	public String randomMaTKNotExisted() {
+	public static String randomMaTKNotExisted() {
 		String maTK;
 		List<String> idTKs = new ArrayList<String>();
 		List<TaiKhoan> taiKhoans = taiKhoanDAO.getAllTK();

@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -54,18 +53,18 @@ public class ChucVuUI extends JFrame implements ActionListener, MouseListener {
 
 	private static LoaiTaiKhoanDAOImpl loaiTaiKhoanDAO = new LoaiTaiKhoanDAOImpl();
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChucVuUI frame = new ChucVuUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ChucVuUI frame = new ChucVuUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	public ChucVuUI() {
 		setTitle("Giao Diện Quản Lý Chức Vụ");

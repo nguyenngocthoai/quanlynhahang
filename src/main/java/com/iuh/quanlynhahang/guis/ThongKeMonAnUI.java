@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import java.util.Set;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -35,8 +35,6 @@ import com.iuh.quanlynhahang.entities.Mon;
 import com.quanlynhahang.baocao.BaoCao;
 import com.quanlynhahang.dto.MonAnDTO;
 
-import javax.swing.ImageIcon;
-
 public class ThongKeMonAnUI extends JFrame implements ActionListener {
 
 	/**
@@ -54,18 +52,18 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ThongKeMonAnUI frame = new ThongKeMonAnUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ThongKeMonAnUI frame = new ThongKeMonAnUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -269,10 +267,10 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThongKe)) {
-			if(!rdbNam.isSelected() && !rdbThang.isSelected()) {
-				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("images\\warning.png"));
-			}else {
+			if (!rdbNam.isSelected() && !rdbThang.isSelected()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			} else {
 				thongKeMonAn();
 				updateTable();
 			}
@@ -302,11 +300,11 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 			String loai = cboMonAn.getSelectedItem().toString();
 			String thang = cbxThang.getSelectedItem().toString();
 			String nam = cbxNam.getSelectedItem().toString();
-			
-			getCBXMonAn=loai;
-			
+
+			getCBXMonAn = loai;
+
 			if (rdbThang.isSelected()) {
-				getMonth=thang;
+				getMonth = thang;
 				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeMonAnNhieuNhatTrongThang(Integer.parseInt(thang), Integer.parseInt(nam),
 							"Đồ Uống");
@@ -317,7 +315,7 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 					mons = convertStringtoMon(maMons);
 				}
 			} else if (rdbNam.isSelected()) {
-				getYear=nam;
+				getYear = nam;
 				if (loai.equalsIgnoreCase("Bán chạy nhất")) {
 					maMons = monDAO.ThongKeMonAnNhieuNhatTrongNam(Integer.parseInt(nam), "Đồ Uống");
 					mons = convertStringtoMon(maMons);
@@ -348,17 +346,24 @@ public class ThongKeMonAnUI extends JFrame implements ActionListener {
 		tableModel.getDataVector().removeAllElements();
 		try {
 			int i = 0;
-			for (Mon mon : mons) {
-				i++;
-				tableModel.addRow(new Object[] { i, mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
-						df.format(mon.getGiaTien()) });
-				MonAnDTO bcMonAn=new MonAnDTO(mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
-						df.format(mon.getGiaTien()));
-				listMA.add(bcMonAn);
+			if (mons.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Không có dữ liệu!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+				tableModel.fireTableDataChanged();
+			} else {
+				for (Mon mon : mons) {
+					i++;
+					tableModel.addRow(new Object[] { i, mon.getMaMon(), mon.getTenMon(),
+							mon.getLoaiMon().getTenLoaiMon(), df.format(mon.getGiaTien()) });
+					MonAnDTO bcMonAn = new MonAnDTO(mon.getMaMon(), mon.getTenMon(), mon.getLoaiMon().getTenLoaiMon(),
+							df.format(mon.getGiaTien()));
+					listMA.add(bcMonAn);
+				}
+				table.setModel(tableModel);
+				table.getSelectionModel().clearSelection();
+				tableModel.fireTableDataChanged();
 			}
-			table.setModel(tableModel);
-			table.getSelectionModel().clearSelection();
-			tableModel.fireTableDataChanged();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

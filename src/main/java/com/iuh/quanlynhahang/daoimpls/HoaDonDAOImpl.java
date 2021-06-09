@@ -6,8 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import com.iuh.quanlynhahang.MyEntityManager;
 import com.iuh.quanlynhahang.daos.IHoaDonDAO;
+import com.iuh.quanlynhahang.daos.MyEntityManager;
+import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
 import com.iuh.quanlynhahang.entities.HoaDon;
 import com.iuh.quanlynhahang.entities.KhachHang;
 import com.iuh.quanlynhahang.entities.NhanVien;
@@ -166,5 +167,33 @@ public class HoaDonDAOImpl implements IHoaDonDAO {
 				"select count(hd.khachHang.maKhachHang) from HoaDon hd where hd.khachHang.maKhachHang != 'NULL' and year(hd.ngayXuatHoaDon)="
 						+ nam + " group by hd.khachHang.maKhachHang order by COUNT(hd.khachHang.maKhachHang) desc",
 				Long.class).setMaxResults(10).getResultList();
+	}
+
+	public List<ChiTietHoaDon> getAllHoaDonByNgay(int ngay, int thang, int nam) {
+		return em.createQuery(
+				"select c from ChiTietHoaDon c join HoaDon hd on hd.maHoaDon=c.hoaDon.maHoaDon where month(hd.ngayXuatHoaDon)="
+						+ thang + " and year(hd.ngayXuatHoaDon)=" + nam + " and day(hd.ngayXuatHoaDon)=" + ngay,
+				ChiTietHoaDon.class).getResultList();
+	}
+
+	public List<ChiTietHoaDon> getAllHoaDonByThang(int thang, int nam) {
+		return em.createQuery(
+				"select c from ChiTietHoaDon c join HoaDon hd on hd.maHoaDon=c.hoaDon.maHoaDon where month(hd.ngayXuatHoaDon)="
+						+ thang + " and year(hd.ngayXuatHoaDon)=" + nam,
+				ChiTietHoaDon.class).getResultList();
+	}
+
+	public List<ChiTietHoaDon> getAllHoaDonByNam(int nam) {
+		return em.createQuery(
+				"select c from ChiTietHoaDon c join HoaDon hd on hd.maHoaDon=c.hoaDon.maHoaDon where year(hd.ngayXuatHoaDon)="
+						+ nam,
+				ChiTietHoaDon.class).getResultList();
+	}
+
+	@Override
+	public List<ChiTietHoaDon> getAllHoaDonFromDateToDate(LocalDate from, LocalDate to) {
+		return em.createQuery(
+				"select c from ChiTietHoaDon c join HoaDon hd on hd.maHoaDon=c.hoaDon.maHoaDon where hd.ngayXuatHoaDon BETWEEN :from AND :to",
+				ChiTietHoaDon.class).setParameter("from", from).setParameter("to", to).getResultList();
 	}
 }
