@@ -1,8 +1,5 @@
 package com.quanlynhahang.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 public class DoanhThu {
 	private String maHD;
 	private String ngayInHD;

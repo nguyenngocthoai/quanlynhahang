@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +12,7 @@ import java.util.Set;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -36,8 +36,6 @@ import com.iuh.quanlynhahang.entities.KhachHang;
 import com.quanlynhahang.baocao.BaoCao;
 import com.quanlynhahang.dto.KhachHangDTO;
 
-import javax.swing.ImageIcon;
-
 public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 
 	/**
@@ -59,18 +57,18 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ThongKeKhachHangUI frame = new ThongKeKhachHangUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ThongKeKhachHangUI frame = new ThongKeKhachHangUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -107,7 +105,7 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 		lblThngKMn.setForeground(Color.RED);
 		lblThngKMn.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
-		String[] header = "STT;Mã Khách Hàng;Tên Khách Hàng;Số Lần Đặt;Số Điện Thoại;Giới Tính;Địa Chỉ;".split(";");
+		String[] header = "STT;Mã Khách Hàng;Tên Khách Hàng;Số Lần Mua;Số Điện Thoại;Giới Tính;Địa Chỉ;".split(";");
 		tableModel = new DefaultTableModel(header, 0);
 		scrollPane = new JScrollPane(table = new JTable(tableModel), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -290,10 +288,10 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnThongKe)) {
-			if(!rdbNam.isSelected() && !rdbThang.isSelected()) {
-				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo", JOptionPane.ERROR_MESSAGE,
-						new ImageIcon("images\\warning.png"));
-			}else {
+			if (!rdbNam.isSelected() && !rdbThang.isSelected()) {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn loại thống kê!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			} else {
 				thongKeKhachHang();
 				updateTable();
 			}
@@ -323,13 +321,11 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 			String loai = cboKH.getSelectedItem().toString().trim();
 			String thang = cbxThang.getSelectedItem().toString().trim();
 			String nam = cbxNam.getSelectedItem().toString().trim();
-			
-			getCBXMonAn=loai;
-			
-		
-			
+
+			getCBXMonAn = loai;
+
 			if (rdbThang.isSelected()) {
-				getMonth=thang;
+				getMonth = thang;
 				if (loai.equalsIgnoreCase("Mua Nhiều Nhất")) {
 					maKhachHangs = hoaDonDAO.ThongKeKhachHangNhieuNhatTrongThang(Integer.parseInt(thang),
 							Integer.parseInt(nam));
@@ -344,7 +340,7 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 							Integer.parseInt(nam));
 				}
 			} else if (rdbNam.isSelected()) {
-				getYear=nam;
+				getYear = nam;
 				if (loai.equalsIgnoreCase("Mua Nhiều Nhất")) {
 					maKhachHangs = hoaDonDAO.ThongKeKhachHangNhieuNhatTrongNam(Integer.parseInt(nam));
 					khachHangs = convertStringtoKhachHang(maKhachHangs);
@@ -377,17 +373,23 @@ public class ThongKeKhachHangUI extends JFrame implements ActionListener {
 		tableModel.getDataVector().removeAllElements();
 		try {
 			int i = 0;
-			for (KhachHang kh : khachHangs) {
-				i++;
-				tableModel.addRow(new Object[] { i, kh.getMaKhachHang(), kh.getTenKhachHang(),
-						soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi() });
-				KhachHangDTO khDTO=new KhachHangDTO(kh.getMaKhachHang(), kh.getTenKhachHang(),
-						soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi());
-				listKHDTO.add(khDTO);
+			if (khachHangs.isEmpty()) {
+				JOptionPane.showMessageDialog(this, "Không có dữ liệu!", "Thông báo", JOptionPane.ERROR_MESSAGE,
+						new ImageIcon("images\\warning.png"));
+				tableModel.fireTableDataChanged();
+			} else {
+				for (KhachHang kh : khachHangs) {
+					i++;
+					tableModel.addRow(new Object[] { i, kh.getMaKhachHang(), kh.getTenKhachHang(),
+							soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi() });
+					KhachHangDTO khDTO = new KhachHangDTO(kh.getMaKhachHang(), kh.getTenKhachHang(),
+							soLanDats.get(i - 1) + "", kh.getSoDienThoai(), kh.getGioiTinh(), kh.getDiaChi());
+					listKHDTO.add(khDTO);
+				}
+				table.setModel(tableModel);
+				table.getSelectionModel().clearSelection();
+				tableModel.fireTableDataChanged();
 			}
-			table.setModel(tableModel);
-			table.getSelectionModel().clearSelection();
-			tableModel.fireTableDataChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

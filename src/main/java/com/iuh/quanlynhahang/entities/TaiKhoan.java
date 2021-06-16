@@ -24,7 +24,7 @@ public class TaiKhoan implements Serializable {
 
 //	@OneToOne(mappedBy = "taiKhoan", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
 //	private NhanVien nhanVien;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "maLoaiTaiKhoan")
 	private LoaiTaiKhoan loaiTaiKhoan;
 	@Column(columnDefinition = "nvarchar(20)")

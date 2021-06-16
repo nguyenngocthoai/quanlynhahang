@@ -25,7 +25,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.iuh.quanlynhahang.guis.ThongKeDoUongUI;
-import com.iuh.quanlynhahang.guis.ThongKeDoanhThu;
+import com.iuh.quanlynhahang.guis.ThongKeDoanhThuUI;
 import com.iuh.quanlynhahang.guis.ThongKeKhachHangUI;
 import com.iuh.quanlynhahang.guis.ThongKeMonAnUI;
 import com.quanlynhahang.dto.DoUongDTO;
@@ -35,14 +35,15 @@ import com.quanlynhahang.dto.MonAnDTO;
 
 public class BaoCao {
 	FileDialog fd = new FileDialog(new JFrame(), "Xuất Excel", FileDialog.SAVE);
-	private ThongKeDoanhThu tkDT = new ThongKeDoanhThu();
+	private ThongKeDoanhThuUI tkDT = new ThongKeDoanhThuUI();
 	private ThongKeMonAnUI tkMA = new ThongKeMonAnUI();
 	private ThongKeDoUongUI tkDU = new ThongKeDoUongUI();
 	private ThongKeKhachHangUI tkKH = new ThongKeKhachHangUI();
 	private static String[] columnsDT = { "STT", "Mã Hóa Đơn", "Ngày In Hóa Đơn", "Thành Tiền" };
 	private static String[] columnsMA = { "STT", "Mã Món Ăn", "Tên Món Ăn", "Loại Món Ăn", "Giá Tiền" };
 	private static String[] columnsDO = { "STT", "Mã Đồ Uống", "Tên Đồ Uống", "Giá Tiền" };
-	private static String[] columnsKH = { "STT", "Mã Khách Hàng", "Tên Khách Hàng", "Số Lần Đặt", "Số Điện Thoại","Giới Tính","Địa Chỉ" };
+	private static String[] columnsKH = { "STT", "Mã Khách Hàng", "Tên Khách Hàng", "Số Lần Đặt", "Số Điện Thoại",
+			"Giới Tính", "Địa Chỉ" };
 
 	private String getFile() {
 		fd.setFile("untitled.xlsx");
@@ -55,6 +56,7 @@ public class BaoCao {
 	}
 
 	// Xuất Excel Doanh thu
+	@SuppressWarnings({ "resource", "static-access", "unused" })
 	public void BaoCaoDoanhThu() {
 		fd.setTitle("Báo Cáo Doanh Thu");
 		String url = getFile();
@@ -67,7 +69,7 @@ public class BaoCao {
 
 		try {
 			Workbook workbook = null;
-			boolean check=true;
+			boolean check = true;
 			if (url.endsWith("xlsx")) {
 				workbook = new XSSFWorkbook();
 				check = true;
@@ -76,10 +78,11 @@ public class BaoCao {
 				workbook = new HSSFWorkbook();
 				check = false;
 			} else {
-				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx" );
-				//throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
-				return ;
-				
+				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
+				// throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn
+				// file xlsx hoặc xlsx");
+				return;
+
 			}
 			Sheet sheet = workbook.createSheet("Doanh Thu");
 
@@ -107,7 +110,7 @@ public class BaoCao {
 				cell.setCellValue(columnsDT[i]);
 				cell.setCellStyle(headerCellStyle);
 			}
-			
+
 			double t = 0;
 			for (DoanhThu dt : listDT) {
 				rownum++;
@@ -130,7 +133,7 @@ public class BaoCao {
 //				cell = (XSSFCell) row.createCell(3, CellType.FORMULA);
 //				cell.setCellFormula(t+"");
 				row.createCell(3, CellType.STRING).setCellValue(tkDT.tienTong);
-				
+
 			} else {
 //				HSSFCell cell=(HSSFCell) sheet.getRow(1).getCell(3);
 				row = sheet.createRow(rownum + 1);
@@ -141,11 +144,10 @@ public class BaoCao {
 
 			row = sheet.createRow(rownum + 2);
 			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(
-					"*Doanh thu của nhà hàng từ ngày " + tkDT.ngayBD + " đến ngày " + tkDT.ngayEnd);
+			cell1.setCellValue("*Doanh thu của nhà hàng từ ngày " + tkDT.ngayBD + " đến ngày " + tkDT.ngayEnd);
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
-			
+
 			for (int i = 0; i < rownum; i++) {
 				sheet.autoSizeColumn(i);
 			}
@@ -176,6 +178,7 @@ public class BaoCao {
 	}
 
 	// Xuất Excel Báo cáo Món ăn
+	@SuppressWarnings({ "unused", "resource", "static-access" })
 	public void BaoCaoMonAn() {
 		fd.setTitle("Báo Cáo Món Ăn");
 		String url = getFile();
@@ -196,13 +199,14 @@ public class BaoCao {
 				workbook = new HSSFWorkbook();
 				check = false;
 			} else {
-				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx" );
-				//throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
-				return ;
+				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
+				// throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn
+				// file xlsx hoặc xlsx");
+				return;
 			}
 
 			Sheet sheet = workbook.createSheet("Món Ăn");
-			
+
 			Font headerFont = workbook.createFont();
 			headerFont.setBold(true);
 			headerFont.setFontHeightInPoints((short) 14);
@@ -217,6 +221,7 @@ public class BaoCao {
 			CellStyle textStyle = workbook.createCellStyle();
 			textStyle.setFont(color);
 
+			@SuppressWarnings("static-access")
 			List<MonAnDTO> list = tkMA.listMA;
 
 			int rownum = 0;
@@ -241,14 +246,13 @@ public class BaoCao {
 			}
 			row = sheet.createRow(rownum + 2);
 			Cell cell1 = row.createCell(0);
-			if (tkMA.getMonth==null) {
-				cell1.setCellValue(
-						"*Top 10 món ăn " + tkMA.getCBXMonAn + " theo năm " + tkMA.getYear);
-			}else {
+			if (tkMA.getMonth == null) {
+				cell1.setCellValue("*Top 10 món ăn " + tkMA.getCBXMonAn + " theo năm " + tkMA.getYear);
+			} else {
 				cell1.setCellValue(
 						"*Top 10 món ăn " + tkMA.getCBXMonAn + " theo tháng " + tkMA.getMonth + " năm " + tkMA.getYear);
 			}
-			
+
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
 
@@ -282,6 +286,7 @@ public class BaoCao {
 	}
 
 	// Xuất Excel Báo cáo Đồ Uống
+	@SuppressWarnings({ "resource", "unused", "static-access" })
 	public void BaoCaoDoUong() {
 		fd.setTitle("Báo Cáo Đồ Uống");
 		String url = getFile();
@@ -302,9 +307,10 @@ public class BaoCao {
 				workbook = new HSSFWorkbook();
 				check = false;
 			} else {
-				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx" );
-				//throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
-				return ;
+				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
+				// throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn
+				// file xlsx hoặc xlsx");
+				return;
 			}
 
 			Sheet sheet = workbook.createSheet("Đồ Uống");
@@ -341,7 +347,7 @@ public class BaoCao {
 				row.createCell(0, CellType.NUMERIC).setCellValue(rownum);
 				row.createCell(1, CellType.STRING).setCellValue(nuoc.getDoUong());
 				row.createCell(2, CellType.STRING).setCellValue(nuoc.getTenMon());
-				//row.createCell(3, CellType.STRING).setCellValue(nuoc.getLoaiDoUong());
+				// row.createCell(3, CellType.STRING).setCellValue(nuoc.getLoaiDoUong());
 				row.createCell(4, CellType.STRING).setCellValue(nuoc.getGiatienDoUong());
 			}
 			row = sheet.createRow(rownum + 2);
@@ -349,14 +355,13 @@ public class BaoCao {
 //				row.createCell(0, CellType.STRING).setCellValue("Top 10 món ăn "+tkMA.getCBXMonAn+" theo tháng "+tkMA.getMonth
 //						+" năm "+tkMA.getYear);
 			Cell cell1 = row.createCell(0);
-			if (tkDU.getMonth==null) {
-				cell1.setCellValue(
-						"*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo năm " + tkDU.getYear);
-			}else {
-				cell1.setCellValue(
-						"*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo tháng " + tkDU.getMonth + " năm " + tkDU.getYear);
+			if (tkDU.getMonth == null) {
+				cell1.setCellValue("*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo năm " + tkDU.getYear);
+			} else {
+				cell1.setCellValue("*Top 10 đồ uống " + tkDU.getCBXMonAn + " theo tháng " + tkDU.getMonth + " năm "
+						+ tkDU.getYear);
 			}
-			
+
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
 
@@ -390,6 +395,7 @@ public class BaoCao {
 	}
 
 	// Xuất Excel Báo cáo Khách Hàng
+	@SuppressWarnings({ "unused", "resource", "static-access" })
 	public void BaoCaoKhachHang() {
 		fd.setTitle("Báo Cáo Khách Hàng");
 		String url = getFile();
@@ -410,9 +416,10 @@ public class BaoCao {
 				workbook = new HSSFWorkbook();
 				check = false;
 			} else {
-				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx" );
-				//throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
-				return ;
+				JOptionPane.showMessageDialog(null, "Đuôi file không hợp lệ! Vui lòng chọn file xlsx hoặc xlsx");
+				// throw new IllegalArgumentException("Đuôi file không hợp lệ! Vui lòng chọn
+				// file xlsx hoặc xlsx");
+				return;
 			}
 
 			Sheet sheet = workbook.createSheet("Khách Hàng");
@@ -459,14 +466,13 @@ public class BaoCao {
 //						row.createCell(0, CellType.STRING).setCellValue("Top 10 món ăn "+tkMA.getCBXMonAn+" theo tháng "+tkMA.getMonth
 //								+" năm "+tkMA.getYear);
 			Cell cell1 = row.createCell(0);
-			if (tkKH.getMonth==null) {
-				cell1.setCellValue(
-						"*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo năm " + tkKH.getYear);
-			}else {
-				cell1.setCellValue(
-						"*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo tháng " + tkKH.getMonth + " năm " + tkKH.getYear);
+			if (tkKH.getMonth == null) {
+				cell1.setCellValue("*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo năm " + tkKH.getYear);
+			} else {
+				cell1.setCellValue("*Top 10 khách hàng " + tkKH.getCBXMonAn + " theo tháng " + tkKH.getMonth + " năm "
+						+ tkKH.getYear);
 			}
-			
+
 			cell1.setCellStyle(textStyle);
 			sheet.addMergedRegion(new CellRangeAddress(rownum + 2, rownum + 2, 0, 10));
 

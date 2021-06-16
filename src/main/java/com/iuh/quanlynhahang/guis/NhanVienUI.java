@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,18 +57,18 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NhanVienUI frame = new NhanVienUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					NhanVienUI frame = new NhanVienUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -120,7 +119,7 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 	private static final String passwordDefault = "12345678";
 
 	private static TaiKhoanDAOImpl taiKhoanDAO = new TaiKhoanDAOImpl();
-	private static TaiKhoanUI taiKhoanUI = new TaiKhoanUI();
+//	private static TaiKhoanUI taiKhoanUI = new TaiKhoanUI();
 	private static NhanVienDAOImpl nhanVienDAO = new NhanVienDAOImpl();
 	private static LoaiTaiKhoanDAOImpl loaiTaiKhoanDAO = new LoaiTaiKhoanDAOImpl();
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -137,7 +136,8 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 		lblKhchHng.setForeground(Color.RED);
 		lblKhchHng.setFont(new Font("Times New Roman", Font.PLAIN, 25));
 
-		String[] header = "STT;Mã Nhân Viên; Tên Nhân Viên;Giới Tính;Số Điện Thoại;Tình Trạng;Email;Địa Chỉ".split(";");
+		String[] header = "STT;Mã Nhân Viên; Tên Nhân Viên;Giới Tính;Số Điện Thoại;Tình Trạng;Email;Địa Chỉ;Chức Vụ"
+				.split(";");
 		tableModel = new DefaultTableModel(header, 0);
 		scrollPane = new JScrollPane(tableNhanVien = new JTable(tableModel),
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -435,7 +435,8 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 		columnModel.getColumn(4).setPreferredWidth(120);// sdt
 		columnModel.getColumn(5).setPreferredWidth(120);// gt
 		columnModel.getColumn(6).setPreferredWidth(200);// dc
-		columnModel.getColumn(7).setPreferredWidth(250);// dc
+		columnModel.getColumn(7).setPreferredWidth(350);// dc
+		columnModel.getColumn(8).setPreferredWidth(100);// dc
 		tableNhanVien.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		btnCapNhat.addActionListener(this);
@@ -670,17 +671,18 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 					try {
 						LoaiTaiKhoan loaiTaiKhoan = loaiTaiKhoanDAO
 								.getLTKByTenLTK(cboLoaiNV.getSelectedItem().toString());
-						TaiKhoan taiKhoan = new TaiKhoan(taiKhoanUI.randomMaTKNotExisted(), loaiTaiKhoan,
+						TaiKhoan taiKhoan = new TaiKhoan(TaiKhoanUI.randomMaTKNotExisted(), loaiTaiKhoan,
 								txtMaNV.getText(), passwordDefault);
 						taiKhoanDAO.createTK(taiKhoan);
 
+						System.out.println(taiKhoan.getMaTaiKhoan());
 						NhanVien nhanVien = new NhanVien(ma, ten, ngaySinhsql, gioiTinh, diaChi, sDT, trangThai, email,
 								taiKhoan);
+						System.out.println(nhanVien.getTaiKhoan().getMaTaiKhoan());
 						boolean checkCreateNV = nhanVienDAO.createNV(nhanVien);
 						if (checkCreateNV == true) {
 							updateTable();
 							refresh();
-//							txtMaNV.setText(randomMaNVNotExisted());
 							JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!", "Thông báo",
 									JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
 						} else {
@@ -781,7 +783,8 @@ public class NhanVienUI extends JFrame implements ActionListener, MouseListener 
 			for (NhanVien nv : nhanViens) {
 				i++;
 				tableModel.addRow(new Object[] { i, nv.getMaNhanVien(), nv.getHoTenNhanVien(), nv.getGioiTinh(),
-						nv.getSoDienThoai(), nv.getTinhTrang(), nv.getEmail(), nv.getDiaChi() });
+						nv.getSoDienThoai(), nv.getTinhTrang(), nv.getEmail(), nv.getDiaChi(),
+						nv.getTaiKhoan().getLoaiTaiKhoan().getTenLoaiTaiKhoan() });
 			}
 			tableNhanVien.setModel(tableModel);
 			tableNhanVien.getSelectionModel().clearSelection();

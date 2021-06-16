@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import com.iuh.quanlynhahang.MyEntityManager;
 import com.iuh.quanlynhahang.daos.ILoaiMonDAO;
+import com.iuh.quanlynhahang.daos.MyEntityManager;
 import com.iuh.quanlynhahang.entities.LoaiMon;
 
 public class LoaiMonDAOImpl implements ILoaiMonDAO {

@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,18 +44,18 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BanUI frame = new BanUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					BanUI frame = new BanUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	private JScrollPane scrollPane;
 	private DefaultTableModel tableModel;
@@ -324,6 +323,7 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = tableBan.getSelectedRow();
+		System.out.println("=========="+row);
 		String maBan = tableModel.getValueAt(row, 1).toString();
 		try {
 			Ban ban = banDAO.getBanById(Integer.parseInt(maBan));
@@ -516,6 +516,7 @@ public class BanUI extends JFrame implements ActionListener, MouseListener {
 			}
 			tableBan.setModel(tableModel);
 			tableBan.getSelectionModel().clearSelection();
+			tableModel.fireTableDataChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

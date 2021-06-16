@@ -5,8 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import com.iuh.quanlynhahang.MyEntityManager;
 import com.iuh.quanlynhahang.daos.INhanVienDAO;
+import com.iuh.quanlynhahang.daos.MyEntityManager;
 import com.iuh.quanlynhahang.entities.NhanVien;
 
 public class NhanVienDAOImpl implements INhanVienDAO {
@@ -18,6 +18,7 @@ public class NhanVienDAOImpl implements INhanVienDAO {
 
 	@Override
 	public boolean createNV(NhanVien nv) {
+		em.clear();
 		EntityTransaction tr = em.getTransaction();
 		try {
 			tr.begin();

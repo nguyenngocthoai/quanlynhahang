@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -13,6 +12,8 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,8 +23,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class InHoaDonUI extends JFrame implements Printable, ActionListener {
 
@@ -56,28 +55,30 @@ public class InHoaDonUI extends JFrame implements Printable, ActionListener {
 	public static JLabel lblNguoiMuaHang1;
 	private static JPanel panel;
 	public static DefaultTableModel tableModel;
+	private JLabel lblLoiHd;
+	public static JLabel lblLoaiHD;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					InHoaDonUI frame = new InHoaDonUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					InHoaDonUI frame = new InHoaDonUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
 	public InHoaDonUI() {
-		setTitle("HÓA ĐƠN QUẦY THUỐC BỆNH VIỆN TÂY NAM");
+		setTitle("HÓA ĐƠN BÁN HÀNG NHÀ HÀNG LEGUE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setSize(1382, 744);
@@ -197,7 +198,7 @@ public class InHoaDonUI extends JFrame implements Printable, ActionListener {
 		scrollPane_1.setBounds(10, 228, 596, 308);
 		panel.add(scrollPane_1);
 
-		String[] tb = new String[] { "STT", "Tên Món", "ĐVT","Giá Tiền/Món" };
+		String[] tb = new String[] { "STT", "Tên Món","Số Lượng", "ĐVT","Giá Tiền" };
 
 		tableModel = new DefaultTableModel(tb, 0);
 		table = new JTable(tableModel);
@@ -314,6 +315,17 @@ public class InHoaDonUI extends JFrame implements Printable, ActionListener {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 670, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(50, Short.MAX_VALUE))
 		);
+		
+		lblLoiHd = new JLabel("Loại HD:");
+		lblLoiHd.setForeground(Color.BLUE);
+		lblLoiHd.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblLoiHd.setBounds(365, 71, 58, 20);
+		panel.add(lblLoiHd);
+		
+		lblLoaiHD = new JLabel("");
+		lblLoaiHD.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblLoaiHD.setBounds(424, 73, 126, 14);
+		panel.add(lblLoaiHD);
 		contentPane.setLayout(gl_contentPane);
 
 	}

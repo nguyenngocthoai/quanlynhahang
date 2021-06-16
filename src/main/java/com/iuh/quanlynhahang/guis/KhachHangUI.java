@@ -638,7 +638,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -683,18 +682,18 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					KhachHangUI frame = new KhachHangUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					KhachHangUI frame = new KhachHangUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -722,6 +721,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 	private JButton btnCapNhat;
 	private JButton btnTim;
 	private JButton btnLamMoiTable;
+
 	private JButton btnDatBanTiec;
 
 	public static KhachHang khachHang;
@@ -862,7 +862,6 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 //					}
 //				});
 		btnThem.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-//		btnThem.addActionListener(this);
 
 		btnDatBanTiec = new JButton("Đặt Bàn Tiệc");
 		btnDatBanTiec.setIcon(new ImageIcon("images\\accept.png"));
@@ -894,38 +893,42 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 														GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)))
 								.addGap(18).addGroup(
 										gl_panel_1.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_panel_1
-														.createSequentialGroup()
+												.addGroup(gl_panel_1.createSequentialGroup()
 														.addComponent(txtDiaChi, GroupLayout.DEFAULT_SIZE, 277,
 																Short.MAX_VALUE)
 														.addContainerGap())
 												.addGroup(gl_panel_1
-														.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
-																.createSequentialGroup().addComponent(txtSDT,
-																		GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-																.addContainerGap())
-														.addGroup(gl_panel_1.createSequentialGroup().addGroup(gl_panel_1
+														.createSequentialGroup()
+														.addComponent(txtSDT, GroupLayout.DEFAULT_SIZE, 277,
+																Short.MAX_VALUE)
+														.addContainerGap())
+												.addGroup(gl_panel_1
+														.createSequentialGroup()
+														.addGroup(gl_panel_1
 																.createParallelGroup(Alignment.LEADING)
 																.addComponent(btnLamMoi, GroupLayout.DEFAULT_SIZE, 121,
 																		Short.MAX_VALUE)
 																.addComponent(btnThem, GroupLayout.DEFAULT_SIZE, 121,
 																		Short.MAX_VALUE))
-																.addGap(26)
+														.addGap(26)
+														.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 																.addGroup(gl_panel_1
-																		.createParallelGroup(Alignment.LEADING)
-																		.addComponent(btnDatBanTiec,
-																				GroupLayout.DEFAULT_SIZE, 121,
-																				Short.MAX_VALUE)
+																		.createSequentialGroup()
 																		.addComponent(btnCapNhat,
 																				GroupLayout.DEFAULT_SIZE, 121,
-																				Short.MAX_VALUE))
-																.addGap(19))
-														.addGroup(gl_panel_1.createSequentialGroup()
-																.addComponent(rdbNam, GroupLayout.DEFAULT_SIZE, 62,
-																		Short.MAX_VALUE)
-																.addGap(18).addComponent(rdbNu,
-																		GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
-																.addGap(146))))))));
+																				Short.MAX_VALUE)
+																		.addGap(19))
+																.addGroup(gl_panel_1.createSequentialGroup()
+																		.addComponent(btnDatBanTiec,
+																				GroupLayout.DEFAULT_SIZE, 112,
+																				Short.MAX_VALUE)
+																		.addGap(19))))
+												.addGroup(gl_panel_1.createSequentialGroup()
+														.addComponent(rdbNam, GroupLayout.DEFAULT_SIZE, 62,
+																Short.MAX_VALUE)
+														.addGap(18).addComponent(rdbNu, GroupLayout.DEFAULT_SIZE, 61,
+																Short.MAX_VALUE)
+														.addGap(146)))))));
 		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup().addGap(9).addComponent(lblThngTinKhch).addGap(18)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE, false)
@@ -952,10 +955,11 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnThem, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-						.addGap(27)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+						.addGap(23)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnLamMoi, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnDatBanTiec, GroupLayout.PREFERRED_SIZE, 41,
+										GroupLayout.PREFERRED_SIZE))
 						.addGap(70)));
 		panel_1.setLayout(gl_panel_1);
 
@@ -990,7 +994,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 		columnModel.getColumn(2).setPreferredWidth(200);// tec
 		columnModel.getColumn(3).setPreferredWidth(100);// sdt
 		columnModel.getColumn(4).setPreferredWidth(70);// gt
-		columnModel.getColumn(5).setPreferredWidth(250);// dc
+		columnModel.getColumn(5).setPreferredWidth(350);// dc
 		tableKhachHang.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		btnTim.addActionListener(this);
@@ -1122,7 +1126,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 						updateTable();
 						refresh();
 						JOptionPane.showMessageDialog(this, "Cập nhật khách hàng thành công!", "Thông báo",
-								JOptionPane.CLOSED_OPTION);
+								JOptionPane.CLOSED_OPTION, new ImageIcon("images\\yes.png"));
 						updateTable();
 						refresh();
 						txtMaKH.setText(randomMaKHNotExisted());
@@ -1168,6 +1172,7 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 
 		} else if (obj.equals(btnLamMoiTable)) {
 			updateTable();
+			refresh();
 		} else if (obj.equals(btnDatBanTiec)) {
 			try {
 				int row = tableKhachHang.getSelectedRow();
@@ -1177,9 +1182,9 @@ public class KhachHangUI extends JFrame implements ActionListener, MouseListener
 					khachHang = new KhachHang(kh.getMaKhachHang(), kh.getTenKhachHang(), kh.getGioiTinh(),
 							kh.getSoDienThoai(), kh.getDiaChi());
 
-					TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
+					TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
 					DatBanTiec_ChonBan datBanTiec_ChonBan = new DatBanTiec_ChonBan();
-					TrangChu.tabbedPane.add(datBanTiec_ChonBan.getContentPane(), "Chọn Bàn");
+					TrangChuUI.tabbedPane.add(datBanTiec_ChonBan.getContentPane(), "Chọn Bàn");
 				} else {
 					JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng!", "Thông báo",
 							JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));

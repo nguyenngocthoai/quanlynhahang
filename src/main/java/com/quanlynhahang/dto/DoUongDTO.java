@@ -8,7 +8,7 @@ public class DoUongDTO {
 
 	public DoUongDTO(String maDoUong, String tenDoUong, String loaiDoUong, String giatienDoUong) {
 		super();
-		maDoUong = maDoUong;
+		this.maDoUong = maDoUong;
 		this.tenDoUong = tenDoUong;
 		this.loaiDoUong = loaiDoUong;
 		this.giatienDoUong = giatienDoUong;
@@ -19,7 +19,7 @@ public class DoUongDTO {
 	}
 
 	public void setDoUong(String maDoUong) {
-		maDoUong = maDoUong;
+		this.maDoUong = maDoUong;
 	}
 
 	public String getTenMon() {
@@ -48,8 +48,8 @@ public class DoUongDTO {
 
 	@Override
 	public String toString() {
-		return "DoUong [maDoUong=" + maDoUong + ", tenDoUong=" + tenDoUong + ", loaiDoUong=" + loaiDoUong + ", giatienDoUong="
-				+ giatienDoUong + "]";
+		return "DoUong [maDoUong=" + maDoUong + ", tenDoUong=" + tenDoUong + ", loaiDoUong=" + loaiDoUong
+				+ ", giatienDoUong=" + giatienDoUong + "]";
 	}
 
 }

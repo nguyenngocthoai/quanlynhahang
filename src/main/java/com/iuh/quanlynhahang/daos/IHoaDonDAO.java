@@ -3,6 +3,7 @@ package com.iuh.quanlynhahang.daos;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
 import com.iuh.quanlynhahang.entities.HoaDon;
 
 public interface IHoaDonDAO {
@@ -41,4 +42,12 @@ public interface IHoaDonDAO {
 	public List<Long> ThongKeSoLanDatKhachHangNhieuNhatTrongNam(int nam);
 
 	public List<HoaDon> searchHD(String tenKhachHang, String hoTenNhanVien, String tuNgay, String denNgay);
+
+	public List<ChiTietHoaDon> getAllHoaDonByNgay(int ngay, int thang, int nam);
+
+	public List<ChiTietHoaDon> getAllHoaDonByThang(int thang, int nam);
+
+	public List<ChiTietHoaDon> getAllHoaDonByNam(int nam);
+
+	public List<ChiTietHoaDon> getAllHoaDonFromDateToDate(LocalDate from, LocalDate to);
 }

@@ -1,7 +1,6 @@
 package com.iuh.quanlynhahang.guis;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,10 +10,12 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -41,14 +42,15 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.iuh.quanlynhahang.daoimpls.BanDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.ChiTietHoaDonDAOImpl;
+import com.iuh.quanlynhahang.daoimpls.ChiTietPhieuDatDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.HoaDonDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.NhanVienDAOImpl;
 import com.iuh.quanlynhahang.daoimpls.PhieuDatBanDAOImpl;
 import com.iuh.quanlynhahang.entities.Ban;
 import com.iuh.quanlynhahang.entities.ChiTietHoaDon;
+import com.iuh.quanlynhahang.entities.ChiTietPhieuDat;
 import com.iuh.quanlynhahang.entities.HoaDon;
 import com.iuh.quanlynhahang.entities.KhachHang;
-import com.iuh.quanlynhahang.entities.Mon;
 import com.iuh.quanlynhahang.entities.NhanVien;
 import com.iuh.quanlynhahang.entities.PhieuDatBan;
 
@@ -61,18 +63,18 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PhieuDatMonUI frame = new PhieuDatMonUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PhieuDatMonUI frame = new PhieuDatMonUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -107,13 +109,16 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 	private static ChiTietHoaDonDAOImpl chiTietHoaDonDAO = new ChiTietHoaDonDAOImpl();
 	private static BanDAOImpl banDAO = new BanDAOImpl();
 	private InHoaDonUI inHoaDonUI = new InHoaDonUI();
-
+	private static ChiTietPhieuDatDAOImpl chiTietPhieuDatDAO = new ChiTietPhieuDatDAOImpl();
 	private static NumberFormat df = new DecimalFormat("#,###.00 VNĐ");
 	private static String regexSDT = "^0[0-9]{9}$";
+	public static DatBanTiec_CapNhatChonBan banTiec_CapNhatChonBan;
 
 	private JButton btnCapNhat;
 
 	private JButton btnThanhToan;
+
+	private AbstractButton btnXemChiTiet;
 
 	public PhieuDatMonUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,8 +129,8 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 
-		JLabel lblKhchHng = new JLabel("PHIẾU ĐẶT MÓN");
-		lblKhchHng.setForeground(Color.RED); 
+		JLabel lblKhchHng = new JLabel("PHIẾU ĐẶT BÀN");
+		lblKhchHng.setForeground(Color.RED);
 		lblKhchHng.setFont(new Font("Times New Roman", Font.BOLD, 25));
 
 		String[] header = "STT;Mã Phiếu Đặt; Tên Khách Hàng;Số Điện Thoại;Giới Tính;Ngày Sử Dụng;".split(";");
@@ -244,60 +249,68 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.setIcon(new ImageIcon("images\\calculator.png"));
 		btnThanhToan.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+
+		btnXemChiTiet = new JButton("Xem Chi Tiết");
+		btnXemChiTiet.setIcon(new ImageIcon("images\\detail.png"));
+		btnXemChiTiet.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel_1.createSequentialGroup().addContainerGap().addGroup(gl_panel_1
-						.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1.createSequentialGroup()
+		gl_panel_1.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+				.createSequentialGroup().addContainerGap()
+				.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
 								.addComponent(lblMKhchHng, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
 								.addGap(18).addComponent(txtMaPD, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
 								.addContainerGap())
 						.addGroup(gl_panel_1.createSequentialGroup()
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblMKhchHng_3, GroupLayout.PREFERRED_SIZE, 101,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblMKhchHng_1, GroupLayout.PREFERRED_SIZE, 104,
-												GroupLayout.PREFERRED_SIZE))
-								.addGap(18).addGroup(
-										gl_panel_1.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_panel_1
-														.createSequentialGroup()
-														.addComponent(
-																txtSDT, GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-														.addContainerGap())
-												.addGroup(gl_panel_1.createSequentialGroup()
-														.addComponent(rdbNam, GroupLayout.DEFAULT_SIZE, 62,
-																Short.MAX_VALUE)
-														.addGap(18)
-														.addComponent(rdbNu, GroupLayout.DEFAULT_SIZE, 61,
-																Short.MAX_VALUE)
-														.addGap(146))
-												.addGroup(gl_panel_1
-														.createSequentialGroup()
-														.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 134,
-																GroupLayout.PREFERRED_SIZE)
-														.addContainerGap())))
-						.addGroup(gl_panel_1.createSequentialGroup()
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
 										.addGroup(gl_panel_1.createSequentialGroup()
 												.addComponent(lblTnKhchHng, GroupLayout.PREFERRED_SIZE, 108,
 														GroupLayout.PREFERRED_SIZE)
 												.addGap(18))
-										.addGroup(gl_panel_1.createSequentialGroup().addGap(2)
-												.addComponent(lblMKhchHng_2, GroupLayout.DEFAULT_SIZE, 120,
-														Short.MAX_VALUE)
+										.addGroup(gl_panel_1.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
+												.addComponent(lblMKhchHng_2, GroupLayout.PREFERRED_SIZE, 120,
+														GroupLayout.PREFERRED_SIZE)
 												.addPreferredGap(ComponentPlacement.RELATED)))
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 										.addComponent(txtNgaySD, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
 										.addComponent(txtTenKH, GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
 								.addContainerGap())
 						.addGroup(gl_panel_1.createSequentialGroup().addGap(102)
 								.addComponent(lblThngTinKhch, GroupLayout.PREFERRED_SIZE, 221,
 										GroupLayout.PREFERRED_SIZE)
-								.addGap(86))))
-				.addGroup(Alignment.LEADING,
-						gl_panel_1.createSequentialGroup().addGap(274)
-								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(18, Short.MAX_VALUE)));
+								.addGap(86))
+						.addGroup(gl_panel_1.createSequentialGroup()
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblMKhchHng_3, GroupLayout.PREFERRED_SIZE, 101,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(
+												lblMKhchHng_1, GroupLayout.PREFERRED_SIZE, 104,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGroup(gl_panel_1
+										.createSequentialGroup().addGap(18)
+										.addComponent(rdbNam, GroupLayout.PREFERRED_SIZE, 62,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addComponent(rdbNu, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 146, Short.MAX_VALUE))
+										.addGroup(gl_panel_1.createSequentialGroup().addGap(29)
+												.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+														.addGroup(gl_panel_1.createSequentialGroup()
+																.addComponent(txtSDT, GroupLayout.DEFAULT_SIZE, 266,
+																		Short.MAX_VALUE)
+																.addGap(10))
+														.addGroup(gl_panel_1.createSequentialGroup()
+																.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE,
+																		130, GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE,
+																		118, GroupLayout.PREFERRED_SIZE)
+																.addPreferredGap(ComponentPlacement.RELATED, 18,
+																		Short.MAX_VALUE)))))
+								.addGap(0))))
+				.addGroup(gl_panel_1.createSequentialGroup().addGap(143).addComponent(btnXemChiTiet)
+						.addContainerGap(143, Short.MAX_VALUE)));
 		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup().addGap(9).addComponent(lblThngTinKhch).addGap(18)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE, false)
@@ -320,11 +333,13 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblMKhchHng_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSDT, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
-						.addGap(93)
+						.addGap(44)
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-						.addGap(78)));
+								.addComponent(btnThanhToan, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnCapNhat, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnXemChiTiet, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+						.addGap(81)));
 		panel_1.setLayout(gl_panel_1);
 
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -354,6 +369,7 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 		btnLamMoiTable.addActionListener(this);
 		btnCapNhat.addActionListener(this);
 		btnThanhToan.addActionListener(this);
+		btnXemChiTiet.addActionListener(this);
 
 		updateTable();
 
@@ -390,9 +406,9 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 					int i = 0;
 					for (PhieuDatBan pdb : pdbs) {
 						i++;
-						tableModel.addRow(new Object[] { i, pdb.getMaBanTiec(), pdb.getKhachHang().getTenKhachHang(),
-								pdb.getKhachHang().getSoDienThoai(), pdb.getKhachHang().getGioiTinh(),
-								pdb.getNgaySuDung() });
+						tableModel.addRow(new Object[] { i, pdb.getMaPhieuDatBan(),
+								pdb.getKhachHang().getTenKhachHang(), pdb.getKhachHang().getSoDienThoai(),
+								pdb.getKhachHang().getGioiTinh(), pdb.getNgaySuDung() });
 					}
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(this, "Phiếu đặt không tồn tại!", "Thông báo",
@@ -412,10 +428,10 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 				String maPD = (String) tablePhieuDat.getValueAt(row, 1);
 				phieuDatBan = phieuDatBanDAO.getPhieuDatBanById(maPD);
 
-				CapNhatPhieuDatMonUI capNhatPhieuDatMonUI = new CapNhatPhieuDatMonUI();
-				TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-				TrangChu.tabbedPane.addTab("Cập nhật phiếu đặt", null,
-						TrangChu.tabbedPane.add(capNhatPhieuDatMonUI.getContentPane()), "Cập nhật phiếu đặt");
+				banTiec_CapNhatChonBan=new DatBanTiec_CapNhatChonBan();
+				TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
+				TrangChuUI.tabbedPane.addTab("Cập nhật phiếu đặt", null,
+						TrangChuUI.tabbedPane.add(banTiec_CapNhatChonBan.getContentPane()), "Cập nhật phiếu đặt");
 //				System.out.println(phieuDatBan.getKhachHang().getTenKhachHang());
 
 			} else {
@@ -449,13 +465,13 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 
 						PhieuDatBan pdb = phieuDatBanDAO.getPhieuDatBanById(maPD);
 
-						NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhap.taiKhoan.getMaTaiKhoan());
+						NhanVien nhanVien = nhanVienDAO.getNVByMaTaiKhoan(DangNhapUI.taiKhoan.getMaTaiKhoan());
 
 						HoaDon hoaDon = new HoaDon(randomMaHDNotExisted(), pdb.getKhachHang(), nhanVien,
 								LocalDate.now());
 						hoaDonDAO.createHoaDon(hoaDon);
 
-						ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, pdb, 1);
+						ChiTietHoaDon cthd = new ChiTietHoaDon(hoaDon, pdb);
 						chiTietHoaDonDAO.createCTHD(cthd);
 
 						BigDecimal tienCoc = pdb.getTienCoc();
@@ -499,23 +515,35 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 						inHoaDonUI.lblDCKH1.setText(pdb.getKhachHang().getDiaChi());
 						inHoaDonUI.lblsdtkh1.setText(pdb.getKhachHang().getSoDienThoai());
 						inHoaDonUI.lblTongTien.setText(df.format(tienKhachPhaiTra) + "");
+						inHoaDonUI.lblLoaiHD.setText(pdb.getTrangThai());
 
-						Set<Mon> mons = pdb.getMonAns();
+//						Set<Mon> mons = pdb.getMonAns();
 						int i = 0;
-						for (Mon mon : mons) {
+//						for (Mon mon : mons) {
+//							i++;
+//							inHoaDonUI.tableModel.addRow(new Object[] { i, mon.getTenMon(), mon.getDonViTinh(),
+//									df.format(mon.getGiaTien()) });
+//						}
+
+//						System.out.println("=========="+ phieuDatBan.getMaBanTiec());
+						List<ChiTietPhieuDat> chiTietPhieuDats = chiTietPhieuDatDAO
+								.getAllCTPDByMaBanTiec(pdb.getMaPhieuDatBan());
+						for (ChiTietPhieuDat ctpd : chiTietPhieuDats) {
 							i++;
-							inHoaDonUI.tableModel.addRow(new Object[] { i, mon.getTenMon(), mon.getDonViTinh(),
-									df.format(mon.getGiaTien()) });
+							inHoaDonUI.tableModel.addRow(new Object[] { i, ctpd.getMon().getTenMon(), ctpd.getSoLuong(),
+									ctpd.getDonViTinh(), df.format(
+											ctpd.getMon().getGiaTien().multiply(new BigDecimal(ctpd.getSoLuong()))) });
 						}
+
 						this.inHoaDonUI.setVisible(true);
 						inHoaDonUI.setLocationRelativeTo(null);
 						inHoaDonUI.printingHoaDon();
 						this.inHoaDonUI.setVisible(false);
 
 						PhieuDatMonUI phieuDatMonUI = new PhieuDatMonUI();
-						TrangChu.tabbedPane.remove(TrangChu.tabbedPane.getSelectedComponent());
-						TrangChu.tabbedPane.addTab("Phiếu Đặt Món", null,
-								TrangChu.tabbedPane.add(phieuDatMonUI.contentPane), "Phiếu Đặt Món");
+						TrangChuUI.tabbedPane.remove(TrangChuUI.tabbedPane.getSelectedComponent());
+						TrangChuUI.tabbedPane.addTab("Phiếu Đặt Món", null,
+								TrangChuUI.tabbedPane.add(phieuDatMonUI.contentPane), "Phiếu Đặt Món");
 
 //						TrangChu trangchu = new TrangChu();
 //						if (this.inHoaDonUI.isVisible() == true) {
@@ -533,6 +561,49 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 				}
 
 			}
+		} else if (obj.equals(btnXemChiTiet)) {
+			int row = tablePhieuDat.getSelectedRow();
+			if (row != -1) {
+				StringBuilder msg = new StringBuilder();
+				String maPD = (String) tablePhieuDat.getValueAt(row, 1);
+				PhieuDatBan p = phieuDatBanDAO.getPhieuDatBanById(maPD);
+				msg.append("THÔNG TIN PHÍA KHÁCH HÀNG\n");
+				msg.append("Mã bàn tiệc: " + p.getMaPhieuDatBan() + "\n");
+				msg.append("Tên khách hàng: " + p.getKhachHang().getTenKhachHang() + "\n");
+				msg.append("Số điện thoại: " + p.getKhachHang().getSoDienThoai() + "\n");
+				msg.append("Địa chỉ: " + p.getKhachHang().getDiaChi() + "\n");
+				msg.append("Số lượng người: " + p.getSoLuongNguoi() + "\n");
+				msg.append("Ngày đặt: " + p.getNgayDatMon() + "\n");
+				msg.append("Ngày sử dụng: " + p.getGioSuDung() + " phút ngày "
+						+ p.getNgaySuDung().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n");
+				msg.append("Loại: " + p.getTrangThai() + "\n\n");
+				msg.append("THÔNG TIN MÓN ĂN\n");
+				List<ChiTietPhieuDat> chiTietPhieuDats = chiTietPhieuDatDAO.getAllCTPDByMaBanTiec(maPD);
+				int index = 0;
+				for (ChiTietPhieuDat ctpd : chiTietPhieuDats) {
+					index++;
+					msg.append(index + ". " + ctpd.getMon().getTenMon() + "--- SL: " + ctpd.getSoLuong() + " --- DVT: "
+							+ ctpd.getDonViTinh() + "\n");
+				}
+				msg.append("\n");
+				msg.append("THÔNG TIN BÀN\n");
+				msg.append("Các bàn đã đặt: Bàn số ");
+				Set<Ban> bans = p.getBans();
+				int size = bans.size();
+				int i = 0;
+				for (Ban b : bans) {
+					i++;
+					if (i == size) {
+						msg.append(b.getMaBan());
+					} else {
+						msg.append(b.getMaBan() + ", ");
+					}
+				}
+				JOptionPane.showMessageDialog(this, msg, "CHI TIẾT PHIẾU ĐẶT", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu để xem chi tiết!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE, new ImageIcon("images\\warning.png"));
+			}
 		}
 
 	}
@@ -547,9 +618,9 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 				if (pdb.getTrangThaiThanhToan().equalsIgnoreCase("Chưa Thanh Toán")) {
 					i++;
 //					bans= pdb.getBans();
-					tableModel.addRow(new Object[] { i, pdb.getMaBanTiec(), pdb.getKhachHang().getTenKhachHang(),
+					tableModel.addRow(new Object[] { i, pdb.getMaPhieuDatBan(), pdb.getKhachHang().getTenKhachHang(),
 							pdb.getKhachHang().getSoDienThoai(), pdb.getKhachHang().getGioiTinh(),
-							pdb.getNgaySuDung()});
+							pdb.getNgaySuDung() });
 				}
 			}
 			tablePhieuDat.setModel(tableModel);
@@ -559,7 +630,6 @@ public class PhieuDatMonUI extends JFrame implements ActionListener, MouseListen
 			e.printStackTrace();
 		}
 	}
-	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

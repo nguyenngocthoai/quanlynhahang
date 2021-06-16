@@ -34,8 +34,8 @@ public class NhanVien implements Serializable {
 //	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
 //	@JoinColumn(name = "maTaiKhoan", insertable = false, updatable = false, unique = true)
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "maTaiKhoan")
+	@OneToOne(cascade = CascadeType.MERGE,optional = false)
+	@JoinColumn(name = "maTaiKhoan",insertable = true, updatable = true, unique = true)
 	private TaiKhoan taiKhoan;
 //	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //	@JoinColumn(name = "maChucVu")

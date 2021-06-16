@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 public class ChiTietHoaDon_PK implements Serializable {
 	private String hoaDon;
-	private String banTiec;
+	private String phieuDatBan;
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,20 +27,20 @@ public class ChiTietHoaDon_PK implements Serializable {
 		this.hoaDon = hoaDon;
 	}
 
-	public String getBanTiec() {
-		return banTiec;
+	public String getPhieuDatBan() {
+		return phieuDatBan;
 	}
 
-	public void setBanTiec(String banTiec) {
-		this.banTiec = banTiec;
+	public void setPhieuDatBan(String phieuDatBan) {
+		this.phieuDatBan = phieuDatBan;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((banTiec == null) ? 0 : banTiec.hashCode());
 		result = prime * result + ((hoaDon == null) ? 0 : hoaDon.hashCode());
+		result = prime * result + ((phieuDatBan == null) ? 0 : phieuDatBan.hashCode());
 		return result;
 	}
 
@@ -53,15 +53,15 @@ public class ChiTietHoaDon_PK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ChiTietHoaDon_PK other = (ChiTietHoaDon_PK) obj;
-		if (banTiec == null) {
-			if (other.banTiec != null)
-				return false;
-		} else if (!banTiec.equals(other.banTiec))
-			return false;
 		if (hoaDon == null) {
 			if (other.hoaDon != null)
 				return false;
 		} else if (!hoaDon.equals(other.hoaDon))
+			return false;
+		if (phieuDatBan == null) {
+			if (other.phieuDatBan != null)
+				return false;
+		} else if (!phieuDatBan.equals(other.phieuDatBan))
 			return false;
 		return true;
 	}
